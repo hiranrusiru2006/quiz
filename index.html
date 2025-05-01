@@ -264,13 +264,14 @@
             background: linear-gradient(to right, var(--primary), var(--accent));
         }
 
-        .lesson-card i {
-            font-size: 2.5rem;
+        .lesson-card .lesson-image {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
             margin-bottom: 15px;
-            color: var(--primary);
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            border: 3px solid var(--light);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .lesson-card h3 {
@@ -283,6 +284,17 @@
             color: var(--text-secondary);
             font-size: 0.9rem;
             margin-bottom: 15px;
+        }
+
+        .lesson-card .time-indicator {
+            display: inline-block;
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--primary);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .lesson-card .btn-start {
@@ -573,6 +585,114 @@
             background: var(--danger);
         }
 
+        .notification.success {
+            background: var(--success);
+        }
+
+        /* Welcome Modal */
+        .welcome-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1003;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .welcome-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .welcome-modal.show .welcome-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .welcome-header {
+            height: 150px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .welcome-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            object-fit: cover;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .welcome-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .welcome-body h2 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .welcome-body p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        /* WhatsApp Floating Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulse-whatsapp 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes pulse-whatsapp {
+            0% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+            }
+        }
+
         /* Particles Background */
         .particles {
             position: fixed;
@@ -604,6 +724,14 @@
             
             .modal-content {
                 padding: 20px;
+            }
+
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+                bottom: 20px;
+                left: 20px;
             }
         }
 
@@ -657,154 +785,176 @@
     <!-- Particles Background -->
     <div class="particles" id="particles-js"></div>
 
+    <!-- WhatsApp Floating Button -->
+    <div class="whatsapp-float" id="whatsappButton">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+
     <!-- Main Container -->
     <div class="container">
         <div class="header">
             <h1>Interactive Quiz Portal 2025</h1>
-            <p>Test your knowledge across 17 comprehensive lessons. Each quiz is timed to 60 minutes. Complete your profile before starting.</p>
+            <p>Test your knowledge across 17 comprehensive lessons. Each quiz has a customized time limit. Complete your profile before starting.</p>
         </div>
 
         <!-- Banner -->
         <div class="banner pulse">
             <h2>🚀 Important Notice!</h2>
-            <p>You have exactly 60 minutes to complete each quiz. Timer starts when you begin the quiz. Make sure you're prepared!</p>
+            <p>Each quiz has a different time limit. Make sure to check the time allocated for each quiz before starting!</p>
         </div>
 
         <!-- Lessons Grid -->
         <div class="lessons-grid">
             <!-- Lesson 1 -->
-            <div class="lesson-card" data-lesson="1">
-                <i class="fas fa-atom"></i>
+            <div class="lesson-card" data-lesson="1" data-time="45">
+                <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Science Fundamentals" class="lesson-image">
                 <h3>Science Fundamentals</h3>
                 <p>Basic principles of physics, chemistry and biology</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 2 -->
-            <div class="lesson-card" data-lesson="2">
-                <i class="fas fa-square-root-alt"></i>
+            <div class="lesson-card" data-lesson="2" data-time="60">
+                <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Advanced Mathematics" class="lesson-image">
                 <h3>Advanced Mathematics</h3>
                 <p>Algebra, calculus and statistical concepts</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 3 -->
-            <div class="lesson-card" data-lesson="3">
-                <i class="fas fa-globe-americas"></i>
+            <div class="lesson-card" data-lesson="3" data-time="30">
+                <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="World Geography" class="lesson-image">
                 <h3>World Geography</h3>
                 <p>Countries, capitals and physical features</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 4 -->
-            <div class="lesson-card" data-lesson="4">
-                <i class="fas fa-landmark"></i>
+            <div class="lesson-card" data-lesson="4" data-time="50">
+                <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Historical Events" class="lesson-image">
                 <h3>Historical Events</h3>
                 <p>Key moments that shaped our world</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 5 -->
-            <div class="lesson-card" data-lesson="5">
-                <i class="fas fa-book"></i>
+            <div class="lesson-card" data-lesson="5" data-time="40">
+                <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Literature Review" class="lesson-image">
                 <h3>Literature Review</h3>
                 <p>Classic and contemporary works</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 6 -->
-            <div class="lesson-card" data-lesson="6">
-                <i class="fas fa-laptop-code"></i>
+            <div class="lesson-card" data-lesson="6" data-time="55">
+                <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Computer Science" class="lesson-image">
                 <h3>Computer Science</h3>
                 <p>Programming and technology concepts</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 55 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 7 -->
-            <div class="lesson-card" data-lesson="7">
-                <i class="fas fa-brain"></i>
+            <div class="lesson-card" data-lesson="7" data-time="35">
+                <img src="https://images.unsplash.com/photo-1558403194-611308249627?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Psychology Basics" class="lesson-image">
                 <h3>Psychology Basics</h3>
                 <p>Human behavior and mental processes</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 35 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 8 -->
-            <div class="lesson-card" data-lesson="8">
-                <i class="fas fa-chart-line"></i>
+            <div class="lesson-card" data-lesson="8" data-time="45">
+                <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Economics 101" class="lesson-image">
                 <h3>Economics 101</h3>
                 <p>Micro and macroeconomic principles</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 9 -->
-            <div class="lesson-card" data-lesson="9">
-                <i class="fas fa-balance-scale"></i>
+            <div class="lesson-card" data-lesson="9" data-time="50">
+                <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Legal Studies" class="lesson-image">
                 <h3>Legal Studies</h3>
                 <p>Fundamentals of law and justice</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 10 -->
-            <div class="lesson-card" data-lesson="10">
-                <i class="fas fa-paint-brush"></i>
+            <div class="lesson-card" data-lesson="10" data-time="30">
+                <img src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Art & Design" class="lesson-image">
                 <h3>Art & Design</h3>
                 <p>Creative expressions through history</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 11 -->
-            <div class="lesson-card" data-lesson="11">
-                <i class="fas fa-music"></i>
+            <div class="lesson-card" data-lesson="11" data-time="25">
+                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Music Theory" class="lesson-image">
                 <h3>Music Theory</h3>
                 <p>Composition, history and appreciation</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 25 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 12 -->
-            <div class="lesson-card" data-lesson="12">
-                <i class="fas fa-running"></i>
+            <div class="lesson-card" data-lesson="12" data-time="20">
+                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Physical Education" class="lesson-image">
                 <h3>Physical Education</h3>
                 <p>Sports, health and fitness</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 20 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 13 -->
-            <div class="lesson-card" data-lesson="13">
-                <i class="fas fa-language"></i>
+            <div class="lesson-card" data-lesson="13" data-time="40">
+                <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Linguistics" class="lesson-image">
                 <h3>Linguistics</h3>
                 <p>Language structure and evolution</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 14 -->
-            <div class="lesson-card" data-lesson="14">
-                <i class="fas fa-flask"></i>
+            <div class="lesson-card" data-lesson="14" data-time="60">
+                <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Scientific Research" class="lesson-image">
                 <h3>Scientific Research</h3>
                 <p>Methodologies and breakthroughs</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 15 -->
-            <div class="lesson-card" data-lesson="15">
-                <i class="fas fa-user-tie"></i>
+            <div class="lesson-card" data-lesson="15" data-time="45">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Business Studies" class="lesson-image">
                 <h3>Business Studies</h3>
                 <p>Management and entrepreneurship</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 16 -->
-            <div class="lesson-card" data-lesson="16">
-                <i class="fas fa-robot"></i>
+            <div class="lesson-card" data-lesson="16" data-time="50">
+                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Artificial Intelligence" class="lesson-image">
                 <h3>Artificial Intelligence</h3>
                 <p>Machine learning and neural networks</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 17 -->
-            <div class="lesson-card" data-lesson="17">
-                <i class="fas fa-seedling"></i>
+            <div class="lesson-card" data-lesson="17" data-time="30">
+                <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Environmental Science" class="lesson-image">
                 <h3>Environmental Science</h3>
                 <p>Ecology and sustainability</p>
+                <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                 <button class="btn-start">Start Quiz</button>
             </div>
         </div>
@@ -835,6 +985,7 @@
                     <input type="tel" id="whatsapp" required placeholder="Enter WhatsApp number with country code">
                 </div>
                 <input type="hidden" id="selectedLesson">
+                <input type="hidden" id="selectedLessonTime">
                 <button type="submit" class="btn-submit">Start Quiz Now</button>
             </form>
         </div>
@@ -879,11 +1030,30 @@
         </div>
     </div>
 
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <div class="welcome-header">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Welcome">
+            </div>
+            <div class="welcome-body">
+                <h2>Welcome to Interactive Quiz Portal 2025!</h2>
+                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please complete your profile before starting any quiz.</p>
+                <button class="btn-alert" id="btnWelcomeContinue">Get Started</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Notification -->
     <div class="notification" id="floatingNotification">
         <i class="fas fa-info-circle"></i>
         <span id="notificationMessage">Notification message</span>
     </div>
+
+    <!-- Audio Elements -->
+    <audio id="startSound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
+    <audio id="warningSound" src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" preload="auto"></audio>
+    <audio id="timeUpSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
 
     <script>
         // Firebase configuration - Replace with your actual Firebase config
@@ -910,17 +1080,10 @@
                 }
             });
 
-        // Preloader
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.querySelector('.preloader').classList.add('fade-out');
-                document.querySelector('.container').classList.add('show');
-                
-                setTimeout(function() {
-                    document.querySelector('.preloader').style.display = 'none';
-                }, 500);
-            }, 1500);
-        });
+        // Audio elements
+        const startSound = document.getElementById('startSound');
+        const warningSound = document.getElementById('warningSound');
+        const timeUpSound = document.getElementById('timeUpSound');
 
         // Google Form URLs for each lesson (replace with your actual form URLs)
         const formUrls = {
@@ -966,8 +1129,9 @@
 
         // Variables for timer
         let quizTimer;
-        let timeLeft = 60 * 60; // 60 minutes in seconds
+        let timeLeft;
         let quizActive = false;
+        let quizDuration = 60; // Default duration in minutes
 
         // DOM Elements
         const studentModal = document.getElementById('studentModal');
@@ -984,12 +1148,44 @@
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
         const selectedLessonInput = document.getElementById('selectedLesson');
+        const selectedLessonTimeInput = document.getElementById('selectedLessonTime');
+        const whatsappButton = document.getElementById('whatsappButton');
+        const welcomeModal = document.getElementById('welcomeModal');
+        const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
+
+        // Show welcome modal on first visit
+        if (!localStorage.getItem('quizWelcomeShown')) {
+            setTimeout(() => {
+                welcomeModal.style.display = 'flex';
+                setTimeout(() => {
+                    welcomeModal.querySelector('.welcome-content').style.transform = 'scale(1)';
+                    welcomeModal.querySelector('.welcome-content').style.opacity = '1';
+                }, 10);
+                localStorage.setItem('quizWelcomeShown', 'true');
+            }, 1000);
+        }
+
+        // Close welcome modal
+        btnWelcomeContinue.addEventListener('click', function() {
+            welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
+            welcomeModal.querySelector('.welcome-content').style.opacity = '0';
+            setTimeout(() => {
+                welcomeModal.style.display = 'none';
+            }, 300);
+        });
+
+        // WhatsApp button click
+        whatsappButton.addEventListener('click', function() {
+            window.open('https://wa.me/1234567890?text=Hello%20Quiz%20Support,%20I%20need%20help%20with...', '_blank');
+        });
 
         // Event Listeners for Lesson Cards
         document.querySelectorAll('.lesson-card').forEach(card => {
             card.addEventListener('click', function() {
                 const lessonId = this.getAttribute('data-lesson');
+                const lessonTime = this.getAttribute('data-time');
                 selectedLessonInput.value = lessonId;
+                selectedLessonTimeInput.value = lessonTime;
                 showStudentModal();
             });
         });
@@ -1022,6 +1218,7 @@
             const district = document.getElementById('district').value.trim();
             const whatsapp = document.getElementById('whatsapp').value.trim();
             const lessonId = selectedLessonInput.value;
+            const lessonTime = parseInt(selectedLessonTimeInput.value);
             
             if (!name || !examYear || !district || !whatsapp) {
                 showNotification('Please fill all fields', 'warning');
@@ -1042,6 +1239,7 @@
                 whatsapp,
                 lessonId,
                 lessonTitle: lessonTitles[lessonId],
+                lessonDuration: lessonTime,
                 startTime: new Date().toISOString(),
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 status: 'quiz_started'
@@ -1062,7 +1260,7 @@
                 localStorage.setItem('quizStudentData', JSON.stringify(localData));
                 
                 // Start the quiz
-                startQuiz(lessonId);
+                startQuiz(lessonId, lessonTime);
                 hideStudentModal();
                 
                 // Show success notification
@@ -1079,10 +1277,14 @@
         });
 
         // Start Quiz
-        function startQuiz(lessonId) {
+        function startQuiz(lessonId, duration) {
             quizActive = true;
-            timeLeft = 60 * 60; // Reset to 60 minutes
+            quizDuration = duration;
+            timeLeft = duration * 60; // Convert minutes to seconds
             updateTimerDisplay();
+            
+            // Play start sound
+            startSound.play();
             
             // Set quiz title
             quizTitle.textContent = lessonTitles[lessonId];
@@ -1096,8 +1298,15 @@
             // Start timer
             quizTimer = setInterval(updateQuizTimer, 1000);
             
-            // Show notification
-            showNotification('Quiz started! Timer is running.', 'success');
+            // Show notification with voice message
+            showNotification(`Quiz started! You have ${duration} minutes to complete.`, 'success');
+            
+            // Speak the time limit
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance();
+                speech.text = `Your ${lessonTitles[lessonId]} has started. You have ${duration} minutes to complete the quiz. Good luck!`;
+                window.speechSynthesis.speak(speech);
+            }
         }
 
         // Update Quiz Timer
@@ -1106,17 +1315,24 @@
             updateTimerDisplay();
             
             // Check for warnings
-            if (timeLeft === 15 * 60) {
-                // 15 minutes left
-                showTimeWarning('You have 15 minutes remaining to complete your quiz.');
-            } else if (timeLeft === 10 * 60) {
-                // 10 minutes left
-                showTimeWarning('Only 10 minutes left! Make sure to submit your answers.');
-            } else if (timeLeft === 5 * 60) {
-                // 5 minutes left
-                showTimeWarning('Final 5 minutes! Complete your quiz now.');
+            if (timeLeft === Math.floor(quizDuration * 60 * 0.25)) {
+                // 25% time left
+                const minutesLeft = Math.floor(timeLeft / 60);
+                showTimeWarning(`You have ${minutesLeft} minutes remaining to complete your quiz.`);
+                warningSound.play();
+            } else if (timeLeft === Math.floor(quizDuration * 60 * 0.10)) {
+                // 10% time left
+                const minutesLeft = Math.floor(timeLeft / 60) || 'less than 1';
+                showTimeWarning(`Only ${minutesLeft} minutes left! Make sure to submit your answers.`);
+                warningSound.play();
+            } else if (timeLeft === Math.floor(quizDuration * 60 * 0.05)) {
+                // 5% time left
+                const minutesLeft = Math.floor(timeLeft / 60) || 'less than 1';
+                showTimeWarning(`Final ${minutesLeft} minutes! Complete your quiz now.`);
+                warningSound.play();
             } else if (timeLeft <= 0) {
                 // Time's up
+                timeUpSound.play();
                 endQuiz(true);
             }
         }
@@ -1128,9 +1344,9 @@
             quizTimerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             
             // Change color when time is running low
-            if (timeLeft <= 5 * 60) {
+            if (timeLeft <= quizDuration * 60 * 0.25) {
                 quizTimerDisplay.style.color = 'var(--danger)';
-            } else if (timeLeft <= 15 * 60) {
+            } else if (timeLeft <= quizDuration * 60 * 0.5) {
                 quizTimerDisplay.style.color = 'var(--warning)';
             } else {
                 quizTimerDisplay.style.color = 'white';
@@ -1148,6 +1364,13 @@
             
             // Also show floating notification
             showNotification(message, 'warning');
+            
+            // Speak the warning
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance();
+                speech.text = message;
+                window.speechSynthesis.speak(speech);
+            }
         }
 
         // End Quiz
@@ -1257,6 +1480,13 @@
                     closeQuiz();
                 }, 300);
             }
+            if (e.target === welcomeModal) {
+                welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
+                welcomeModal.querySelector('.welcome-content').style.opacity = '0';
+                setTimeout(() => {
+                    welcomeModal.style.display = 'none';
+                }, 300);
+            }
         });
 
         // Simple particles effect
@@ -1282,6 +1512,18 @@
                 particles.appendChild(particle);
             }
         }
+
+        // Preloader
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.preloader').classList.add('fade-out');
+                document.querySelector('.container').classList.add('show');
+                
+                setTimeout(function() {
+                    document.querySelector('.preloader').style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
 
         // Initialize particles when DOM is loaded
         document.addEventListener('DOMContentLoaded', initParticles);
