@@ -891,14 +891,24 @@
             apiKey: "AIzaSyAf1282ikjQ7MUSP4fKrGQjRTAb1kDWUV8",
             authDomain: "quiz-app-5b02d.firebaseapp.com",
             projectId: "quiz-app-5b02d",
-            storageBucket: "quiz-app-5b02d.firebasestorage.app",
+            storageBucket: "quiz-app-5b02d.appspot.com",
             messagingSenderId: "345835769588",
             appId: "1:345835769588:web:702129bc15f30f3d5f18a1"
         };
 
         // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
+        const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        // Enable Firestore persistence
+        firebase.firestore().enablePersistence()
+            .catch((err) => {
+                if (err.code == 'failed-precondition') {
+                    console.log("Persistence can only be enabled in one tab at a time");
+                } else if (err.code == 'unimplemented') {
+                    console.log("The current browser does not support all of the features required to enable persistence");
+                }
+            });
 
         // Preloader
         window.addEventListener('load', function() {
@@ -1007,10 +1017,10 @@
             e.preventDefault();
             
             // Validate form
-            const name = document.getElementById('name').value;
-            const examYear = document.getElementById('examYear').value;
-            const district = document.getElementById('district').value;
-            const whatsapp = document.getElementById('whatsapp').value;
+            const name = document.getElementById('name').value.trim();
+            const examYear = document.getElementById('examYear').value.trim();
+            const district = document.getElementById('district').value.trim();
+            const whatsapp = document.getElementById('whatsapp').value.trim();
             const lessonId = selectedLessonInput.value;
             
             if (!name || !examYear || !district || !whatsapp) {
@@ -1018,35 +1028,53 @@
                 return;
             }
             
+            // Validate WhatsApp number format (basic validation)
+            if (!/^\+?[0-9\s\-]+$/.test(whatsapp)) {
+                showNotification('Please enter a valid WhatsApp number', 'warning');
+                return;
+            }
+            
             // Create student data object
             const studentData = {
                 name,
-                examYear,
+                examYear: parseInt(examYear),
                 district,
                 whatsapp,
                 lessonId,
                 lessonTitle: lessonTitles[lessonId],
                 startTime: new Date().toISOString(),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                status: 'quiz_started'
             };
             
             try {
+                // Show loading state
+                const submitBtn = studentForm.querySelector('.btn-submit');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                
                 // Save to Firebase
                 const docRef = await db.collection('students').add(studentData);
                 console.log("Document written with ID: ", docRef.id);
                 
-                // Store student data locally
-                localStorage.setItem('quizStudentData', JSON.stringify(studentData));
+                // Store student data locally with document ID
+                const localData = {...studentData, docId: docRef.id};
+                localStorage.setItem('quizStudentData', JSON.stringify(localData));
                 
                 // Start the quiz
                 startQuiz(lessonId);
                 hideStudentModal();
                 
                 // Show success notification
-                showNotification('Your information has been saved!', 'success');
+                showNotification('Your information has been saved successfully!', 'success');
             } catch (error) {
                 console.error("Error adding document: ", error);
                 showNotification('Error saving your information. Please try again.', 'danger');
+                
+                // Reset button state
+                const submitBtn = studentForm.querySelector('.btn-submit');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Start Quiz Now';
             }
         });
 
@@ -1123,9 +1151,22 @@
         }
 
         // End Quiz
-        function endQuiz(timeExpired = false) {
+        async function endQuiz(timeExpired = false) {
             clearInterval(quizTimer);
             quizActive = false;
+            
+            // Update Firestore document with end time
+            try {
+                const studentData = JSON.parse(localStorage.getItem('quizStudentData'));
+                if (studentData && studentData.docId) {
+                    await db.collection('students').doc(studentData.docId).update({
+                        endTime: new Date().toISOString(),
+                        status: timeExpired ? 'time_expired' : 'completed'
+                    });
+                }
+            } catch (error) {
+                console.error("Error updating quiz end time:", error);
+            }
             
             if (timeExpired) {
                 // Show time up modal
@@ -1134,16 +1175,26 @@
                     timeUpModal.querySelector('.alert-content').style.transform = 'scale(1)';
                     timeUpModal.querySelector('.alert-content').style.opacity = '1';
                 }, 10);
-                
-                // In a real app, you would auto-submit the form here
-                // For Google Forms, they typically handle their own submission
             }
         }
 
         // Close Quiz
-        function closeQuiz() {
+        async function closeQuiz() {
             if (quizActive) {
                 if (confirm('Are you sure you want to close the quiz? Your progress may be lost.')) {
+                    // Update Firestore document with early closure
+                    try {
+                        const studentData = JSON.parse(localStorage.getItem('quizStudentData'));
+                        if (studentData && studentData.docId) {
+                            await db.collection('students').doc(studentData.docId).update({
+                                endTime: new Date().toISOString(),
+                                status: 'manually_closed'
+                            });
+                        }
+                    } catch (error) {
+                        console.error("Error updating quiz closure:", error);
+                    }
+                    
                     clearInterval(quizTimer);
                     quizContainer.style.display = 'none';
                     quizIframe.src = '';
