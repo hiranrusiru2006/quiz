@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Quiz Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --card-bg: rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .lessons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .lesson-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .quiz-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            z-index: 200;
+            display: none;
+        }
+
+        .timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Interactive Quiz Portal</h1>
+            <p>Select a lesson to begin your timed quiz</p>
+        </div>
+
+        <div class="lessons-grid">
+            <!-- Lesson 1 -->
+            <div class="lesson-card" data-lesson="1">
+                <i class="fas fa-atom fa-3x"></i>
+                <h3>Science Fundamentals</h3>
+                <button class="start-btn">Start Quiz</button>
+            </div>
+            
+            <!-- Add more lessons here (up to 17) -->
+        </div>
+    </div>
+
+    <!-- Student Info Modal -->
+    <div class="modal" id="studentModal">
+        <div class="modal-content">
+            <h2>Enter Your Details</h2>
+            <form id="studentForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="year">Exam Year</label>
+                    <input type="number" id="year" required>
+                </div>
+                <div class="form-group">
+                    <label for="district">District</label>
+                    <input type="text" id="district" required>
+                </div>
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp Number</label>
+                    <input type="tel" id="whatsapp" required>
+                </div>
+                <input type="hidden" id="selectedLesson">
+                <button type="submit">Start Quiz</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quiz Container -->
+    <div class="quiz-container" id="quizContainer">
+        <div class="timer" id="quizTimer">60:00</div>
+        <iframe id="quizFrame" style="width:100%; height:100%; border:none;"></iframe>
+    </div>
+
+    <script>
+        // Firebase Config (Replace with your config)
+        const firebaseConfig = {
+            apiKey: "AIzaSyAf1282ikjQ7MUSP4fKrGQjRTAb1kDWUV8",
+            authDomain: "quiz-app-5b02d.firebaseapp.com",
+            projectId: "quiz-app-5b02d",
+            storageBucket: "quiz-app-5b02d.firebasestorage.app",
+            messagingSenderId: "345835769588",
+            appId: "1:345835769588:web:702129bc15f30f3d5f18a1"
+        };
+
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Quiz Data
+        const quizLinks = {
+            1: "https://docs.google.com/forms/d/e/YOUR_FORM_ID/viewform?embedded=true",
+            // Add links for all 17 lessons
+        };
+
+        // DOM Elements
+        const studentModal = document.getElementById('studentModal');
+        const studentForm = document.getElementById('studentForm');
+        const quizContainer = document.getElementById('quizContainer');
+        const quizFrame = document.getElementById('quizFrame');
+        const quizTimer = document.getElementById('quizTimer');
+
+        // Lesson Click Handler
+        document.querySelectorAll('.lesson-card').forEach(card => {
+            card.addEventListener('click', (e) => {
+                if (e.target.classList.contains('start-btn')) {
+                    const lessonId = card.getAttribute('data-lesson');
+                    document.getElementById('selectedLesson').value = lessonId;
+                    studentModal.style.display = 'flex';
+                }
+            });
+        });
+
+        // Form Submission
+        studentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const studentData = {
+                name: document.getElementById('name').value,
+                year: document.getElementById('year').value,
+                district: document.getElementById('district').value,
+                whatsapp: document.getElementById('whatsapp').value,
+                lessonId: document.getElementById('selectedLesson').value,
+                startTime: new Date().toISOString()
+            };
+
+            try {
+                // Save to Firestore
+                await db.collection('quizAttempts').add(studentData);
+                
+                // Start Quiz
+                startQuiz(studentData.lessonId);
+                studentModal.style.display = 'none';
+            } catch (error) {
+                alert("Error starting quiz: " + error.message);
+            }
+        });
+
+        // Quiz Timer
+        let timeLeft = 3600; // 60 minutes in seconds
+        let timer;
+
+        function startQuiz(lessonId) {
+            quizFrame.src = quizLinks[lessonId];
+            quizContainer.style.display = 'block';
+            
+            // Start timer
+            timer = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+                
+                if (timeLeft <= 0) {
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            quizTimer.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (timeLeft <= 300) { // 5 minutes left
+                quizTimer.style.color = 'red';
+            }
+        }
+
+        function endQuiz() {
+            clearInterval(timer);
+            alert("Time's up! Your quiz will be submitted.");
+            quizContainer.style.display = 'none';
+            timeLeft = 3600; // Reset timer
+        }
+    </script>
+</body>
+</html>
