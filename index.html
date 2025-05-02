@@ -189,6 +189,26 @@
             line-height: 1.6;
         }
 
+        .logo-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .logo-circle img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         /* Banner */
         .banner {
             background: var(--glass-bg);
@@ -220,6 +240,13 @@
         .banner p {
             font-size: 1rem;
             opacity: 0.9;
+        }
+
+        .updated-date {
+            font-size: 0.9rem;
+            margin-top: 5px;
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
         }
 
         /* Lessons Grid */
@@ -286,14 +313,20 @@
             margin-bottom: 15px;
         }
 
-        .lesson-card .time-indicator {
+        .lesson-meta {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .time-indicator, .question-count {
             display: inline-block;
             background: rgba(108, 92, 231, 0.1);
             color: var(--primary);
             padding: 3px 10px;
             border-radius: 20px;
             font-size: 0.8rem;
-            margin-bottom: 15px;
             font-weight: 600;
         }
 
@@ -325,8 +358,17 @@
             background: rgba(0, 0, 0, 0.7);
             z-index: 1000;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Changed to flex-start for mobile keyboard */
+            padding-top: 50px;
             backdrop-filter: blur(5px);
+            overflow-y: auto;
+        }
+
+        @media (max-width: 576px) {
+            .modal {
+                align-items: flex-start;
+                padding-top: 20px;
+            }
         }
 
         .modal-content {
@@ -340,6 +382,7 @@
             opacity: 0;
             transition: all 0.3s ease;
             position: relative;
+            margin: 20px 0;
         }
 
         .modal.show .modal-content {
@@ -704,6 +747,29 @@
             pointer-events: none;
         }
 
+        /* ET Panthiya Link */
+        .etpanthiya-link {
+            display: inline-block;
+            margin-top: 30px;
+            background: linear-gradient(to right, #00b894, #00cec9);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .etpanthiya-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .etpanthiya-link i {
+            margin-right: 8px;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 576px) {
             .header h1 {
@@ -732,6 +798,16 @@
                 font-size: 25px;
                 bottom: 20px;
                 left: 20px;
+            }
+
+            .logo-circle {
+                width: 100px;
+                height: 100px;
+            }
+
+            .logo-circle img {
+                width: 60px;
+                height: 60px;
             }
         }
 
@@ -793,6 +869,9 @@
     <!-- Main Container -->
     <div class="container">
         <div class="header">
+            <div class="logo-circle">
+                <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Quiz Logo">
+            </div>
             <h1>Interactive Quiz Portal 2025</h1>
             <p>Test your knowledge across 17 comprehensive lessons. Each quiz has a customized time limit. Complete your profile before starting.</p>
         </div>
@@ -801,162 +880,221 @@
         <div class="banner pulse">
             <h2>🚀 Important Notice!</h2>
             <p>Each quiz has a different time limit. Make sure to check the time allocated for each quiz before starting!</p>
+            <div class="updated-date">Last updated: June 15, 2025</div>
         </div>
 
         <!-- Lessons Grid -->
         <div class="lessons-grid">
             <!-- Lesson 1 -->
-            <div class="lesson-card" data-lesson="1" data-time="45">
+            <div class="lesson-card" data-lesson="1" data-time="45" data-questions="20">
                 <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Science Fundamentals" class="lesson-image">
                 <h3>Science Fundamentals</h3>
                 <p>Basic principles of physics, chemistry and biology</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 2 -->
-            <div class="lesson-card" data-lesson="2" data-time="60">
+            <div class="lesson-card" data-lesson="2" data-time="60" data-questions="25">
                 <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Advanced Mathematics" class="lesson-image">
                 <h3>Advanced Mathematics</h3>
                 <p>Algebra, calculus and statistical concepts</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 25 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 3 -->
-            <div class="lesson-card" data-lesson="3" data-time="30">
+            <div class="lesson-card" data-lesson="3" data-time="30" data-questions="15">
                 <img src="https://images.unsplash.com/photo-1467269204594-9661b134dd2b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="World Geography" class="lesson-image">
                 <h3>World Geography</h3>
                 <p>Countries, capitals and physical features</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 4 -->
-            <div class="lesson-card" data-lesson="4" data-time="50">
+            <div class="lesson-card" data-lesson="4" data-time="50" data-questions="22">
                 <img src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Historical Events" class="lesson-image">
                 <h3>Historical Events</h3>
                 <p>Key moments that shaped our world</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 22 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 5 -->
-            <div class="lesson-card" data-lesson="5" data-time="40">
+            <div class="lesson-card" data-lesson="5" data-time="40" data-questions="18">
                 <img src="https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Literature Review" class="lesson-image">
                 <h3>Literature Review</h3>
                 <p>Classic and contemporary works</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 18 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 6 -->
-            <div class="lesson-card" data-lesson="6" data-time="55">
+            <div class="lesson-card" data-lesson="6" data-time="55" data-questions="24">
                 <img src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Computer Science" class="lesson-image">
                 <h3>Computer Science</h3>
                 <p>Programming and technology concepts</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 55 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 55 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 24 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 7 -->
-            <div class="lesson-card" data-lesson="7" data-time="35">
+            <div class="lesson-card" data-lesson="7" data-time="35" data-questions="16">
                 <img src="https://images.unsplash.com/photo-1558403194-611308249627?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Psychology Basics" class="lesson-image">
                 <h3>Psychology Basics</h3>
                 <p>Human behavior and mental processes</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 35 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 35 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 16 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 8 -->
-            <div class="lesson-card" data-lesson="8" data-time="45">
+            <div class="lesson-card" data-lesson="8" data-time="45" data-questions="20">
                 <img src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Economics 101" class="lesson-image">
                 <h3>Economics 101</h3>
                 <p>Micro and macroeconomic principles</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 9 -->
-            <div class="lesson-card" data-lesson="9" data-time="50">
+            <div class="lesson-card" data-lesson="9" data-time="50" data-questions="22">
                 <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Legal Studies" class="lesson-image">
                 <h3>Legal Studies</h3>
                 <p>Fundamentals of law and justice</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 22 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 10 -->
-            <div class="lesson-card" data-lesson="10" data-time="30">
+            <div class="lesson-card" data-lesson="10" data-time="30" data-questions="15">
                 <img src="https://images.unsplash.com/photo-1536924940846-227afb31e2a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Art & Design" class="lesson-image">
                 <h3>Art & Design</h3>
                 <p>Creative expressions through history</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 11 -->
-            <div class="lesson-card" data-lesson="11" data-time="25">
+            <div class="lesson-card" data-lesson="11" data-time="25" data-questions="12">
                 <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Music Theory" class="lesson-image">
                 <h3>Music Theory</h3>
                 <p>Composition, history and appreciation</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 25 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 25 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 12 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 12 -->
-            <div class="lesson-card" data-lesson="12" data-time="20">
+            <div class="lesson-card" data-lesson="12" data-time="20" data-questions="10">
                 <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Physical Education" class="lesson-image">
                 <h3>Physical Education</h3>
                 <p>Sports, health and fitness</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 20 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 20 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 10 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 13 -->
-            <div class="lesson-card" data-lesson="13" data-time="40">
+            <div class="lesson-card" data-lesson="13" data-time="40" data-questions="18">
                 <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Linguistics" class="lesson-image">
                 <h3>Linguistics</h3>
                 <p>Language structure and evolution</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 18 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 14 -->
-            <div class="lesson-card" data-lesson="14" data-time="60">
+            <div class="lesson-card" data-lesson="14" data-time="60" data-questions="25">
                 <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Scientific Research" class="lesson-image">
                 <h3>Scientific Research</h3>
                 <p>Methodologies and breakthroughs</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 25 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 15 -->
-            <div class="lesson-card" data-lesson="15" data-time="45">
+            <div class="lesson-card" data-lesson="15" data-time="45" data-questions="20">
                 <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Business Studies" class="lesson-image">
                 <h3>Business Studies</h3>
                 <p>Management and entrepreneurship</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 16 -->
-            <div class="lesson-card" data-lesson="16" data-time="50">
+            <div class="lesson-card" data-lesson="16" data-time="50" data-questions="22">
                 <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Artificial Intelligence" class="lesson-image">
                 <h3>Artificial Intelligence</h3>
                 <p>Machine learning and neural networks</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 22 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
 
             <!-- Lesson 17 -->
-            <div class="lesson-card" data-lesson="17" data-time="30">
+            <div class="lesson-card" data-lesson="17" data-time="30" data-questions="15">
                 <img src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Environmental Science" class="lesson-image">
                 <h3>Environmental Science</h3>
                 <p>Ecology and sustainability</p>
-                <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
                 <button class="btn-start">Start Quiz</button>
             </div>
+        </div>
+
+        <!-- ET Panthiya Link -->
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="https://etpanthiya.lk" class="etpanthiya-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Visit ET Panthiya for More Resources
+            </a>
         </div>
     </div>
 
@@ -1153,6 +1291,11 @@
         const welcomeModal = document.getElementById('welcomeModal');
         const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
 
+        // Check if student data exists in localStorage
+        function hasStudentData() {
+            return localStorage.getItem('quizStudentData') !== null;
+        }
+
         // Show welcome modal on first visit
         if (!localStorage.getItem('quizWelcomeShown')) {
             setTimeout(() => {
@@ -1186,7 +1329,14 @@
                 const lessonTime = this.getAttribute('data-time');
                 selectedLessonInput.value = lessonId;
                 selectedLessonTimeInput.value = lessonTime;
-                showStudentModal();
+                
+                if (hasStudentData()) {
+                    // Student data exists, start quiz directly
+                    startQuiz(lessonId, parseInt(lessonTime));
+                } else {
+                    // Show student modal to collect info
+                    showStudentModal();
+                }
             });
         });
 
@@ -1197,6 +1347,11 @@
                 studentModal.querySelector('.modal-content').style.transform = 'scale(1)';
                 studentModal.querySelector('.modal-content').style.opacity = '1';
             }, 10);
+            
+            // Scroll to top of modal on mobile devices
+            if (window.innerWidth <= 576) {
+                window.scrollTo(0, 0);
+            }
         }
 
         // Hide Student Modal
@@ -1299,12 +1454,13 @@
             quizTimer = setInterval(updateQuizTimer, 1000);
             
             // Show notification with voice message
-            showNotification(`Quiz started! You have ${duration} minutes to complete.`, 'success');
+            const questionCount = document.querySelector(`.lesson-card[data-lesson="${lessonId}"]`).getAttribute('data-questions');
+            showNotification(`Quiz started! You have ${duration} minutes to complete ${questionCount} questions.`, 'success');
             
             // Speak the time limit
             if ('speechSynthesis' in window) {
                 const speech = new SpeechSynthesisUtterance();
-                speech.text = `Your ${lessonTitles[lessonId]} has started. You have ${duration} minutes to complete the quiz. Good luck!`;
+                speech.text = `Your ${lessonTitles[lessonId]} has started. You have ${duration} minutes to complete ${questionCount} questions. Good luck!`;
                 window.speechSynthesis.speak(speech);
             }
         }
