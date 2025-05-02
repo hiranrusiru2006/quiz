@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ET Panthiya.lk Quiz Portal</title>
+    <title>ET Panthiya.lk Quiz Portal - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -36,7 +36,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             background-attachment: fixed;
         }
 
@@ -300,287 +300,6 @@
             text-decoration: underline;
         }
 
-        /* Main Content */
-        .main-content {
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .main-content.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            color: white;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            font-weight: 800;
-            background: linear-gradient(to right, #fff, #a29bfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header p {
-            color: var(--light);
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        /* User Avatar */
-        .user-avatar-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid white;
-            transition: all 0.3s ease;
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.1);
-        }
-
-        /* User Dropdown */
-        .user-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            width: 200px;
-            overflow: hidden;
-            z-index: 100;
-            transform: translateY(-10px);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .user-dropdown.show {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .user-dropdown-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-dropdown-header img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .user-dropdown-header div {
-            font-size: 0.9rem;
-        }
-
-        .user-dropdown-header div:first-child {
-            font-weight: 600;
-        }
-
-        .user-dropdown-header div:last-child {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-
-        .user-dropdown-item {
-            padding: 12px 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-dropdown-item:hover {
-            background: #f5f5f5;
-        }
-
-        .user-dropdown-item i {
-            width: 20px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .user-dropdown-footer {
-            padding: 10px 15px;
-            border-top: 1px solid #eee;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-
-        /* Banner */
-        .banner {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 30px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .banner h2 {
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-        }
-
-        .banner p {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        .updated-date {
-            font-size: 0.9rem;
-            margin-top: 5px;
-            color: rgba(255,255,255,0.7);
-            font-style: italic;
-        }
-
-        /* Lessons Grid */
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .lessons-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .lesson-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            border: none;
-        }
-
-        .lesson-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .lesson-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-        }
-
-        .lesson-card .lesson-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 3px solid var(--light);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .lesson-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .lesson-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .lesson-meta {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .time-indicator, .question-count {
-            display: inline-block;
-            background: rgba(108, 92, 231, 0.1);
-            color: var(--primary);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .lesson-card .btn-start {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-        }
-
-        .lesson-card .btn-start:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
-        }
-
         /* Floating Notification */
         .notification {
             position: fixed;
@@ -637,27 +356,163 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Responsive Adjustments */
-        @media (max-width: 576px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .lesson-card {
-                padding: 15px;
-            }
-            
-            .lesson-card h3 {
-                font-size: 1.1rem;
-            }
+        /* Main Content */
+        .main-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-            .user-avatar-container {
-                top: 10px;
-                right: 10px;
+        .main-content.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dashboard-header {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .user-email {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .logout-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .quiz-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .quiz-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .quiz-description {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .quiz-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .start-quiz-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .start-quiz-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .logout-btn {
+                margin-top: 15px;
+                width: 100%;
+            }
+            
+            .quiz-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .login-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .login-header p {
+                font-size: 0.8rem;
+            }
+            
+            .logo-circle {
+                width: 80px;
+                height: 80px;
             }
         }
     </style>
@@ -686,8 +541,8 @@
             <div class="login-body">
                 <form class="login-form" id="loginForm">
                     <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" required placeholder="Enter your email">
+                        <label for="loginEmail">Username</label>
+                        <input type="text" id="loginEmail" required placeholder="Enter your username">
                     </div>
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
@@ -709,81 +564,50 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Main Content (hidden until login) -->
     <div class="main-content" id="mainContent">
-        <!-- User Avatar -->
-        <div class="user-avatar-container" id="userAvatarContainer">
-            <img src="https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff" class="user-avatar" id="userAvatar">
-            <div class="user-dropdown" id="userDropdown">
-                <div class="user-dropdown-header">
-                    <img src="https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff" id="dropdownAvatar">
-                    <div>
-                        <div id="dropdownName">Guest User</div>
-                        <div id="dropdownEmail">guest@example.com</div>
-                    </div>
-                </div>
-                <div class="user-dropdown-item" id="btnLogout">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </div>
-                <div class="user-dropdown-footer">
-                    ET Panthiya Quiz Portal
+        <div class="dashboard-header">
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div>
+                    <div class="user-name" id="userName">User</div>
+                    <div class="user-email" id="userEmail">user@example.com</div>
                 </div>
             </div>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
         </div>
-
-        <div class="header">
-            <h1>ET Panthiya.lk Quiz Portal</h1>
-            <p>"The Quiz Portal" ET Panthiya.lk අපේ වැඩක් ✨🎉. Enjoy & Learn 😎😜</p>
-        </div>
-
-        <!-- Banner -->
-        <div class="banner">
-            <h2>🚀 Important Notice!</h2>
-            <p>පාඩම් 17 න්ම MCQ අපි Upload කරනවා. Update කරපු දවසේ ඉදන් දවස් 14 කට පස්සෙ අපි ආයේ අලුත්   MCQ Add කරනවා 😍 පාඩමෙන් පාඩමට තියෙන ප්‍රශ්න ගානයි Time එකයි ඔයාලට බලාගන්න පුලුවන්. 
-උපකාරක සේවාව සදහා  පහත WhatsApp Button එක ඔස්සෙ අප සමග සම්බන්ද වන්න 
-All The best 😚!</p>
-            <div class="updated-date">Last updated: June 15, 2025</div>
-        </div>
-
-        <!-- Lessons Grid -->
-        <div class="lessons-grid">
-            <!-- Lesson 1 -->
-            <div class="lesson-card" data-lesson="1" data-time="45" data-questions="20">
-                <img src="1.png" alt="ET හැඳින්වීම" class="lesson-image">
-                <h3>ET හැඳින්වීම</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
+        
+        <h2>Available Quizzes</h2>
+        <div class="quiz-container">
+            <div class="quiz-card">
+                <div class="quiz-title">General Knowledge Quiz</div>
+                <div class="quiz-description">Test your knowledge about various topics from around the world.</div>
+                <div class="quiz-meta">
+                    <span>10 Questions</span>
+                    <span>15 Minutes</span>
                 </div>
-                <button class="btn-start">Start Quiz</button>
+                <button class="start-quiz-btn">Start Quiz</button>
             </div>
-
-            <!-- Lesson 2 -->
-            <div class="lesson-card" data-lesson="2" data-time="60" data-questions="25">
-                <img src="2.png" alt="ඉංජිනේරු ඇඳීම Drawing" class="lesson-image">
-                <h3>ඉංජිනේරු ඇඳීම Drawing</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 25 questions</div>
+            
+            <div class="quiz-card">
+                <div class="quiz-title">Science Challenge</div>
+                <div class="quiz-description">Explore questions from physics, chemistry, and biology.</div>
+                <div class="quiz-meta">
+                    <span>15 Questions</span>
+                    <span>20 Minutes</span>
                 </div>
-                <button class="btn-start">Start Quiz</button>
+                <button class="start-quiz-btn">Start Quiz</button>
             </div>
-
-            <!-- Lesson 3 -->
-            <div class="lesson-card" data-lesson="3" data-time="30" data-questions="15">
-                <img src="3.png" alt="නිෂ්පාදන තාක්ෂණවේදය Production" class="lesson-image">
-                <h3>නිෂ්පාදන තාක්ෂණවේදය Production</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+            
+            <div class="quiz-card">
+                <div class="quiz-title">History Test</div>
+                <div class="quiz-description">Journey through time with these historical questions.</div>
+                <div class="quiz-meta">
+                    <span>12 Questions</span>
+                    <span>18 Minutes</span>
                 </div>
-                <button class="btn-start">Start Quiz</button>
+                <button class="start-quiz-btn">Start Quiz</button>
             </div>
-
-            <!-- Add more lesson cards as needed -->
         </div>
     </div>
 
@@ -807,7 +631,6 @@ All The best 😚!</p>
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-        const db = firebase.firestore();
 
         // DOM Elements
         const preloader = document.querySelector('.preloader');
@@ -823,13 +646,10 @@ All The best 😚!</p>
         const mainContent = document.getElementById('mainContent');
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
-        const userAvatarContainer = document.getElementById('userAvatarContainer');
         const userAvatar = document.getElementById('userAvatar');
-        const dropdownAvatar = document.getElementById('dropdownAvatar');
-        const dropdownName = document.getElementById('dropdownName');
-        const dropdownEmail = document.getElementById('dropdownEmail');
-        const userDropdown = document.getElementById('userDropdown');
-        const btnLogout = document.getElementById('btnLogout');
+        const userName = document.getElementById('userName');
+        const userEmail = document.getElementById('userEmail');
+        const logoutBtn = document.getElementById('logoutBtn');
 
         // Check for saved credentials
         function checkRememberedUser() {
@@ -846,11 +666,38 @@ All The best 😚!</p>
         function showNotification(message, type = 'info') {
             notificationMessage.textContent = message;
             floatingNotification.className = `notification ${type}`;
+            
+            // Set appropriate icon based on type
+            const icon = floatingNotification.querySelector('i');
+            if (type === 'success') {
+                icon.className = 'fas fa-check-circle';
+            } else if (type === 'warning') {
+                icon.className = 'fas fa-exclamation-triangle';
+            } else if (type === 'danger') {
+                icon.className = 'fas fa-times-circle';
+            } else {
+                icon.className = 'fas fa-info-circle';
+            }
+            
             floatingNotification.classList.add('show');
             
             setTimeout(() => {
                 floatingNotification.classList.remove('show');
             }, 5000);
+        }
+
+        // Update user info in dashboard
+        function updateUserInfo(user) {
+            if (user) {
+                // Get first letter for avatar
+                const displayName = user.displayName || user.email.split('@')[0];
+                const firstLetter = displayName.charAt(0).toUpperCase();
+                userAvatar.textContent = firstLetter;
+                
+                // Set user name and email
+                userName.textContent = displayName;
+                userEmail.textContent = user.email;
+            }
         }
 
         // Login form submission
@@ -881,8 +728,8 @@ All The best 😚!</p>
                     localStorage.removeItem('rememberedUser');
                 }
                 
-                // Update user display
-                updateUserDisplay(user);
+                // Update user info
+                updateUserInfo(user);
                 
                 // Hide login and show main content
                 loginContainer.classList.remove('show');
@@ -895,9 +742,10 @@ All The best 😚!</p>
                 }, 300);
                 
                 // Show welcome notification
-                showNotification(`Welcome back, ${user.displayName || user.email.split('@')[0]}!`, 'success');
+                showNotification('Login successful! Welcome to the quiz portal.', 'success');
                 
             } catch (error) {
+                console.error('Login error:', error);
                 showNotification(error.message, 'danger');
             } finally {
                 // Reset button state
@@ -907,71 +755,49 @@ All The best 😚!</p>
             }
         });
 
-        // Update user display after login
-        function updateUserDisplay(user) {
-            const photoURL = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=6c5ce7&color=fff`;
-            
-            // Update avatar and info
-            userAvatar.src = photoURL;
-            dropdownAvatar.src = photoURL;
-            dropdownName.textContent = user.displayName || user.email.split('@')[0];
-            dropdownEmail.textContent = user.email;
-            
-            // Show user controls
-            userAvatarContainer.style.display = 'flex';
-        }
+        // Logout function
+        logoutBtn.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                showNotification('You have been logged out successfully.', 'success');
+                
+                // Hide main content and show login form
+                mainContent.classList.remove('show');
+                setTimeout(() => {
+                    mainContent.style.display = 'none';
+                    loginContainer.style.display = 'flex';
+                    setTimeout(() => {
+                        loginContainer.classList.add('show');
+                    }, 50);
+                }, 300);
+                
+                // Clear form
+                loginForm.reset();
+                
+            } catch (error) {
+                console.error('Logout error:', error);
+                showNotification('Failed to logout. Please try again.', 'danger');
+            }
+        });
 
         // Forgot password link
         forgotPassword.addEventListener('click', (e) => {
             e.preventDefault();
-            const email = prompt("Please enter your email address:");
-            if (!email) return;
-            
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    showNotification('Password reset email sent. Check your inbox.', 'success');
-                })
-                .catch((error) => {
-                    showNotification(error.message, 'danger');
-                });
-        });
-
-        // Toggle user dropdown
-        userAvatar.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userDropdown.classList.toggle('show');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            userDropdown.classList.remove('show');
-        });
-
-        // Logout button
-        btnLogout.addEventListener('click', () => {
-            auth.signOut()
-                .then(() => {
-                    showNotification('You have been logged out', 'success');
-                })
-                .catch((error) => {
-                    showNotification(error.message, 'danger');
-                });
+            showNotification('Please contact admin to reset your password', 'warning');
         });
 
         // Check authentication state
         auth.onAuthStateChanged(user => {
             if (user) {
-                // User is signed in
-                updateUserDisplay(user);
+                // User is already logged in, show main content
+                updateUserInfo(user);
                 loginContainer.style.display = 'none';
                 mainContent.style.display = 'block';
                 setTimeout(() => {
                     mainContent.classList.add('show');
                 }, 50);
             } else {
-                // User is signed out
-                userAvatarContainer.style.display = 'none';
-                mainContent.style.display = 'none';
+                // User is not logged in, show login form
                 setTimeout(() => {
                     loginContainer.style.display = 'flex';
                     setTimeout(() => {
@@ -991,28 +817,6 @@ All The best 😚!</p>
                     preloader.style.display = 'none';
                 }, 500);
             }, 1500);
-        });
-
-        // Initialize lesson cards after content loads
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add event listeners to lesson cards
-            document.querySelectorAll('.lesson-card').forEach(card => {
-                card.addEventListener('click', function() {
-                    const user = auth.currentUser;
-                    if (!user) {
-                        showNotification('Please login to access quizzes', 'warning');
-                        return;
-                    }
-                    
-                    const lessonId = this.getAttribute('data-lesson');
-                    const lessonTime = this.getAttribute('data-time');
-                    const lessonTitle = this.querySelector('h3').textContent;
-                    
-                    showNotification(`Starting ${lessonTitle} quiz...`, 'success');
-                    // Here you would normally open the quiz
-                    // For now we'll just show a message
-                });
-            });
         });
     </script>
 </body>
