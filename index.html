@@ -190,8 +190,8 @@
         }
 
         .logo-circle {
-            width: 120px;
-            height: 120px;
+            width: 180px; /* Increased size */
+            height: 180px; /* Increased size */
             border-radius: 50%;
             border: 4px solid white;
             margin: 0 auto 20px;
@@ -203,10 +203,11 @@
         }
 
         .logo-circle img {
-            width: 80px;
-            height: 80px;
+            width: 160px; /* Increased size */
+            height: 160px; /* Increased size */
             border-radius: 50%;
             object-fit: cover;
+            border: 3px solid white;
         }
 
         /* Banner */
@@ -759,15 +760,34 @@
             font-weight: 600;
             box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
             transition: all 0.3s ease;
+            margin-right: 15px;
         }
 
-        .etpanthiya-link:hover {
+        .whatsapp-group-link {
+            display: inline-block;
+            margin-top: 30px;
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .etpanthiya-link:hover, .whatsapp-group-link:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(0, 184, 148, 0.4);
         }
 
-        .etpanthiya-link i {
+        .etpanthiya-link i, .whatsapp-group-link i {
             margin-right: 8px;
+        }
+
+        .links-container {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         /* Responsive Adjustments */
@@ -801,13 +821,20 @@
             }
 
             .logo-circle {
-                width: 100px;
-                height: 100px;
+                width: 150px;
+                height: 150px;
             }
 
             .logo-circle img {
-                width: 60px;
-                height: 60px;
+                width: 130px;
+                height: 130px;
+            }
+
+            .etpanthiya-link, .whatsapp-group-link {
+                display: block;
+                margin: 15px auto;
+                width: 90%;
+                max-width: 300px;
             }
         }
 
@@ -876,6 +903,16 @@
             <p>Test your knowledge across 17 comprehensive lessons. Each quiz has a customized time limit. Complete your profile before starting.</p>
         </div>
 
+        <!-- Links Container -->
+        <div class="links-container">
+            <a href="https://etpanthiya.lk" class="etpanthiya-link" target="_blank">
+                <i class="fas fa-external-link-alt"></i> Visit ET Panthiya
+            </a>
+            <a href="https://chat.whatsapp.com/YOUR_GROUP_LINK" class="whatsapp-group-link" target="_blank">
+                <i class="fab fa-whatsapp"></i> Join WhatsApp Group
+            </a>
+        </div>
+
         <!-- Banner -->
         <div class="banner pulse">
             <h2>🚀 Important Notice!</h2>
@@ -886,12 +923,12 @@
         <!-- Lessons Grid -->
         <div class="lessons-grid">
             <!-- Lesson 1 -->
-            <div class="lesson-card" data-lesson="1" data-time="20" data-questions="20">
+            <div class="lesson-card" data-lesson="1" data-time="45" data-questions="20">
                 <img src="1.png" alt=" ET හැඳින්වීම" class="lesson-image">
                 <h3> ET හැඳින්වීම</h3>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 20 minutes</div>
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
                 </div>
                 <button class="btn-start">Start Quiz</button>
@@ -1089,13 +1126,6 @@
                 <button class="btn-start">Start Quiz</button>
             </div>
         </div>
-
-        <!-- ET Panthiya Link -->
-        <div style="text-align: center; margin-top: 40px;">
-            <a href="https://etpanthiya.lk" class="etpanthiya-link" target="_blank">
-                <i class="fas fa-external-link-alt"></i> Visit ET Panthiya for More Resources
-            </a>
-        </div>
     </div>
 
     <!-- Student Info Modal -->
@@ -1270,6 +1300,9 @@
         let timeLeft;
         let quizActive = false;
         let quizDuration = 60; // Default duration in minutes
+        let warned15 = false;
+        let warned10 = false;
+        let warned5 = false;
 
         // DOM Elements
         const studentModal = document.getElementById('studentModal');
@@ -1436,6 +1469,9 @@
             quizActive = true;
             quizDuration = duration;
             timeLeft = duration * 60; // Convert minutes to seconds
+            warned15 = false;
+            warned10 = false;
+            warned5 = false;
             updateTimerDisplay();
             
             // Play start sound
@@ -1470,22 +1506,21 @@
             timeLeft--;
             updateTimerDisplay();
             
-            // Check for warnings
-            if (timeLeft === Math.floor(quizDuration * 60 * 0.25)) {
-                // 25% time left
-                const minutesLeft = Math.floor(timeLeft / 60);
-                showTimeWarning(`You have ${minutesLeft} minutes remaining to complete your quiz.`);
+            // Check for warnings (15, 10, 5 minutes remaining)
+            const minutesLeft = Math.ceil(timeLeft / 60);
+            
+            if (minutesLeft === 15 && !warned15) {
+                showTimeWarning(`You have 15 minutes remaining to complete your quiz.`);
                 warningSound.play();
-            } else if (timeLeft === Math.floor(quizDuration * 60 * 0.10)) {
-                // 10% time left
-                const minutesLeft = Math.floor(timeLeft / 60) || 'less than 1';
-                showTimeWarning(`Only ${minutesLeft} minutes left! Make sure to submit your answers.`);
+                warned15 = true;
+            } else if (minutesLeft === 10 && !warned10) {
+                showTimeWarning(`Only 10 minutes left! Make sure to submit your answers.`);
                 warningSound.play();
-            } else if (timeLeft === Math.floor(quizDuration * 60 * 0.05)) {
-                // 5% time left
-                const minutesLeft = Math.floor(timeLeft / 60) || 'less than 1';
-                showTimeWarning(`Final ${minutesLeft} minutes! Complete your quiz now.`);
+                warned10 = true;
+            } else if (minutesLeft === 5 && !warned5) {
+                showTimeWarning(`Final 5 minutes! Complete your quiz now.`);
                 warningSound.play();
+                warned5 = true;
             } else if (timeLeft <= 0) {
                 // Time's up
                 timeUpSound.play();
