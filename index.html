@@ -8,6 +8,7 @@
     <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <style>
         :root {
             --primary: #6c5ce7;
@@ -190,8 +191,8 @@
         }
 
         .logo-circle {
-            width: 180px; /* Increased size */
-            height: 180px; /* Increased size */
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             border: 4px solid white;
             margin: 0 auto 20px;
@@ -203,11 +204,139 @@
         }
 
         .logo-circle img {
-            width: 160px; /* Increased size */
-            height: 160px; /* Increased size */
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
+        }
+
+        /* Auth Buttons */
+        .auth-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-auth {
+            padding: 8px 15px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-login {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-signup {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            border: 2px solid white;
+            transition: all 0.3s ease;
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+        }
+
+        /* User Dropdown */
+        .user-dropdown {
+            position: absolute;
+            top: 60px;
+            right: 0;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            width: 200px;
+            overflow: hidden;
+            z-index: 100;
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
+        }
+
+        .user-dropdown.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .user-dropdown-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-dropdown-header img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .user-dropdown-header div {
+            font-size: 0.9rem;
+        }
+
+        .user-dropdown-header div:first-child {
+            font-weight: 600;
+        }
+
+        .user-dropdown-header div:last-child {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        .user-dropdown-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-dropdown-item:hover {
+            background: #f5f5f5;
+        }
+
+        .user-dropdown-item i {
+            width: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .user-dropdown-footer {
+            padding: 10px 15px;
+            border-top: 1px solid #eee;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-align: center;
         }
 
         /* Banner */
@@ -348,6 +477,160 @@
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
         }
 
+        /* Auth Modals */
+        .auth-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .auth-content {
+            background: white;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .auth-modal.show .auth-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .auth-header {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            position: relative;
+        }
+
+        .auth-header h2 {
+            margin-bottom: 5px;
+        }
+
+        .auth-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .btn-close-auth {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close-auth:hover {
+            transform: rotate(90deg);
+        }
+
+        .auth-body {
+            padding: 25px;
+        }
+
+        .auth-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .auth-form .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .auth-form .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .auth-form .form-group input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+            outline: none;
+        }
+
+        .auth-form .form-footer {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .auth-form .form-footer a {
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .auth-form .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-auth-submit {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-auth-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .auth-tabs {
+            display: flex;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .auth-tab.active {
+            color: var(--primary);
+            border-bottom: 3px solid var(--primary);
+        }
+
         /* Student Info Modal */
         .modal {
             display: none;
@@ -359,7 +642,7 @@
             background: rgba(0, 0, 0, 0.7);
             z-index: 1000;
             justify-content: center;
-            align-items: flex-start; /* Changed to flex-start for mobile keyboard */
+            align-items: flex-start;
             padding-top: 50px;
             backdrop-filter: blur(5px);
             overflow-y: auto;
@@ -592,6 +875,76 @@
         .btn-alert:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        /* Delete Account Modal */
+        .delete-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1003;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .delete-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .delete-modal.show .delete-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .delete-icon {
+            font-size: 3rem;
+            color: var(--danger);
+            margin-bottom: 20px;
+        }
+
+        .delete-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .btn-delete {
+            flex: 1;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-delete-confirm {
+            background: var(--danger);
+            color: white;
+            border: none;
+        }
+
+        .btn-delete-cancel {
+            background: #f5f5f5;
+            color: var(--text-secondary);
+            border: 1px solid #ddd;
+        }
+
+        .btn-delete:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         /* Floating Notification */
@@ -836,6 +1189,20 @@
                 width: 90%;
                 max-width: 300px;
             }
+
+            .auth-buttons {
+                top: 10px;
+                right: 10px;
+            }
+
+            .btn-auth {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+
+            .user-dropdown {
+                width: 180px;
+            }
         }
 
         /* Animation Classes */
@@ -872,6 +1239,21 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--secondary);
         }
+
+        /* Loading Spinner */
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -895,6 +1277,42 @@
 
     <!-- Main Container -->
     <div class="container">
+        <!-- Auth Buttons -->
+        <div class="auth-buttons" id="authButtons">
+            <button class="btn-auth btn-login" id="btnLogin">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <button class="btn-auth btn-signup" id="btnSignup">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </button>
+        </div>
+
+        <!-- User Avatar (shown when logged in) -->
+        <div class="auth-buttons" id="userAvatarContainer" style="display: none;">
+            <img src="https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff" class="user-avatar" id="userAvatar">
+            <div class="user-dropdown" id="userDropdown">
+                <div class="user-dropdown-header">
+                    <img src="https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff" id="dropdownAvatar">
+                    <div>
+                        <div id="dropdownName">Guest User</div>
+                        <div id="dropdownEmail">guest@example.com</div>
+                    </div>
+                </div>
+                <div class="user-dropdown-item" id="btnAccountSettings">
+                    <i class="fas fa-user-cog"></i> Account Settings
+                </div>
+                <div class="user-dropdown-item" id="btnDeleteAccount">
+                    <i class="fas fa-trash-alt"></i> Delete Account
+                </div>
+                <div class="user-dropdown-item" id="btnLogout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </div>
+                <div class="user-dropdown-footer">
+                    ET Panthiya Quiz Portal
+                </div>
+            </div>
+        </div>
+
         <div class="header">
             <div class="logo-circle">
                 <img src="UDR.jpg" alt="Quiz Logo">
@@ -1130,6 +1548,82 @@ All The best 😚!</p>
         </div>
     </div>
 
+    <!-- Login Modal -->
+    <div class="auth-modal" id="loginModal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <button class="btn-close-auth" id="btnCloseLogin">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Welcome Back!</h2>
+                <p>Login to access your account</p>
+            </div>
+            <div class="auth-body">
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn-auth-submit" id="btnLoginSubmit">
+                        <span id="loginBtnText">Login</span>
+                        <span id="loginSpinner" class="spinner" style="display: none;"></span>
+                    </button>
+                    <div class="form-footer">
+                        Don't have an account? <a href="#" id="showSignup">Sign up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="auth-modal" id="signupModal">
+        <div class="auth-content">
+            <div class="auth-header">
+                <button class="btn-close-auth" id="btnCloseSignup">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2>Create Account</h2>
+                <p>Join our quiz community</p>
+            </div>
+            <div class="auth-body">
+                <div class="auth-tabs">
+                    <div class="auth-tab active" id="tabStudent">Student</div>
+                    <div class="auth-tab" id="tabTeacher">Teacher</div>
+                </div>
+                <form class="auth-form" id="signupForm">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password (min 6 characters)</label>
+                        <input type="password" id="signupPassword" minlength="6" required placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupConfirmPassword">Confirm Password</label>
+                        <input type="password" id="signupConfirmPassword" required placeholder="Confirm your password">
+                    </div>
+                    <button type="submit" class="btn-auth-submit" id="btnSignupSubmit">
+                        <span id="signupBtnText">Create Account</span>
+                        <span id="signupSpinner" class="spinner" style="display: none;"></span>
+                    </button>
+                    <div class="form-footer">
+                        Already have an account? <a href="#" id="showLogin">Login</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Student Info Modal -->
     <div class="modal" id="studentModal">
         <div class="modal-content">
@@ -1200,6 +1694,21 @@ All The best 😚!</p>
         </div>
     </div>
 
+    <!-- Delete Account Modal -->
+    <div class="delete-modal" id="deleteModal">
+        <div class="delete-content">
+            <div class="delete-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="alert-title">Delete Your Account?</h3>
+            <p class="alert-message">This action cannot be undone. All your data will be permanently deleted from our systems. Are you sure you want to proceed?</p>
+            <div class="delete-buttons">
+                <button class="btn-delete btn-delete-cancel" id="btnDeleteCancel">Cancel</button>
+                <button class="btn-delete btn-delete-confirm" id="btnDeleteConfirm">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Welcome Modal -->
     <div class="welcome-modal" id="welcomeModal">
         <div class="welcome-content">
@@ -1208,7 +1717,7 @@ All The best 😚!</p>
             </div>
             <div class="welcome-body">
                 <h2>Welcome to Interactive Quiz Portal 2025!</h2>
-                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please complete your profile before starting any quiz.</p>
+                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please login or create an account to get started.</p>
                 <button class="btn-alert" id="btnWelcomeContinue">Get Started</button>
             </div>
         </div>
@@ -1239,6 +1748,7 @@ All The best 😚!</p>
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+        const auth = firebase.auth();
 
         // Enable Firestore persistence
         firebase.firestore().enablePersistence()
@@ -1307,6 +1817,34 @@ All The best 😚!</p>
         let warned5 = false;
 
         // DOM Elements
+        const authButtons = document.getElementById('authButtons');
+        const userAvatarContainer = document.getElementById('userAvatarContainer');
+        const userAvatar = document.getElementById('userAvatar');
+        const dropdownAvatar = document.getElementById('dropdownAvatar');
+        const dropdownName = document.getElementById('dropdownName');
+        const dropdownEmail = document.getElementById('dropdownEmail');
+        const userDropdown = document.getElementById('userDropdown');
+        const btnLogin = document.getElementById('btnLogin');
+        const btnSignup = document.getElementById('btnSignup');
+        const btnLogout = document.getElementById('btnLogout');
+        const btnAccountSettings = document.getElementById('btnAccountSettings');
+        const btnDeleteAccount = document.getElementById('btnDeleteAccount');
+        const loginModal = document.getElementById('loginModal');
+        const signupModal = document.getElementById('signupModal');
+        const btnCloseLogin = document.getElementById('btnCloseLogin');
+        const btnCloseSignup = document.getElementById('btnCloseSignup');
+        const loginForm = document.getElementById('loginForm');
+        const signupForm = document.getElementById('signupForm');
+        const showSignup = document.getElementById('showSignup');
+        const showLogin = document.getElementById('showLogin');
+        const btnLoginSubmit = document.getElementById('btnLoginSubmit');
+        const loginBtnText = document.getElementById('loginBtnText');
+        const loginSpinner = document.getElementById('loginSpinner');
+        const btnSignupSubmit = document.getElementById('btnSignupSubmit');
+        const signupBtnText = document.getElementById('signupBtnText');
+        const signupSpinner = document.getElementById('signupSpinner');
+        const tabStudent = document.getElementById('tabStudent');
+        const tabTeacher = document.getElementById('tabTeacher');
         const studentModal = document.getElementById('studentModal');
         const studentForm = document.getElementById('studentForm');
         const quizContainer = document.getElementById('quizContainer');
@@ -1318,6 +1856,9 @@ All The best 😚!</p>
         const timeUpModal = document.getElementById('timeUpModal');
         const btnAcknowledgeWarning = document.getElementById('btnAcknowledgeWarning');
         const btnAcknowledgeTimeUp = document.getElementById('btnAcknowledgeTimeUp');
+        const deleteModal = document.getElementById('deleteModal');
+        const btnDeleteCancel = document.getElementById('btnDeleteCancel');
+        const btnDeleteConfirm = document.getElementById('btnDeleteConfirm');
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
         const selectedLessonInput = document.getElementById('selectedLesson');
@@ -1325,6 +1866,281 @@ All The best 😚!</p>
         const whatsappButton = document.getElementById('whatsappButton');
         const welcomeModal = document.getElementById('welcomeModal');
         const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
+
+        // Check authentication state
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // User is signed in
+                authButtons.style.display = 'none';
+                userAvatarContainer.style.display = 'flex';
+                
+                // Set user avatar and info
+                const photoURL = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=6c5ce7&color=fff`;
+                userAvatar.src = photoURL;
+                dropdownAvatar.src = photoURL;
+                dropdownName.textContent = user.displayName || user.email.split('@')[0];
+                dropdownEmail.textContent = user.email;
+                
+                // Store user data in localStorage
+                localStorage.setItem('quizUser', JSON.stringify({
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName,
+                    photoURL: photoURL
+                }));
+                
+                // Show welcome message
+                showNotification(`Welcome back, ${user.displayName || user.email.split('@')[0]}!`, 'success');
+            } else {
+                // User is signed out
+                authButtons.style.display = 'flex';
+                userAvatarContainer.style.display = 'none';
+                localStorage.removeItem('quizUser');
+                
+                // Show login modal if trying to access quiz
+                if (quizActive) {
+                    closeQuiz();
+                }
+            }
+        });
+
+        // Toggle user dropdown
+        userAvatar.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userDropdown.classList.toggle('show');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            userDropdown.classList.remove('show');
+        });
+
+        // Login button click
+        btnLogin.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+            setTimeout(() => {
+                loginModal.querySelector('.auth-content').style.transform = 'scale(1)';
+                loginModal.querySelector('.auth-content').style.opacity = '1';
+            }, 10);
+        });
+
+        // Signup button click
+        btnSignup.addEventListener('click', () => {
+            signupModal.style.display = 'flex';
+            setTimeout(() => {
+                signupModal.querySelector('.auth-content').style.transform = 'scale(1)';
+                signupModal.querySelector('.auth-content').style.opacity = '1';
+            }, 10);
+        });
+
+        // Close login modal
+        btnCloseLogin.addEventListener('click', () => {
+            loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+            loginModal.querySelector('.auth-content').style.opacity = '0';
+            setTimeout(() => {
+                loginModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Close signup modal
+        btnCloseSignup.addEventListener('click', () => {
+            signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+            signupModal.querySelector('.auth-content').style.opacity = '0';
+            setTimeout(() => {
+                signupModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Show signup from login
+        showSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+            loginModal.querySelector('.auth-content').style.opacity = '0';
+            setTimeout(() => {
+                loginModal.style.display = 'none';
+                signupModal.style.display = 'flex';
+                setTimeout(() => {
+                    signupModal.querySelector('.auth-content').style.transform = 'scale(1)';
+                    signupModal.querySelector('.auth-content').style.opacity = '1';
+                }, 10);
+            }, 300);
+        });
+
+        // Show login from signup
+        showLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+            signupModal.querySelector('.auth-content').style.opacity = '0';
+            setTimeout(() => {
+                signupModal.style.display = 'none';
+                loginModal.style.display = 'flex';
+                setTimeout(() => {
+                    loginModal.querySelector('.auth-content').style.transform = 'scale(1)';
+                    loginModal.querySelector('.auth-content').style.opacity = '1';
+                }, 10);
+            }, 300);
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                // Show loading state
+                loginBtnText.textContent = 'Logging in...';
+                loginSpinner.style.display = 'inline-block';
+                btnLoginSubmit.disabled = true;
+                
+                // Sign in with Firebase
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                // Close modal
+                loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+                loginModal.querySelector('.auth-content').style.opacity = '0';
+                setTimeout(() => {
+                    loginModal.style.display = 'none';
+                }, 300);
+                
+                // Reset form
+                loginForm.reset();
+            } catch (error) {
+                showNotification(error.message, 'danger');
+            } finally {
+                // Reset button state
+                loginBtnText.textContent = 'Login';
+                loginSpinner.style.display = 'none';
+                btnLoginSubmit.disabled = false;
+            }
+        });
+
+        // Signup form submission
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', 'danger');
+                return;
+            }
+            
+            try {
+                // Show loading state
+                signupBtnText.textContent = 'Creating account...';
+                signupSpinner.style.display = 'inline-block';
+                btnSignupSubmit.disabled = true;
+                
+                // Create user with Firebase
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Update user profile with name
+                await userCredential.user.updateProfile({
+                    displayName: name,
+                    photoURL: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c5ce7&color=fff`
+                });
+                
+                // Create user document in Firestore
+                await db.collection('users').doc(userCredential.user.uid).set({
+                    uid: userCredential.user.uid,
+                    email: email,
+                    displayName: name,
+                    accountType: tabStudent.classList.contains('active') ? 'student' : 'teacher',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                // Close modal
+                signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+                signupModal.querySelector('.auth-content').style.opacity = '0';
+                setTimeout(() => {
+                    signupModal.style.display = 'none';
+                }, 300);
+                
+                // Reset form
+                signupForm.reset();
+            } catch (error) {
+                showNotification(error.message, 'danger');
+            } finally {
+                // Reset button state
+                signupBtnText.textContent = 'Create Account';
+                signupSpinner.style.display = 'none';
+                btnSignupSubmit.disabled = false;
+            }
+        });
+
+        // Logout button click
+        btnLogout.addEventListener('click', async () => {
+            try {
+                await auth.signOut();
+                showNotification('You have been logged out', 'success');
+            } catch (error) {
+                showNotification(error.message, 'danger');
+            }
+        });
+
+        // Account settings button click
+        btnAccountSettings.addEventListener('click', () => {
+            showNotification('Account settings feature coming soon!', 'warning');
+        });
+
+        // Delete account button click
+        btnDeleteAccount.addEventListener('click', () => {
+            deleteModal.style.display = 'flex';
+            setTimeout(() => {
+                deleteModal.querySelector('.delete-content').style.transform = 'scale(1)';
+                deleteModal.querySelector('.delete-content').style.opacity = '1';
+            }, 10);
+        });
+
+        // Cancel delete account
+        btnDeleteCancel.addEventListener('click', () => {
+            deleteModal.querySelector('.delete-content').style.transform = 'scale(0.9)';
+            deleteModal.querySelector('.delete-content').style.opacity = '0';
+            setTimeout(() => {
+                deleteModal.style.display = 'none';
+            }, 300);
+        });
+
+        // Confirm delete account
+        btnDeleteConfirm.addEventListener('click', async () => {
+            try {
+                const user = auth.currentUser;
+                
+                // First delete user data from Firestore
+                await db.collection('users').doc(user.uid).delete();
+                
+                // Then delete the user account
+                await user.delete();
+                
+                showNotification('Your account has been permanently deleted', 'success');
+            } catch (error) {
+                showNotification(error.message, 'danger');
+            } finally {
+                deleteModal.querySelector('.delete-content').style.transform = 'scale(0.9)';
+                deleteModal.querySelector('.delete-content').style.opacity = '0';
+                setTimeout(() => {
+                    deleteModal.style.display = 'none';
+                }, 300);
+            }
+        });
+
+        // Switch between student and teacher tabs
+        tabStudent.addEventListener('click', () => {
+            tabStudent.classList.add('active');
+            tabTeacher.classList.remove('active');
+        });
+
+        tabTeacher.addEventListener('click', () => {
+            tabTeacher.classList.add('active');
+            tabStudent.classList.remove('active');
+        });
 
         // Check if student data exists in localStorage
         function hasStudentData() {
@@ -1360,6 +2176,13 @@ All The best 😚!</p>
         // Event Listeners for Lesson Cards
         document.querySelectorAll('.lesson-card').forEach(card => {
             card.addEventListener('click', function() {
+                const user = auth.currentUser;
+                if (!user) {
+                    showNotification('Please login to access quizzes', 'warning');
+                    btnLogin.click();
+                    return;
+                }
+                
                 const lessonId = this.getAttribute('data-lesson');
                 const lessonTime = this.getAttribute('data-time');
                 selectedLessonInput.value = lessonId;
@@ -1402,6 +2225,12 @@ All The best 😚!</p>
         studentForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
+            const user = auth.currentUser;
+            if (!user) {
+                showNotification('Session expired. Please login again.', 'danger');
+                return;
+            }
+            
             // Validate form
             const name = document.getElementById('name').value.trim();
             const examYear = document.getElementById('examYear').value.trim();
@@ -1423,6 +2252,8 @@ All The best 😚!</p>
             
             // Create student data object
             const studentData = {
+                userId: user.uid,
+                userEmail: user.email,
                 name,
                 examYear: parseInt(examYear),
                 district,
@@ -1678,6 +2509,27 @@ All The best 😚!</p>
                 welcomeModal.querySelector('.welcome-content').style.opacity = '0';
                 setTimeout(() => {
                     welcomeModal.style.display = 'none';
+                }, 300);
+            }
+            if (e.target === loginModal) {
+                loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+                loginModal.querySelector('.auth-content').style.opacity = '0';
+                setTimeout(() => {
+                    loginModal.style.display = 'none';
+                }, 300);
+            }
+            if (e.target === signupModal) {
+                signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
+                signupModal.querySelector('.auth-content').style.opacity = '0';
+                setTimeout(() => {
+                    signupModal.style.display = 'none';
+                }, 300);
+            }
+            if (e.target === deleteModal) {
+                deleteModal.querySelector('.delete-content').style.transform = 'scale(0.9)';
+                deleteModal.querySelector('.delete-content').style.opacity = '0';
+                setTimeout(() => {
+                    deleteModal.style.display = 'none';
                 }, 300);
             }
         });
