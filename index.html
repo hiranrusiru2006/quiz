@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ET Panthiya.lk Quiz Portal 2025</title>
+    <title>ET Panthiya.lk Quiz Portal - Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <style>
         :root {
@@ -37,7 +36,7 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: var(--text-primary);
             min-height: 100vh;
-            overflow-x: hidden;
+            overflow: hidden;
             background-attachment: fixed;
         }
 
@@ -149,408 +148,85 @@
             text-transform: uppercase;
         }
 
-        /* Main Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-
-        .container.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            color: white;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            font-weight: 800;
-            background: linear-gradient(to right, #fff, #a29bfe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header p {
-            color: var(--light);
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-
-        .logo-circle {
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            border: 4px solid white;
-            margin: 0 auto 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: rgba(255,255,255,0.2);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .logo-circle img {
-            width: 160px;
-            height: 160px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid white;
-        }
-
-        /* Auth Buttons */
-        .auth-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-auth {
-            padding: 8px 15px;
-            border-radius: 50px;
-            border: none;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .btn-login {
-            background: white;
-            color: var(--primary);
-        }
-
-        .btn-signup {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-auth:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid white;
-            transition: all 0.3s ease;
-        }
-
-        .user-avatar:hover {
-            transform: scale(1.1);
-        }
-
-        /* User Dropdown */
-        .user-dropdown {
-            position: absolute;
-            top: 60px;
-            right: 0;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            width: 200px;
-            overflow: hidden;
-            z-index: 100;
-            transform: translateY(-10px);
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s ease;
-        }
-
-        .user-dropdown.show {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .user-dropdown-header {
-            padding: 15px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-dropdown-header img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .user-dropdown-header div {
-            font-size: 0.9rem;
-        }
-
-        .user-dropdown-header div:first-child {
-            font-weight: 600;
-        }
-
-        .user-dropdown-header div:last-child {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-        }
-
-        .user-dropdown-item {
-            padding: 12px 15px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-dropdown-item:hover {
-            background: #f5f5f5;
-        }
-
-        .user-dropdown-item i {
-            width: 20px;
-            text-align: center;
-            color: var(--text-secondary);
-        }
-
-        .user-dropdown-footer {
-            padding: 10px 15px;
-            border-top: 1px solid #eee;
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-
-        /* Banner */
-        .banner {
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 30px;
-            color: white;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-        }
-
-        .banner h2 {
-            margin-bottom: 10px;
-            font-size: 1.5rem;
-        }
-
-        .banner p {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        .updated-date {
-            font-size: 0.9rem;
-            margin-top: 5px;
-            color: rgba(255,255,255,0.7);
-            font-style: italic;
-        }
-
-        /* Lessons Grid */
-        .lessons-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        @media (max-width: 768px) {
-            .lessons-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .lesson-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-            border: none;
-        }
-
-        .lesson-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .lesson-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(to right, var(--primary), var(--accent));
-        }
-
-        .lesson-card .lesson-image {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border: 3px solid var(--light);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .lesson-card h3 {
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .lesson-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        .lesson-meta {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .time-indicator, .question-count {
-            display: inline-block;
-            background: rgba(108, 92, 231, 0.1);
-            color: var(--primary);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .lesson-card .btn-start {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-        }
-
-        .lesson-card .btn-start:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
-        }
-
-        /* Auth Modals */
-        .auth-modal {
-            display: none;
+        /* Login Container */
+        .login-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
+            display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(5px);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.3s ease;
         }
 
-        .auth-content {
+        .login-container.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .login-content {
             background: white;
             border-radius: 15px;
             width: 90%;
             max-width: 400px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.3s ease;
             overflow: hidden;
         }
 
-        .auth-modal.show .auth-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .auth-header {
-            padding: 20px;
+        .login-header {
+            padding: 25px;
             text-align: center;
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             position: relative;
         }
 
-        .auth-header h2 {
-            margin-bottom: 5px;
+        .login-header h2 {
+            margin-bottom: 10px;
+            font-size: 1.8rem;
         }
 
-        .auth-header p {
+        .login-header p {
             font-size: 0.9rem;
             opacity: 0.9;
         }
 
-        .btn-close-auth {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 4px solid white;
+            margin: 0 auto 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            overflow: hidden;
         }
 
-        .btn-close-auth:hover {
-            transform: rotate(90deg);
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
-        .auth-body {
+        .login-body {
             padding: 25px;
         }
 
-        .auth-form .form-group {
+        .login-form .form-group {
             margin-bottom: 20px;
         }
 
-        .auth-form .form-group label {
+        .login-form .form-group label {
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
@@ -558,7 +234,7 @@
             font-size: 0.9rem;
         }
 
-        .auth-form .form-group input {
+        .login-form .form-group input {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
@@ -567,384 +243,61 @@
             transition: all 0.3s ease;
         }
 
-        .auth-form .form-group input:focus {
+        .login-form .form-group input:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
             outline: none;
         }
 
-        .auth-form .form-footer {
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .remember-me input {
+            margin-right: 10px;
+        }
+
+        .remember-me label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .btn-login-submit {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-login-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .form-footer {
             margin-top: 20px;
             font-size: 0.9rem;
             text-align: center;
             color: var(--text-secondary);
         }
 
-        .auth-form .form-footer a {
+        .form-footer a {
             color: var(--primary);
             font-weight: 600;
             text-decoration: none;
         }
 
-        .auth-form .form-footer a:hover {
+        .form-footer a:hover {
             text-decoration: underline;
-        }
-
-        .btn-auth-submit {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn-auth-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-        }
-
-        .auth-tabs {
-            display: flex;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 20px;
-        }
-
-        .auth-tab {
-            flex: 1;
-            text-align: center;
-            padding: 10px;
-            cursor: pointer;
-            font-weight: 600;
-            color: var(--text-secondary);
-            transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
-        }
-
-        .auth-tab.active {
-            color: var(--primary);
-            border-bottom: 3px solid var(--primary);
-        }
-
-        /* Student Info Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 50px;
-            backdrop-filter: blur(5px);
-            overflow-y: auto;
-        }
-
-        @media (max-width: 576px) {
-            .modal {
-                align-items: flex-start;
-                padding-top: 20px;
-            }
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.3s ease;
-            position: relative;
-            margin: 20px 0;
-        }
-
-        .modal.show .modal-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .modal-header h2 {
-            color: var(--primary);
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .modal-header p {
-            color: var(--text-secondary);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-            outline: none;
-        }
-
-        .btn-submit {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-            margin-top: 10px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
-        }
-
-        /* Quiz Container */
-        .quiz-container {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            z-index: 1001;
-            flex-direction: column;
-        }
-
-        .quiz-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .quiz-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-        }
-
-        .timer {
-            background: rgba(0, 0, 0, 0.2);
-            padding: 5px 15px;
-            border-radius: 50px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-
-        .timer i {
-            margin-right: 8px;
-        }
-
-        .quiz-iframe {
-            flex: 1;
-            border: none;
-            width: 100%;
-        }
-
-        .btn-close-quiz {
-            background: var(--danger);
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-left: 15px;
-        }
-
-        .btn-close-quiz:hover {
-            transform: rotate(90deg);
-        }
-
-        /* Alert Modal */
-        .alert-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1002;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .alert-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .alert-modal.show .alert-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .alert-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .alert-icon.warning {
-            color: var(--warning);
-        }
-
-        .alert-icon.danger {
-            color: var(--danger);
-        }
-
-        .alert-title {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--text-primary);
-        }
-
-        .alert-message {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .btn-alert {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: inline-block;
-        }
-
-        .btn-alert:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-        }
-
-        /* Delete Account Modal */
-        .delete-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1003;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .delete-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.3s ease;
-        }
-
-        .delete-modal.show .delete-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .delete-icon {
-            font-size: 3rem;
-            color: var(--danger);
-            margin-bottom: 20px;
-        }
-
-        .delete-buttons {
-            display: flex;
-            gap: 15px;
-            margin-top: 25px;
-        }
-
-        .btn-delete {
-            flex: 1;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-delete-confirm {
-            background: var(--danger);
-            color: white;
-            border: none;
-        }
-
-        .btn-delete-cancel {
-            background: #f5f5f5;
-            color: var(--text-secondary);
-            border: 1px solid #ddd;
-        }
-
-        .btn-delete:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         /* Floating Notification */
@@ -986,260 +339,6 @@
             background: var(--success);
         }
 
-        /* Welcome Modal */
-        .welcome-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1003;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .welcome-content {
-            background: white;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-
-        .welcome-modal.show .welcome-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .welcome-header {
-            height: 150px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .welcome-header img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 4px solid white;
-            object-fit: cover;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .welcome-body {
-            padding: 30px;
-            text-align: center;
-        }
-
-        .welcome-body h2 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        .welcome-body p {
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        /* WhatsApp Floating Button */
-        .whatsapp-float {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            width: 60px;
-            height: 60px;
-            background: #25D366;
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 30px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-            z-index: 999;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            animation: pulse-whatsapp 2s infinite;
-        }
-
-        .whatsapp-float:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        @keyframes pulse-whatsapp {
-            0% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
-            }
-        }
-
-        /* Particles Background */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* ET Panthiya Link */
-        .etpanthiya-link {
-            display: inline-block;
-            margin-top: 30px;
-            background: linear-gradient(to right, #00b894, #00cec9);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
-            transition: all 0.3s ease;
-            margin-right: 15px;
-        }
-
-        .whatsapp-group-link {
-            display: inline-block;
-            margin-top: 30px;
-            background: linear-gradient(to right, #25D366, #128C7E);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .etpanthiya-link:hover, .whatsapp-group-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 184, 148, 0.4);
-        }
-
-        .etpanthiya-link i, .whatsapp-group-link i {
-            margin-right: 8px;
-        }
-
-        .links-container {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        /* Responsive Adjustments */
-        @media (max-width: 576px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header p {
-                font-size: 1rem;
-            }
-            
-            .lesson-card {
-                padding: 15px;
-            }
-            
-            .lesson-card h3 {
-                font-size: 1.1rem;
-            }
-            
-            .modal-content {
-                padding: 20px;
-            }
-
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                font-size: 25px;
-                bottom: 20px;
-                left: 20px;
-            }
-
-            .logo-circle {
-                width: 150px;
-                height: 150px;
-            }
-
-            .logo-circle img {
-                width: 130px;
-                height: 130px;
-            }
-
-            .etpanthiya-link, .whatsapp-group-link {
-                display: block;
-                margin: 15px auto;
-                width: 90%;
-                max-width: 300px;
-            }
-
-            .auth-buttons {
-                top: 10px;
-                right: 10px;
-            }
-
-            .btn-auth {
-                padding: 6px 12px;
-                font-size: 0.8rem;
-            }
-
-            .user-dropdown {
-                width: 180px;
-            }
-        }
-
-        /* Animation Classes */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.05);
-            }
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--secondary);
-        }
-
         /* Loading Spinner */
         .spinner {
             width: 20px;
@@ -1249,10 +348,41 @@
             border-top-color: white;
             animation: spin 1s ease-in-out infinite;
             display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
+        }
+
+        /* Main Content (hidden until login) */
+        .main-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .main-content.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 576px) {
+            .login-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .login-header p {
+                font-size: 0.8rem;
+            }
+            
+            .logo-circle {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
@@ -1264,463 +394,48 @@
             <div></div><div></div><div></div>
             <div></div><div></div><div></div>
         </div>
-        <div class="loading-text">Loading Interactive Quiz Portal</div>
+        <div class="loading-text">Loading Quiz Portal</div>
     </div>
 
-    <!-- Particles Background -->
-    <div class="particles" id="particles-js"></div>
-
-    <!-- WhatsApp Floating Button -->
-    <div class="whatsapp-float" id="whatsappButton">
-        <i class="fab fa-whatsapp"></i>
-    </div>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Auth Buttons -->
-        <div class="auth-buttons" id="authButtons">
-            <button class="btn-auth btn-login" id="btnLogin">
-                <i class="fas fa-sign-in-alt"></i> Login
-            </button>
-            <button class="btn-auth btn-signup" id="btnSignup">
-                <i class="fas fa-user-plus"></i> Sign Up
-            </button>
-        </div>
-
-        <!-- User Avatar (shown when logged in) -->
-        <div class="auth-buttons" id="userAvatarContainer" style="display: none;">
-            <img src="https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff" class="user-avatar" id="userAvatar">
-            <div class="user-dropdown" id="userDropdown">
-                <div class="user-dropdown-header">
-                    <img src="https://ui-avatars.com/api/?name=Guest&background=6c5ce7&color=fff" id="dropdownAvatar">
-                    <div>
-                        <div id="dropdownName">Guest User</div>
-                        <div id="dropdownEmail">guest@example.com</div>
-                    </div>
+    <!-- Login Container -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-content">
+            <div class="login-header">
+                <div class="logo-circle">
+                    <img src="UDR.jpg" alt="ET Panthiya Logo">
                 </div>
-                <div class="user-dropdown-item" id="btnAccountSettings">
-                    <i class="fas fa-user-cog"></i> Account Settings
-                </div>
-                <div class="user-dropdown-item" id="btnDeleteAccount">
-                    <i class="fas fa-trash-alt"></i> Delete Account
-                </div>
-                <div class="user-dropdown-item" id="btnLogout">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </div>
-                <div class="user-dropdown-footer">
-                    ET Panthiya Quiz Portal
-                </div>
+                <h2>Welcome to ET Panthiya</h2>
+                <p>Please login to access the quiz portal</p>
             </div>
-        </div>
-
-        <div class="header">
-            <div class="logo-circle">
-                <img src="UDR.jpg" alt="Quiz Logo">
-            </div>
-            <h1>ET Panthiya.lk Quiz Portal</h1>
-            <p>"The Quiz Portal"  ET Panthiya.lk අපේ වැඩක් ✨🎉. Enjoy & Learn 😎😜</p>
-        </div>
-
-        <!-- Links Container -->
-        <div class="links-container">
-            <a href="https://etpanthiya.lk" class="etpanthiya-link" target="_blank">
-                <i class="fas fa-external-link-alt"></i> Visit ET Panthiya
-            </a>
-            <a href="https://chat.whatsapp.com/Hfun9eBpGtY8Nmg1aLOAQo" class="whatsapp-group-link" target="_blank">
-                <i class="fab fa-whatsapp"></i> Join WhatsApp Group
-            </a>
-        </div>
-
-        <!-- Banner -->
-        <div class="banner pulse">
-            <h2>🚀 Important Notice!</h2>
-            <p>පාඩම් 17 න්ම MCQ අපි Upload කරනවා. Update කරපු දවසේ ඉදන් දවස් 14 කට පස්සෙ අපි ආයේ අලුත්   MCQ Add කරනවා 😍 පාඩමෙන් පාඩමට තියෙන ප්‍රශ්න ගානයි Time එකයි ඔයාලට බලාගන්න පුලුවන්. 
-උපකාරක සේවාව සදහා  පහත WhatsApp Button එක ඔස්සෙ අප සමග සම්බන්ද වන්න 
-All The best 😚!</p>
-            <div class="updated-date">Last updated: June 15, 2025</div>
-        </div>
-
-        <!-- Lessons Grid -->
-        <div class="lessons-grid">
-            <!-- Lesson 1 -->
-            <div class="lesson-card" data-lesson="1" data-time="45" data-questions="20">
-                <img src="1.png" alt=" ET හැඳින්වීම" class="lesson-image">
-                <h3> ET හැඳින්වීම</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 2 -->
-            <div class="lesson-card" data-lesson="2" data-time="60" data-questions="25">
-                <img src="2.png" alt=" ඉංජිනේරු ඇඳීම Drawing" class="lesson-image">
-                <h3> ඉංජිනේරු ඇඳීම Drawing</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 25 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 3 -->
-            <div class="lesson-card" data-lesson="3" data-time="30" data-questions="15">
-                <img src="3.png" alt="නිෂ්පාදන තාක්ෂණවේදය Production" class="lesson-image">
-                <h3>නිෂ්පාදන තාක්ෂණවේදය Production</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 4 -->
-            <div class="lesson-card" data-lesson="4" data-time="50" data-questions="22">
-                <img src="4.png" alt=" ගොඩනැගිලි තාක්ෂණවේදය" class="lesson-image">
-                <h3> ගොඩනැගිලි තාක්ෂණවේදය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 22 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 5 -->
-            <div class="lesson-card" data-lesson="5" data-time="40" data-questions="18">
-                <img src="5.png" alt=" යන්ත්‍ර වල බල සම්ප්‍රේෂණය හා චලිත හැසිරීම්" class="lesson-image">
-                <h3> යන්ත්‍ර වල බල සම්ප්‍රේෂණය හා චලිත හැසිරීම්</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 18 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 6 -->
-            <div class="lesson-card" data-lesson="6" data-time="55" data-questions="24">
-                <img src="6.png" alt=" ඉංජිනේරු ආරක්ෂාව Safety" class="lesson-image">
-                <h3> ඉංජිනේරු ආරක්ෂාව Safety</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 55 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 24 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 7 -->
-            <div class="lesson-card" data-lesson="7" data-time="35" data-questions="16">
-                <img src="7.png" alt=" ස්වයංචල තාක්ෂණය Automobile" class="lesson-image">
-                <h3> ස්වයංචල තාක්ෂණය Automobile</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 35 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 16 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 8 -->
-            <div class="lesson-card" data-lesson="8" data-time="45" data-questions="20">
-                <img src="8.png" alt=" විදුලි තාක්ෂණවේදය Electrical" class="lesson-image">
-                <h3> විදුලි තාක්ෂණවේදය Electrical</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 9 -->
-            <div class="lesson-card" data-lesson="9" data-time="50" data-questions="22">
-                <img src="9.png" alt=" ඒකක හා මිනුම්" class="lesson-image">
-                <h3> ඒකක හා මිනුම්</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 22 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 10 -->
-            <div class="lesson-card" data-lesson="10" data-time="30" data-questions="15">
-                <img src="10.png" alt="විදුලි යන්ත්‍ර හා බල පද්ධති (මෝටර් පාඩම)" class="lesson-image">
-                <h3>විදුලි යන්ත්‍ර හා බල පද්ධති (මෝටර් පාඩම)</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 11 -->
-            <div class="lesson-card" data-lesson="11" data-time="25" data-questions="12">
-                <img src="11.png" alt=" ප්‍රමිති හා පිරිවිතර" class="lesson-image">
-                <h3> ප්‍රමිති හා පිරිවිතර</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 25 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 12 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 12 -->
-            <div class="lesson-card" data-lesson="12" data-time="20" data-questions="10">
-                <img src="12.png" alt=" බිම් මැනුම්" class="lesson-image">
-                <h3> බිම් මැනුම්</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 20 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 10 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 13 -->
-            <div class="lesson-card" data-lesson="13" data-time="40" data-questions="18">
-                <img src="13.png" alt=" තරල යන්‍ත්‍ර" class="lesson-image">
-                <h3> තරල යන්‍ත්‍ර</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 40 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 18 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 14 -->
-            <div class="lesson-card" data-lesson="14" data-time="60" data-questions="25">
-                <img src="14.png" alt="ඉලෙක්ට්‍රොනික් තාක්ෂණය" class="lesson-image">
-                <h3>ඉලෙක්ට්‍රොනික් තාක්ෂණය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 60 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 25 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 15 -->
-            <div class="lesson-card" data-lesson="15" data-time="45" data-questions="20">
-                <img src="15.png" alt=" ජල සම්පාදනය හා කසල අපහනය" class="lesson-image">
-                <h3> ජල සම්පාදනය හා කසල අපහනය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 45 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 20 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 16 -->
-            <div class="lesson-card" data-lesson="16" data-time="50" data-questions="22">
-                <img src="16.png" alt="ප්‍රමාණ බිල්පත් සැකසීම ඇස්තමේන්තුකරණය (TDS BOQ)" class="lesson-image">
-                <h3>ප්‍රමාණ බිල්පත් සැකසීම ඇස්තමේන්තුකරණය (TDS BOQ)</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 50 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 22 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-
-            <!-- Lesson 17 -->
-            <div class="lesson-card" data-lesson="17" data-time="30" data-questions="15">
-                <img src="17.png" alt=" ව්‍යවසායකත්වය හා කළමනාකරණය" class="lesson-image">
-                <h3> ව්‍යවසායකත්වය හා කළමනාකරණය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <button class="btn-start">Start Quiz</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="auth-modal" id="loginModal">
-        <div class="auth-content">
-            <div class="auth-header">
-                <button class="btn-close-auth" id="btnCloseLogin">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2>Welcome Back!</h2>
-                <p>Login to access your account</p>
-            </div>
-            <div class="auth-body">
-                <form class="auth-form" id="loginForm">
+            <div class="login-body">
+                <form class="login-form" id="loginForm">
                     <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" required placeholder="Enter your email">
+                        <label for="loginEmail">Username</label>
+                        <input type="text" id="loginEmail" required placeholder="Enter your username">
                     </div>
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
                         <input type="password" id="loginPassword" required placeholder="Enter your password">
                     </div>
-                    <button type="submit" class="btn-auth-submit" id="btnLoginSubmit">
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+                    <button type="submit" class="btn-login-submit" id="btnLoginSubmit">
                         <span id="loginBtnText">Login</span>
                         <span id="loginSpinner" class="spinner" style="display: none;"></span>
                     </button>
                     <div class="form-footer">
-                        Don't have an account? <a href="#" id="showSignup">Sign up</a>
+                        Forgot password? <a href="#" id="forgotPassword">Reset here</a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <!-- Signup Modal -->
-    <div class="auth-modal" id="signupModal">
-        <div class="auth-content">
-            <div class="auth-header">
-                <button class="btn-close-auth" id="btnCloseSignup">
-                    <i class="fas fa-times"></i>
-                </button>
-                <h2>Create Account</h2>
-                <p>Join our quiz community</p>
-            </div>
-            <div class="auth-body">
-                <div class="auth-tabs">
-                    <div class="auth-tab active" id="tabStudent">Student</div>
-                    <div class="auth-tab" id="tabTeacher">Teacher</div>
-                </div>
-                <form class="auth-form" id="signupForm">
-                    <div class="form-group">
-                        <label for="signupName">Full Name</label>
-                        <input type="text" id="signupName" required placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="signupEmail">Email</label>
-                        <input type="email" id="signupEmail" required placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="signupPassword">Password (min 6 characters)</label>
-                        <input type="password" id="signupPassword" minlength="6" required placeholder="Create a password">
-                    </div>
-                    <div class="form-group">
-                        <label for="signupConfirmPassword">Confirm Password</label>
-                        <input type="password" id="signupConfirmPassword" required placeholder="Confirm your password">
-                    </div>
-                    <button type="submit" class="btn-auth-submit" id="btnSignupSubmit">
-                        <span id="signupBtnText">Create Account</span>
-                        <span id="signupSpinner" class="spinner" style="display: none;"></span>
-                    </button>
-                    <div class="form-footer">
-                        Already have an account? <a href="#" id="showLogin">Login</a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Student Info Modal -->
-    <div class="modal" id="studentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Student Information</h2>
-                <p>Please provide your details before starting the quiz</p>
-            </div>
-            <form id="studentForm">
-                <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input type="text" id="name" required placeholder="Enter your full name">
-                </div>
-                <div class="form-group">
-                    <label for="examYear">Exam Year</label>
-                    <input type="number" id="examYear" min="2023" max="2030" required placeholder="Enter exam year">
-                </div>
-                <div class="form-group">
-                    <label for="district">District</label>
-                    <input type="text" id="district" required placeholder="Enter your district">
-                </div>
-                <div class="form-group">
-                    <label for="whatsapp">WhatsApp Number</label>
-                    <input type="tel" id="whatsapp" required placeholder="Enter WhatsApp number with country code">
-                </div>
-                <input type="hidden" id="selectedLesson">
-                <input type="hidden" id="selectedLessonTime">
-                <button type="submit" class="btn-submit">Start Quiz Now</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Quiz Container -->
-    <div class="quiz-container" id="quizContainer">
-        <div class="quiz-header">
-            <div class="quiz-title" id="quizTitle">Quiz Title</div>
-            <div class="timer">
-                <i class="fas fa-clock"></i>
-                <span id="quizTimer">60:00</span>
-            </div>
-            <button class="btn-close-quiz" id="btnCloseQuiz">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <iframe class="quiz-iframe" id="quizIframe" frameborder="0"></iframe>
-    </div>
-
-    <!-- Time Warning Modal -->
-    <div class="alert-modal" id="timeWarningModal">
-        <div class="alert-content">
-            <div class="alert-icon warning">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3 class="alert-title">Time Warning!</h3>
-            <p class="alert-message" id="timeWarningMessage">You have 15 minutes remaining to complete your quiz.</p>
-            <button class="btn-alert" id="btnAcknowledgeWarning">Continue Quiz</button>
-        </div>
-    </div>
-
-    <!-- Time Up Modal -->
-    <div class="alert-modal" id="timeUpModal">
-        <div class="alert-content">
-            <div class="alert-icon danger">
-                <i class="fas fa-hourglass-end"></i>
-            </div>
-            <h3 class="alert-title">Time's Up!</h3>
-            <p class="alert-message">Your quiz time has expired. The quiz will now be submitted automatically.</p>
-            <button class="btn-alert" id="btnAcknowledgeTimeUp">OK</button>
-        </div>
-    </div>
-
-    <!-- Delete Account Modal -->
-    <div class="delete-modal" id="deleteModal">
-        <div class="delete-content">
-            <div class="delete-icon">
-                <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <h3 class="alert-title">Delete Your Account?</h3>
-            <p class="alert-message">This action cannot be undone. All your data will be permanently deleted from our systems. Are you sure you want to proceed?</p>
-            <div class="delete-buttons">
-                <button class="btn-delete btn-delete-cancel" id="btnDeleteCancel">Cancel</button>
-                <button class="btn-delete btn-delete-confirm" id="btnDeleteConfirm">Delete Account</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Welcome Modal -->
-    <div class="welcome-modal" id="welcomeModal">
-        <div class="welcome-content">
-            <div class="welcome-header">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Welcome">
-            </div>
-            <div class="welcome-body">
-                <h2>Welcome to Interactive Quiz Portal 2025!</h2>
-                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please login or create an account to get started.</p>
-                <button class="btn-alert" id="btnWelcomeContinue">Get Started</button>
-            </div>
-        </div>
+    <!-- Main Content (hidden until login) -->
+    <div class="main-content" id="mainContent">
+        <!-- Your main quiz content will be loaded here after login -->
     </div>
 
     <!-- Floating Notification -->
@@ -1729,17 +444,12 @@ All The best 😚!</p>
         <span id="notificationMessage">Notification message</span>
     </div>
 
-    <!-- Audio Elements -->
-    <audio id="startSound" src="https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-beep-221.mp3" preload="auto"></audio>
-    <audio id="warningSound" src="https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3" preload="auto"></audio>
-    <audio id="timeUpSound" src="https://assets.mixkit.co/sfx/preview/mixkit-unlock-game-notification-253.mp3" preload="auto"></audio>
-
     <script>
-        // Firebase configuration - Replace with your actual Firebase config
+        // Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyAf1282ikjQ7MUSP4fKrGQjRTAb1kDWUV8",
             authDomain: "quiz-app-5b02d.firebaseapp.com",
-            projectId: "quiz-app-5b02d",
+            projectId: "quiz-app-5b02d.appspot.com",
             storageBucket: "quiz-app-5b02d.appspot.com",
             messagingSenderId: "345835769588",
             appId: "1:345835769588:web:702129bc15f30f3d5f18a1"
@@ -1747,713 +457,35 @@ All The best 😚!</p>
 
         // Initialize Firebase
         const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
         const auth = firebase.auth();
 
-        // Enable Firestore persistence
-        firebase.firestore().enablePersistence()
-            .catch((err) => {
-                if (err.code == 'failed-precondition') {
-                    console.log("Persistence can only be enabled in one tab at a time");
-                } else if (err.code == 'unimplemented') {
-                    console.log("The current browser does not support all of the features required to enable persistence");
-                }
-            });
-
-        // Audio elements
-        const startSound = document.getElementById('startSound');
-        const warningSound = document.getElementById('warningSound');
-        const timeUpSound = document.getElementById('timeUpSound');
-
-        // Google Form URLs for each lesson (replace with your actual form URLs)
-        const formUrls = {
-            1: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            2: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            3: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            4: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            5: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            6: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            7: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            8: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            9: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            10: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            11: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            12: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            13: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            14: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            15: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            16: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true",
-            17: "https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true"
-        };
-
-        // Lesson titles for display
-        const lessonTitles = {
-            1: "ET හැඳින්වීම",
-            2: "ඉංජිනේරු ඇඳීම Drawing",
-            3: "නිෂ්පාදන තාක්ෂණවේදය Production",
-            4: "ගොඩනැගිලි තාක්ෂණවේදය",
-            5: "යන්ත්‍ර වල බල සම්ප්‍රේෂණය හා චලිත හැසිරීම්",
-            6: "ඉංජිනේරු ආරක්ෂාව Safety",
-            7: "ස්වයංචල තාක්ෂණය Automobile",
-            8: "විදුලි තාක්ෂණවේදය Electrical",
-            9: "ඒකක හා මිනුම්",
-            10: "විදුලි යන්ත්‍ර හා බල පද්ධති (මෝටර් පාඩම)",
-            11: "ප්‍රමිති හා පිරිවිතර",
-            12: "බිම් මැනුම්",
-            13: "තරල යන්‍ත්‍ර",
-            14: "ඉලෙක්ට්‍රොනික් තාක්ෂණය",
-            15: "ජල සම්පාදනය හා කසල අපහනය",
-            16: "ජල සම්පාදනය හා කසල අපහනය",
-            17: "ව්‍යවසායකත්වය හා කළමනාකරණය"
-        };
-
-        // Variables for timer
-        let quizTimer;
-        let timeLeft;
-        let quizActive = false;
-        let quizDuration = 60; // Default duration in minutes
-        let warned15 = false;
-        let warned10 = false;
-        let warned5 = false;
-
         // DOM Elements
-        const authButtons = document.getElementById('authButtons');
-        const userAvatarContainer = document.getElementById('userAvatarContainer');
-        const userAvatar = document.getElementById('userAvatar');
-        const dropdownAvatar = document.getElementById('dropdownAvatar');
-        const dropdownName = document.getElementById('dropdownName');
-        const dropdownEmail = document.getElementById('dropdownEmail');
-        const userDropdown = document.getElementById('userDropdown');
-        const btnLogin = document.getElementById('btnLogin');
-        const btnSignup = document.getElementById('btnSignup');
-        const btnLogout = document.getElementById('btnLogout');
-        const btnAccountSettings = document.getElementById('btnAccountSettings');
-        const btnDeleteAccount = document.getElementById('btnDeleteAccount');
-        const loginModal = document.getElementById('loginModal');
-        const signupModal = document.getElementById('signupModal');
-        const btnCloseLogin = document.getElementById('btnCloseLogin');
-        const btnCloseSignup = document.getElementById('btnCloseSignup');
+        const preloader = document.querySelector('.preloader');
+        const loginContainer = document.getElementById('loginContainer');
         const loginForm = document.getElementById('loginForm');
-        const signupForm = document.getElementById('signupForm');
-        const showSignup = document.getElementById('showSignup');
-        const showLogin = document.getElementById('showLogin');
+        const loginEmail = document.getElementById('loginEmail');
+        const loginPassword = document.getElementById('loginPassword');
+        const rememberMe = document.getElementById('rememberMe');
         const btnLoginSubmit = document.getElementById('btnLoginSubmit');
         const loginBtnText = document.getElementById('loginBtnText');
         const loginSpinner = document.getElementById('loginSpinner');
-        const btnSignupSubmit = document.getElementById('btnSignupSubmit');
-        const signupBtnText = document.getElementById('signupBtnText');
-        const signupSpinner = document.getElementById('signupSpinner');
-        const tabStudent = document.getElementById('tabStudent');
-        const tabTeacher = document.getElementById('tabTeacher');
-        const studentModal = document.getElementById('studentModal');
-        const studentForm = document.getElementById('studentForm');
-        const quizContainer = document.getElementById('quizContainer');
-        const quizIframe = document.getElementById('quizIframe');
-        const quizTitle = document.getElementById('quizTitle');
-        const quizTimerDisplay = document.getElementById('quizTimer');
-        const btnCloseQuiz = document.getElementById('btnCloseQuiz');
-        const timeWarningModal = document.getElementById('timeWarningModal');
-        const timeUpModal = document.getElementById('timeUpModal');
-        const btnAcknowledgeWarning = document.getElementById('btnAcknowledgeWarning');
-        const btnAcknowledgeTimeUp = document.getElementById('btnAcknowledgeTimeUp');
-        const deleteModal = document.getElementById('deleteModal');
-        const btnDeleteCancel = document.getElementById('btnDeleteCancel');
-        const btnDeleteConfirm = document.getElementById('btnDeleteConfirm');
+        const forgotPassword = document.getElementById('forgotPassword');
+        const mainContent = document.getElementById('mainContent');
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
-        const selectedLessonInput = document.getElementById('selectedLesson');
-        const selectedLessonTimeInput = document.getElementById('selectedLessonTime');
-        const whatsappButton = document.getElementById('whatsappButton');
-        const welcomeModal = document.getElementById('welcomeModal');
-        const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
 
-        // Check authentication state
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                // User is signed in
-                authButtons.style.display = 'none';
-                userAvatarContainer.style.display = 'flex';
-                
-                // Set user avatar and info
-                const photoURL = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || user.email)}&background=6c5ce7&color=fff`;
-                userAvatar.src = photoURL;
-                dropdownAvatar.src = photoURL;
-                dropdownName.textContent = user.displayName || user.email.split('@')[0];
-                dropdownEmail.textContent = user.email;
-                
-                // Store user data in localStorage
-                localStorage.setItem('quizUser', JSON.stringify({
-                    uid: user.uid,
-                    email: user.email,
-                    displayName: user.displayName,
-                    photoURL: photoURL
-                }));
-                
-                // Show welcome message
-                showNotification(`Welcome back, ${user.displayName || user.email.split('@')[0]}!`, 'success');
-            } else {
-                // User is signed out
-                authButtons.style.display = 'flex';
-                userAvatarContainer.style.display = 'none';
-                localStorage.removeItem('quizUser');
-                
-                // Show login modal if trying to access quiz
-                if (quizActive) {
-                    closeQuiz();
-                }
-            }
-        });
-
-        // Toggle user dropdown
-        userAvatar.addEventListener('click', (e) => {
-            e.stopPropagation();
-            userDropdown.classList.toggle('show');
-        });
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            userDropdown.classList.remove('show');
-        });
-
-        // Login button click
-        btnLogin.addEventListener('click', () => {
-            loginModal.style.display = 'flex';
-            setTimeout(() => {
-                loginModal.querySelector('.auth-content').style.transform = 'scale(1)';
-                loginModal.querySelector('.auth-content').style.opacity = '1';
-            }, 10);
-        });
-
-        // Signup button click
-        btnSignup.addEventListener('click', () => {
-            signupModal.style.display = 'flex';
-            setTimeout(() => {
-                signupModal.querySelector('.auth-content').style.transform = 'scale(1)';
-                signupModal.querySelector('.auth-content').style.opacity = '1';
-            }, 10);
-        });
-
-        // Close login modal
-        btnCloseLogin.addEventListener('click', () => {
-            loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-            loginModal.querySelector('.auth-content').style.opacity = '0';
-            setTimeout(() => {
-                loginModal.style.display = 'none';
-            }, 300);
-        });
-
-        // Close signup modal
-        btnCloseSignup.addEventListener('click', () => {
-            signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-            signupModal.querySelector('.auth-content').style.opacity = '0';
-            setTimeout(() => {
-                signupModal.style.display = 'none';
-            }, 300);
-        });
-
-        // Show signup from login
-        showSignup.addEventListener('click', (e) => {
-            e.preventDefault();
-            loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-            loginModal.querySelector('.auth-content').style.opacity = '0';
-            setTimeout(() => {
-                loginModal.style.display = 'none';
-                signupModal.style.display = 'flex';
-                setTimeout(() => {
-                    signupModal.querySelector('.auth-content').style.transform = 'scale(1)';
-                    signupModal.querySelector('.auth-content').style.opacity = '1';
-                }, 10);
-            }, 300);
-        });
-
-        // Show login from signup
-        showLogin.addEventListener('click', (e) => {
-            e.preventDefault();
-            signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-            signupModal.querySelector('.auth-content').style.opacity = '0';
-            setTimeout(() => {
-                signupModal.style.display = 'none';
-                loginModal.style.display = 'flex';
-                setTimeout(() => {
-                    loginModal.querySelector('.auth-content').style.transform = 'scale(1)';
-                    loginModal.querySelector('.auth-content').style.opacity = '1';
-                }, 10);
-            }, 300);
-        });
-
-        // Login form submission
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            try {
-                // Show loading state
-                loginBtnText.textContent = 'Logging in...';
-                loginSpinner.style.display = 'inline-block';
-                btnLoginSubmit.disabled = true;
-                
-                // Sign in with Firebase
-                await auth.signInWithEmailAndPassword(email, password);
-                
-                // Close modal
-                loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-                loginModal.querySelector('.auth-content').style.opacity = '0';
-                setTimeout(() => {
-                    loginModal.style.display = 'none';
-                }, 300);
-                
-                // Reset form
-                loginForm.reset();
-            } catch (error) {
-                showNotification(error.message, 'danger');
-            } finally {
-                // Reset button state
-                loginBtnText.textContent = 'Login';
-                loginSpinner.style.display = 'none';
-                btnLoginSubmit.disabled = false;
-            }
-        });
-
-        // Signup form submission
-        signupForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            const confirmPassword = document.getElementById('signupConfirmPassword').value;
-            
-            // Validate passwords match
-            if (password !== confirmPassword) {
-                showNotification('Passwords do not match', 'danger');
-                return;
-            }
-            
-            try {
-                // Show loading state
-                signupBtnText.textContent = 'Creating account...';
-                signupSpinner.style.display = 'inline-block';
-                btnSignupSubmit.disabled = true;
-                
-                // Create user with Firebase
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                
-                // Update user profile with name
-                await userCredential.user.updateProfile({
-                    displayName: name,
-                    photoURL: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=6c5ce7&color=fff`
-                });
-                
-                // Create user document in Firestore
-                await db.collection('users').doc(userCredential.user.uid).set({
-                    uid: userCredential.user.uid,
-                    email: email,
-                    displayName: name,
-                    accountType: tabStudent.classList.contains('active') ? 'student' : 'teacher',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                
-                // Close modal
-                signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-                signupModal.querySelector('.auth-content').style.opacity = '0';
-                setTimeout(() => {
-                    signupModal.style.display = 'none';
-                }, 300);
-                
-                // Reset form
-                signupForm.reset();
-            } catch (error) {
-                showNotification(error.message, 'danger');
-            } finally {
-                // Reset button state
-                signupBtnText.textContent = 'Create Account';
-                signupSpinner.style.display = 'none';
-                btnSignupSubmit.disabled = false;
-            }
-        });
-
-        // Logout button click
-        btnLogout.addEventListener('click', async () => {
-            try {
-                await auth.signOut();
-                showNotification('You have been logged out', 'success');
-            } catch (error) {
-                showNotification(error.message, 'danger');
-            }
-        });
-
-        // Account settings button click
-        btnAccountSettings.addEventListener('click', () => {
-            showNotification('Account settings feature coming soon!', 'warning');
-        });
-
-        // Delete account button click
-        btnDeleteAccount.addEventListener('click', () => {
-            deleteModal.style.display = 'flex';
-            setTimeout(() => {
-                deleteModal.querySelector('.delete-content').style.transform = 'scale(1)';
-                deleteModal.querySelector('.delete-content').style.opacity = '1';
-            }, 10);
-        });
-
-        // Cancel delete account
-        btnDeleteCancel.addEventListener('click', () => {
-            deleteModal.querySelector('.delete-content').style.transform = 'scale(0.9)';
-            deleteModal.querySelector('.delete-content').style.opacity = '0';
-            setTimeout(() => {
-                deleteModal.style.display = 'none';
-            }, 300);
-        });
-
-        // Confirm delete account
-        btnDeleteConfirm.addEventListener('click', async () => {
-            try {
-                const user = auth.currentUser;
-                
-                // First delete user data from Firestore
-                await db.collection('users').doc(user.uid).delete();
-                
-                // Then delete the user account
-                await user.delete();
-                
-                showNotification('Your account has been permanently deleted', 'success');
-            } catch (error) {
-                showNotification(error.message, 'danger');
-            } finally {
-                deleteModal.querySelector('.delete-content').style.transform = 'scale(0.9)';
-                deleteModal.querySelector('.delete-content').style.opacity = '0';
-                setTimeout(() => {
-                    deleteModal.style.display = 'none';
-                }, 300);
-            }
-        });
-
-        // Switch between student and teacher tabs
-        tabStudent.addEventListener('click', () => {
-            tabStudent.classList.add('active');
-            tabTeacher.classList.remove('active');
-        });
-
-        tabTeacher.addEventListener('click', () => {
-            tabTeacher.classList.add('active');
-            tabStudent.classList.remove('active');
-        });
-
-        // Check if student data exists in localStorage
-        function hasStudentData() {
-            return localStorage.getItem('quizStudentData') !== null;
-        }
-
-        // Show welcome modal on first visit
-        if (!localStorage.getItem('quizWelcomeShown')) {
-            setTimeout(() => {
-                welcomeModal.style.display = 'flex';
-                setTimeout(() => {
-                    welcomeModal.querySelector('.welcome-content').style.transform = 'scale(1)';
-                    welcomeModal.querySelector('.welcome-content').style.opacity = '1';
-                }, 10);
-                localStorage.setItem('quizWelcomeShown', 'true');
-            }, 1000);
-        }
-
-        // Close welcome modal
-        btnWelcomeContinue.addEventListener('click', function() {
-            welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-            welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-            setTimeout(() => {
-                welcomeModal.style.display = 'none';
-            }, 300);
-        });
-
-        // WhatsApp button click
-        whatsappButton.addEventListener('click', function() {
-            window.open('https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with...', '_blank');
-        });
-
-        // Event Listeners for Lesson Cards
-        document.querySelectorAll('.lesson-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const user = auth.currentUser;
-                if (!user) {
-                    showNotification('Please login to access quizzes', 'warning');
-                    btnLogin.click();
-                    return;
-                }
-                
-                const lessonId = this.getAttribute('data-lesson');
-                const lessonTime = this.getAttribute('data-time');
-                selectedLessonInput.value = lessonId;
-                selectedLessonTimeInput.value = lessonTime;
-                
-                if (hasStudentData()) {
-                    // Student data exists, start quiz directly
-                    startQuiz(lessonId, parseInt(lessonTime));
-                } else {
-                    // Show student modal to collect info
-                    showStudentModal();
-                }
-            });
-        });
-
-        // Show Student Modal
-        function showStudentModal() {
-            studentModal.style.display = 'flex';
-            setTimeout(() => {
-                studentModal.querySelector('.modal-content').style.transform = 'scale(1)';
-                studentModal.querySelector('.modal-content').style.opacity = '1';
-            }, 10);
-            
-            // Scroll to top of modal on mobile devices
-            if (window.innerWidth <= 576) {
-                window.scrollTo(0, 0);
+        // Check for saved credentials
+        function checkRememberedUser() {
+            const rememberedUser = localStorage.getItem('rememberedUser');
+            if (rememberedUser) {
+                const user = JSON.parse(rememberedUser);
+                loginEmail.value = user.email;
+                loginPassword.value = user.password;
+                rememberMe.checked = true;
             }
         }
 
-        // Hide Student Modal
-        function hideStudentModal() {
-            studentModal.querySelector('.modal-content').style.transform = 'scale(0.9)';
-            studentModal.querySelector('.modal-content').style.opacity = '0';
-            setTimeout(() => {
-                studentModal.style.display = 'none';
-            }, 300);
-        }
-
-        // Form Submission
-        studentForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const user = auth.currentUser;
-            if (!user) {
-                showNotification('Session expired. Please login again.', 'danger');
-                return;
-            }
-            
-            // Validate form
-            const name = document.getElementById('name').value.trim();
-            const examYear = document.getElementById('examYear').value.trim();
-            const district = document.getElementById('district').value.trim();
-            const whatsapp = document.getElementById('whatsapp').value.trim();
-            const lessonId = selectedLessonInput.value;
-            const lessonTime = parseInt(selectedLessonTimeInput.value);
-            
-            if (!name || !examYear || !district || !whatsapp) {
-                showNotification('Please fill all fields', 'warning');
-                return;
-            }
-            
-            // Validate WhatsApp number format (basic validation)
-            if (!/^\+?[0-9\s\-]+$/.test(whatsapp)) {
-                showNotification('Please enter a valid WhatsApp number', 'warning');
-                return;
-            }
-            
-            // Create student data object
-            const studentData = {
-                userId: user.uid,
-                userEmail: user.email,
-                name,
-                examYear: parseInt(examYear),
-                district,
-                whatsapp,
-                lessonId,
-                lessonTitle: lessonTitles[lessonId],
-                lessonDuration: lessonTime,
-                startTime: new Date().toISOString(),
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                status: 'quiz_started'
-            };
-            
-            try {
-                // Show loading state
-                const submitBtn = studentForm.querySelector('.btn-submit');
-                submitBtn.disabled = true;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-                
-                // Save to Firebase
-                const docRef = await db.collection('students').add(studentData);
-                console.log("Document written with ID: ", docRef.id);
-                
-                // Store student data locally with document ID
-                const localData = {...studentData, docId: docRef.id};
-                localStorage.setItem('quizStudentData', JSON.stringify(localData));
-                
-                // Start the quiz
-                startQuiz(lessonId, lessonTime);
-                hideStudentModal();
-                
-                // Show success notification
-                showNotification('Your information has been saved successfully!', 'success');
-            } catch (error) {
-                console.error("Error adding document: ", error);
-                showNotification('Error saving your information. Please try again.', 'danger');
-                
-                // Reset button state
-                const submitBtn = studentForm.querySelector('.btn-submit');
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Start Quiz Now';
-            }
-        });
-
-        // Start Quiz
-        function startQuiz(lessonId, duration) {
-            quizActive = true;
-            quizDuration = duration;
-            timeLeft = duration * 60; // Convert minutes to seconds
-            warned15 = false;
-            warned10 = false;
-            warned5 = false;
-            updateTimerDisplay();
-            
-            // Play start sound
-            startSound.play();
-            
-            // Set quiz title
-            quizTitle.textContent = lessonTitles[lessonId];
-            
-            // Load Google Form in iframe
-            quizIframe.src = formUrls[lessonId];
-            
-            // Show quiz container
-            quizContainer.style.display = 'flex';
-            
-            // Start timer
-            quizTimer = setInterval(updateQuizTimer, 1000);
-            
-            // Show notification with voice message
-            const questionCount = document.querySelector(`.lesson-card[data-lesson="${lessonId}"]`).getAttribute('data-questions');
-            showNotification(`Quiz started! You have ${duration} minutes to complete ${questionCount} questions.`, 'success');
-            
-            // Speak the time limit
-            if ('speechSynthesis' in window) {
-                const speech = new SpeechSynthesisUtterance();
-                speech.text = `Your ${lessonTitles[lessonId]} has started. You have ${duration} minutes to complete ${questionCount} questions. Good luck!`;
-                window.speechSynthesis.speak(speech);
-            }
-        }
-
-        // Update Quiz Timer
-        function updateQuizTimer() {
-            timeLeft--;
-            updateTimerDisplay();
-            
-            // Check for warnings (15, 10, 5 minutes remaining)
-            const minutesLeft = Math.ceil(timeLeft / 60);
-            
-            if (minutesLeft === 15 && !warned15) {
-                showTimeWarning(`You have 15 minutes remaining to complete your quiz.`);
-                warningSound.play();
-                warned15 = true;
-            } else if (minutesLeft === 10 && !warned10) {
-                showTimeWarning(`Only 10 minutes left! Make sure to submit your answers.`);
-                warningSound.play();
-                warned10 = true;
-            } else if (minutesLeft === 5 && !warned5) {
-                showTimeWarning(`Final 5 minutes! Complete your quiz now.`);
-                warningSound.play();
-                warned5 = true;
-            } else if (timeLeft <= 0) {
-                // Time's up
-                timeUpSound.play();
-                endQuiz(true);
-            }
-        }
-
-        // Update Timer Display
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            quizTimerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            
-            // Change color when time is running low
-            if (timeLeft <= quizDuration * 60 * 0.25) {
-                quizTimerDisplay.style.color = 'var(--danger)';
-            } else if (timeLeft <= quizDuration * 60 * 0.5) {
-                quizTimerDisplay.style.color = 'var(--warning)';
-            } else {
-                quizTimerDisplay.style.color = 'white';
-            }
-        }
-
-        // Show Time Warning
-        function showTimeWarning(message) {
-            document.getElementById('timeWarningMessage').textContent = message;
-            timeWarningModal.style.display = 'flex';
-            setTimeout(() => {
-                timeWarningModal.querySelector('.alert-content').style.transform = 'scale(1)';
-                timeWarningModal.querySelector('.alert-content').style.opacity = '1';
-            }, 10);
-            
-            // Also show floating notification
-            showNotification(message, 'warning');
-            
-            // Speak the warning
-            if ('speechSynthesis' in window) {
-                const speech = new SpeechSynthesisUtterance();
-                speech.text = message;
-                window.speechSynthesis.speak(speech);
-            }
-        }
-
-        // End Quiz
-        async function endQuiz(timeExpired = false) {
-            clearInterval(quizTimer);
-            quizActive = false;
-            
-            // Update Firestore document with end time
-            try {
-                const studentData = JSON.parse(localStorage.getItem('quizStudentData'));
-                if (studentData && studentData.docId) {
-                    await db.collection('students').doc(studentData.docId).update({
-                        endTime: new Date().toISOString(),
-                        status: timeExpired ? 'time_expired' : 'completed'
-                    });
-                }
-            } catch (error) {
-                console.error("Error updating quiz end time:", error);
-            }
-            
-            if (timeExpired) {
-                // Show time up modal
-                timeUpModal.style.display = 'flex';
-                setTimeout(() => {
-                    timeUpModal.querySelector('.alert-content').style.transform = 'scale(1)';
-                    timeUpModal.querySelector('.alert-content').style.opacity = '1';
-                }, 10);
-            }
-        }
-
-        // Close Quiz
-        async function closeQuiz() {
-            if (quizActive) {
-                if (confirm('Are you sure you want to close the quiz? Your progress may be lost.')) {
-                    // Update Firestore document with early closure
-                    try {
-                        const studentData = JSON.parse(localStorage.getItem('quizStudentData'));
-                        if (studentData && studentData.docId) {
-                            await db.collection('students').doc(studentData.docId).update({
-                                endTime: new Date().toISOString(),
-                                status: 'manually_closed'
-                            });
-                        }
-                    } catch (error) {
-                        console.error("Error updating quiz closure:", error);
-                    }
-                    
-                    clearInterval(quizTimer);
-                    quizContainer.style.display = 'none';
-                    quizIframe.src = '';
-                    quizActive = false;
-                }
-            } else {
-                quizContainer.style.display = 'none';
-                quizIframe.src = '';
-            }
-        }
-
-        // Show Notification
+        // Show notification
         function showNotification(message, type = 'info') {
             notificationMessage.textContent = message;
             floatingNotification.className = `notification ${type}`;
@@ -2464,114 +496,93 @@ All The best 😚!</p>
             }, 5000);
         }
 
-        // Event Listeners for Modals
-        btnAcknowledgeWarning.addEventListener('click', function() {
-            timeWarningModal.querySelector('.alert-content').style.transform = 'scale(0.9)';
-            timeWarningModal.querySelector('.alert-content').style.opacity = '0';
-            setTimeout(() => {
-                timeWarningModal.style.display = 'none';
-            }, 300);
-        });
-
-        btnAcknowledgeTimeUp.addEventListener('click', function() {
-            timeUpModal.querySelector('.alert-content').style.transform = 'scale(0.9)';
-            timeUpModal.querySelector('.alert-content').style.opacity = '0';
-            setTimeout(() => {
-                timeUpModal.style.display = 'none';
-                closeQuiz();
-            }, 300);
-        });
-
-        btnCloseQuiz.addEventListener('click', closeQuiz);
-
-        // Close modals when clicking outside
-        window.addEventListener('click', function(e) {
-            if (e.target === studentModal) {
-                hideStudentModal();
-            }
-            if (e.target === timeWarningModal) {
-                timeWarningModal.querySelector('.alert-content').style.transform = 'scale(0.9)';
-                timeWarningModal.querySelector('.alert-content').style.opacity = '0';
-                setTimeout(() => {
-                    timeWarningModal.style.display = 'none';
-                }, 300);
-            }
-            if (e.target === timeUpModal) {
-                timeUpModal.querySelector('.alert-content').style.transform = 'scale(0.9)';
-                timeUpModal.querySelector('.alert-content').style.opacity = '0';
-                setTimeout(() => {
-                    timeUpModal.style.display = 'none';
-                    closeQuiz();
-                }, 300);
-            }
-            if (e.target === welcomeModal) {
-                welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-                welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-                setTimeout(() => {
-                    welcomeModal.style.display = 'none';
-                }, 300);
-            }
-            if (e.target === loginModal) {
-                loginModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-                loginModal.querySelector('.auth-content').style.opacity = '0';
-                setTimeout(() => {
-                    loginModal.style.display = 'none';
-                }, 300);
-            }
-            if (e.target === signupModal) {
-                signupModal.querySelector('.auth-content').style.transform = 'scale(0.9)';
-                signupModal.querySelector('.auth-content').style.opacity = '0';
-                setTimeout(() => {
-                    signupModal.style.display = 'none';
-                }, 300);
-            }
-            if (e.target === deleteModal) {
-                deleteModal.querySelector('.delete-content').style.transform = 'scale(0.9)';
-                deleteModal.querySelector('.delete-content').style.opacity = '0';
-                setTimeout(() => {
-                    deleteModal.style.display = 'none';
-                }, 300);
-            }
-        });
-
-        // Simple particles effect
-        function initParticles() {
-            const particles = document.querySelector('.particles');
-            const particleCount = 30;
+        // Login form submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.style.position = 'absolute';
-                particle.style.width = `${Math.random() * 5 + 2}px`;
-                particle.style.height = particle.style.width;
-                particle.style.backgroundColor = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.1})`;
-                particle.style.borderRadius = '50%';
-                particle.style.top = `${Math.random() * 100}%`;
-                particle.style.left = `${Math.random() * 100}%`;
+            const email = loginEmail.value;
+            const password = loginPassword.value;
+            const remember = rememberMe.checked;
+            
+            try {
+                // Show loading state
+                loginBtnText.textContent = 'Logging in...';
+                loginSpinner.style.display = 'inline-block';
+                btnLoginSubmit.disabled = true;
                 
-                // Animation
-                const duration = Math.random() * 20 + 10;
-                const delay = Math.random() * 5;
-                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                // Sign in with Firebase
+                await auth.signInWithEmailAndPassword(email, password);
                 
-                particles.appendChild(particle);
+                // Store credentials if "Remember me" is checked
+                if (remember) {
+                    localStorage.setItem('rememberedUser', JSON.stringify({
+                        email: email,
+                        password: password
+                    }));
+                } else {
+                    localStorage.removeItem('rememberedUser');
+                }
+                
+                // Hide login and show main content
+                loginContainer.classList.remove('show');
+                setTimeout(() => {
+                    loginContainer.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    setTimeout(() => {
+                        mainContent.classList.add('show');
+                    }, 50);
+                }, 300);
+                
+                // Show welcome notification
+                showNotification('Login successful! Loading quiz portal...', 'success');
+                
+            } catch (error) {
+                showNotification(error.message, 'danger');
+            } finally {
+                // Reset button state
+                loginBtnText.textContent = 'Login';
+                loginSpinner.style.display = 'none';
+                btnLoginSubmit.disabled = false;
             }
-        }
+        });
+
+        // Forgot password link
+        forgotPassword.addEventListener('click', (e) => {
+            e.preventDefault();
+            showNotification('Please contact admin to reset your password', 'warning');
+        });
+
+        // Check authentication state
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                // User is already logged in, show main content
+                loginContainer.style.display = 'none';
+                mainContent.style.display = 'block';
+                setTimeout(() => {
+                    mainContent.classList.add('show');
+                }, 50);
+            } else {
+                // User is not logged in, show login form
+                setTimeout(() => {
+                    loginContainer.style.display = 'flex';
+                    setTimeout(() => {
+                        loginContainer.classList.add('show');
+                        checkRememberedUser();
+                    }, 50);
+                }, 1000);
+            }
+        });
 
         // Preloader
         window.addEventListener('load', function() {
             setTimeout(function() {
-                document.querySelector('.preloader').classList.add('fade-out');
-                document.querySelector('.container').classList.add('show');
+                preloader.classList.add('fade-out');
                 
                 setTimeout(function() {
-                    document.querySelector('.preloader').style.display = 'none';
+                    preloader.style.display = 'none';
                 }, 500);
             }, 1500);
         });
-
-        // Initialize particles when DOM is loaded
-        document.addEventListener('DOMContentLoaded', initParticles);
     </script>
 </body>
 </html>
