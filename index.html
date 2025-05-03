@@ -149,165 +149,6 @@
             text-transform: uppercase;
         }
 
-        /* Login Modal */
-        .login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 10000;
-            backdrop-filter: blur(10px);
-        }
-
-        .login-content {
-            background: white;
-            border-radius: 20px;
-            width: 90%;
-            max-width: 450px;
-            overflow: hidden;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .login-modal.show .login-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .login-header {
-            height: 180px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            color: white;
-            text-align: center;
-        }
-
-        .tutor-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 4px solid white;
-            object-fit: cover;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-bottom: 15px;
-        }
-
-        .login-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .login-header p {
-            opacity: 0.9;
-            font-size: 0.9rem;
-        }
-
-        .login-body {
-            padding: 30px;
-        }
-
-        .login-form .form-group {
-            margin-bottom: 20px;
-        }
-
-        .login-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 0.9rem;
-        }
-
-        .login-form input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background: #f9f9f9;
-        }
-
-        .login-form input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-            outline: none;
-            background: white;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .remember-me input {
-            width: auto;
-            margin-right: 10px;
-        }
-
-        .remember-me label {
-            margin-bottom: 0;
-            font-weight: normal;
-            color: var(--text-secondary);
-        }
-
-        .btn-login {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-            margin-bottom: 15px;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
-        }
-
-        .login-footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .login-footer a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .login-footer a:hover {
-            text-decoration: underline;
-        }
-
-        .error-message {
-            color: var(--danger);
-            font-size: 0.9rem;
-            margin-top: 5px;
-            display: none;
-        }
-
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -998,24 +839,6 @@
                 width: 90%;
                 max-width: 300px;
             }
-
-            .login-header {
-                height: 150px;
-                padding: 15px;
-            }
-
-            .tutor-image {
-                width: 80px;
-                height: 80px;
-            }
-
-            .login-header h2 {
-                font-size: 1.5rem;
-            }
-
-            .login-body {
-                padding: 20px;
-            }
         }
 
         /* Animation Classes */
@@ -1063,66 +886,6 @@
             <div></div><div></div><div></div>
         </div>
         <div class="loading-text">Loading Interactive Quiz Portal</div>
-    </div>
-
-    <!-- Login Modal -->
-    <div class="login-modal" id="loginModal">
-        <div class="login-content">
-            <div class="login-header">
-                <img src="UDR.jpg" alt="Tutor" class="tutor-image">
-                <h2>Welcome to ET Panthiya</h2>
-                <p>Please login to access the quiz portal</p>
-            </div>
-            <div class="login-body">
-                <form class="login-form" id="loginForm">
-                    <div class="form-group">
-                        <label for="loginEmail">Email</label>
-                        <input type="email" id="loginEmail" required placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="loginPassword">Password</label>
-                        <input type="password" id="loginPassword" required placeholder="Enter your password">
-                        <div class="error-message" id="loginError"></div>
-                    </div>
-                    <div class="remember-me">
-                        <input type="checkbox" id="rememberMe">
-                        <label for="rememberMe">Remember me</label>
-                    </div>
-                    <button type="submit" class="btn-login">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </button>
-                    <div class="login-footer">
-                        Don't have an account? <a href="#" id="showRegister">Register</a>
-                    </div>
-                </form>
-
-                <form class="login-form" id="registerForm" style="display: none;">
-                    <div class="form-group">
-                        <label for="registerName">Full Name</label>
-                        <input type="text" id="registerName" required placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerEmail">Email</label>
-                        <input type="email" id="registerEmail" required placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerPassword">Password</label>
-                        <input type="password" id="registerPassword" required placeholder="Create a password">
-                    </div>
-                    <div class="form-group">
-                        <label for="registerConfirm">Confirm Password</label>
-                        <input type="password" id="registerConfirm" required placeholder="Confirm your password">
-                        <div class="error-message" id="registerError"></div>
-                    </div>
-                    <button type="submit" class="btn-login">
-                        <i class="fas fa-user-plus"></i> Register
-                    </button>
-                    <div class="login-footer">
-                        Already have an account? <a href="#" id="showLogin">Login</a>
-                    </div>
-                </form>
-            </div>
-        </div>
     </div>
 
     <!-- Particles Background -->
@@ -1548,15 +1311,6 @@ All The best 😚!</p>
         let warned5 = false;
 
         // DOM Elements
-        const loginModal = document.getElementById('loginModal');
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        const showRegister = document.getElementById('showRegister');
-        const showLogin = document.getElementById('showLogin');
-        const loginError = document.getElementById('loginError');
-        const registerError = document.getElementById('registerError');
-        const rememberMe = document.getElementById('rememberMe');
-        
         const studentModal = document.getElementById('studentModal');
         const studentForm = document.getElementById('studentForm');
         const quizContainer = document.getElementById('quizContainer');
@@ -1576,156 +1330,6 @@ All The best 😚!</p>
         const welcomeModal = document.getElementById('welcomeModal');
         const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
         const mainContainer = document.querySelector('.container');
-
-        // Show login modal initially
-        document.addEventListener('DOMContentLoaded', function() {
-            setTimeout(() => {
-                loginModal.classList.add('show');
-                setTimeout(() => {
-                    loginModal.querySelector('.login-content').style.transform = 'scale(1)';
-                    loginModal.querySelector('.login-content').style.opacity = '1';
-                }, 10);
-                
-                // Check if user is remembered
-                if (localStorage.getItem('rememberMe') === 'true') {
-                    const email = localStorage.getItem('email');
-                    const password = localStorage.getItem('password');
-                    if (email && password) {
-                        document.getElementById('loginEmail').value = email;
-                        document.getElementById('loginPassword').value = password;
-                        rememberMe.checked = true;
-                    }
-                }
-            }, 500);
-        });
-
-        // Toggle between login and register forms
-        showRegister.addEventListener('click', function(e) {
-            e.preventDefault();
-            loginForm.style.display = 'none';
-            registerForm.style.display = 'block';
-        });
-
-        showLogin.addEventListener('click', function(e) {
-            e.preventDefault();
-            registerForm.style.display = 'none';
-            loginForm.style.display = 'block';
-        });
-
-        // Login form submission
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            
-            // Show loading state
-            const loginBtn = loginForm.querySelector('.btn-login');
-            loginBtn.disabled = true;
-            loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-            
-            // Fix for visibility check error
-            setTimeout(() => {
-                auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        // Save to localStorage if remember me is checked
-                        if (rememberMe.checked) {
-                            localStorage.setItem('rememberMe', 'true');
-                            localStorage.setItem('email', email);
-                            localStorage.setItem('password', password);
-                        } else {
-                            localStorage.removeItem('rememberMe');
-                            localStorage.removeItem('email');
-                            localStorage.removeItem('password');
-                        }
-                        
-                        // Hide login modal
-                        loginModal.querySelector('.login-content').style.transform = 'scale(0.9)';
-                        loginModal.querySelector('.login-content').style.opacity = '0';
-                        setTimeout(() => {
-                            loginModal.classList.remove('show');
-                            loginModal.style.display = 'none';
-                            
-                            // Show main content
-                            mainContainer.style.display = 'block';
-                            setTimeout(() => {
-                                mainContainer.classList.add('show');
-                            }, 10);
-                        }, 300);
-                        
-                        // Show welcome message
-                        showNotification(`Welcome back, ${userCredential.user.email}!`, 'success');
-                    })
-                    .catch((error) => {
-                        loginError.textContent = error.message;
-                        loginError.style.display = 'block';
-                        
-                        // Reset button
-                        loginBtn.disabled = false;
-                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-                    });
-            }, 100); // Small delay to ensure visibility check passes
-        });
-
-        // Register form submission
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('registerName').value;
-            const email = document.getElementById('registerEmail').value;
-            const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('registerConfirm').value;
-            
-            // Validate passwords match
-            if (password !== confirmPassword) {
-                registerError.textContent = "Passwords don't match";
-                registerError.style.display = 'block';
-                return;
-            }
-            
-            // Show loading state
-            const registerBtn = registerForm.querySelector('.btn-login');
-            registerBtn.disabled = true;
-            registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
-            
-            // Fix for visibility check error
-            setTimeout(() => {
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        // Save additional user data to Firestore
-                        return db.collection('users').doc(userCredential.user.uid).set({
-                            name: name,
-                            email: email,
-                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    })
-                    .then(() => {
-                        // Hide login modal
-                        loginModal.querySelector('.login-content').style.transform = 'scale(0.9)';
-                        loginModal.querySelector('.login-content').style.opacity = '0';
-                        setTimeout(() => {
-                            loginModal.classList.remove('show');
-                            loginModal.style.display = 'none';
-                            
-                            // Show main content
-                            mainContainer.style.display = 'block';
-                            setTimeout(() => {
-                                mainContainer.classList.add('show');
-                            }, 10);
-                        }, 300);
-                        
-                        // Show welcome message
-                        showNotification(`Welcome ${name}! Your account has been created.`, 'success');
-                    })
-                    .catch((error) => {
-                        registerError.textContent = error.message;
-                        registerError.style.display = 'block';
-                        
-                        // Reset button
-                        registerBtn.disabled = false;
-                        registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
-                    });
-            }, 100); // Small delay to ensure visibility check passes
-        });
 
         // Check if student data exists in localStorage
         function hasStudentData() {
@@ -2100,14 +1704,6 @@ All The best 😚!</p>
                     welcomeModal.style.display = 'none';
                 }, 300);
             }
-            if (e.target === loginModal) {
-                loginModal.querySelector('.login-content').style.transform = 'scale(0.9)';
-                loginModal.querySelector('.login-content').style.opacity = '0';
-                setTimeout(() => {
-                    loginModal.classList.remove('show');
-                    loginModal.style.display = 'none';
-                }, 300);
-            }
         });
 
         // Simple particles effect
@@ -2141,6 +1737,11 @@ All The best 😚!</p>
                 
                 setTimeout(function() {
                     document.querySelector('.preloader').style.display = 'none';
+                    // Show main content after preloader
+                    mainContainer.style.display = 'block';
+                    setTimeout(() => {
+                        mainContainer.classList.add('show');
+                    }, 10);
                 }, 500);
             }, 1500);
         });
