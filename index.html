@@ -1250,7 +1250,7 @@ All The best 😚!</p>
 
             <!-- Lesson 8 -->
             <div class="lesson-card" data-lesson="8" data-time="45" data-questions="20">
-                <img src="8.png" alt=" විදුලි තාක්ෂණවේදය Electrical" class="lesson-image">
+                <img src="8.png" alt="විදුලි තාක්ෂණවේදය Electrical" class="lesson-image">
                 <h3> විදුලි තාක්ෂණවේදය Electrical</h3>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
@@ -1623,44 +1623,47 @@ All The best 😚!</p>
             loginBtn.disabled = true;
             loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
             
-            auth.signInWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Save to localStorage if remember me is checked
-                    if (rememberMe.checked) {
-                        localStorage.setItem('rememberMe', 'true');
-                        localStorage.setItem('email', email);
-                        localStorage.setItem('password', password);
-                    } else {
-                        localStorage.removeItem('rememberMe');
-                        localStorage.removeItem('email');
-                        localStorage.removeItem('password');
-                    }
-                    
-                    // Hide login modal
-                    loginModal.querySelector('.login-content').style.transform = 'scale(0.9)';
-                    loginModal.querySelector('.login-content').style.opacity = '0';
-                    setTimeout(() => {
-                        loginModal.classList.remove('show');
-                        loginModal.style.display = 'none';
+            // Fix for visibility check error
+            setTimeout(() => {
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Save to localStorage if remember me is checked
+                        if (rememberMe.checked) {
+                            localStorage.setItem('rememberMe', 'true');
+                            localStorage.setItem('email', email);
+                            localStorage.setItem('password', password);
+                        } else {
+                            localStorage.removeItem('rememberMe');
+                            localStorage.removeItem('email');
+                            localStorage.removeItem('password');
+                        }
                         
-                        // Show main content
-                        mainContainer.style.display = 'block';
+                        // Hide login modal
+                        loginModal.querySelector('.login-content').style.transform = 'scale(0.9)';
+                        loginModal.querySelector('.login-content').style.opacity = '0';
                         setTimeout(() => {
-                            mainContainer.classList.add('show');
-                        }, 10);
-                    }, 300);
-                    
-                    // Show welcome message
-                    showNotification(`Welcome back, ${userCredential.user.email}!`, 'success');
-                })
-                .catch((error) => {
-                    loginError.textContent = error.message;
-                    loginError.style.display = 'block';
-                    
-                    // Reset button
-                    loginBtn.disabled = false;
-                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
-                });
+                            loginModal.classList.remove('show');
+                            loginModal.style.display = 'none';
+                            
+                            // Show main content
+                            mainContainer.style.display = 'block';
+                            setTimeout(() => {
+                                mainContainer.classList.add('show');
+                            }, 10);
+                        }, 300);
+                        
+                        // Show welcome message
+                        showNotification(`Welcome back, ${userCredential.user.email}!`, 'success');
+                    })
+                    .catch((error) => {
+                        loginError.textContent = error.message;
+                        loginError.style.display = 'block';
+                        
+                        // Reset button
+                        loginBtn.disabled = false;
+                        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login';
+                    });
+            }, 100); // Small delay to ensure visibility check passes
         });
 
         // Register form submission
@@ -1683,42 +1686,45 @@ All The best 😚!</p>
             registerBtn.disabled = true;
             registerBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registering...';
             
-            auth.createUserWithEmailAndPassword(email, password)
-                .then((userCredential) => {
-                    // Save additional user data to Firestore
-                    return db.collection('users').doc(userCredential.user.uid).set({
-                        name: name,
-                        email: email,
-                        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                        lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                })
-                .then(() => {
-                    // Hide login modal
-                    loginModal.querySelector('.login-content').style.transform = 'scale(0.9)';
-                    loginModal.querySelector('.login-content').style.opacity = '0';
-                    setTimeout(() => {
-                        loginModal.classList.remove('show');
-                        loginModal.style.display = 'none';
-                        
-                        // Show main content
-                        mainContainer.style.display = 'block';
+            // Fix for visibility check error
+            setTimeout(() => {
+                auth.createUserWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        // Save additional user data to Firestore
+                        return db.collection('users').doc(userCredential.user.uid).set({
+                            name: name,
+                            email: email,
+                            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    })
+                    .then(() => {
+                        // Hide login modal
+                        loginModal.querySelector('.login-content').style.transform = 'scale(0.9)';
+                        loginModal.querySelector('.login-content').style.opacity = '0';
                         setTimeout(() => {
-                            mainContainer.classList.add('show');
-                        }, 10);
-                    }, 300);
-                    
-                    // Show welcome message
-                    showNotification(`Welcome ${name}! Your account has been created.`, 'success');
-                })
-                .catch((error) => {
-                    registerError.textContent = error.message;
-                    registerError.style.display = 'block';
-                    
-                    // Reset button
-                    registerBtn.disabled = false;
-                    registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
-                });
+                            loginModal.classList.remove('show');
+                            loginModal.style.display = 'none';
+                            
+                            // Show main content
+                            mainContainer.style.display = 'block';
+                            setTimeout(() => {
+                                mainContainer.classList.add('show');
+                            }, 10);
+                        }, 300);
+                        
+                        // Show welcome message
+                        showNotification(`Welcome ${name}! Your account has been created.`, 'success');
+                    })
+                    .catch((error) => {
+                        registerError.textContent = error.message;
+                        registerError.style.display = 'block';
+                        
+                        // Reset button
+                        registerBtn.disabled = false;
+                        registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Register';
+                    });
+            }, 100); // Small delay to ensure visibility check passes
         });
 
         // Check if student data exists in localStorage
@@ -1897,6 +1903,18 @@ All The best 😚!</p>
                 speech.text = `Your ${lessonTitles[lessonId]} has started. You have ${duration} minutes to complete ${questionCount} questions. Good luck!`;
                 window.speechSynthesis.speak(speech);
             }
+            
+            // Add beforeunload event listener to prevent accidental navigation
+            window.addEventListener('beforeunload', handleBeforeUnload);
+        }
+
+        // Handle beforeunload event
+        function handleBeforeUnload(e) {
+            if (quizActive) {
+                e.preventDefault();
+                e.returnValue = 'Are you sure you want to leave? Your quiz progress may be lost.';
+                return e.returnValue;
+            }
         }
 
         // Update Quiz Timer
@@ -1967,6 +1985,9 @@ All The best 😚!</p>
             clearInterval(quizTimer);
             quizActive = false;
             
+            // Remove beforeunload event listener
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            
             // Update Firestore document with end time
             try {
                 const studentData = JSON.parse(localStorage.getItem('quizStudentData'));
@@ -2011,6 +2032,9 @@ All The best 😚!</p>
                     quizContainer.style.display = 'none';
                     quizIframe.src = '';
                     quizActive = false;
+                    
+                    // Remove beforeunload event listener
+                    window.removeEventListener('beforeunload', handleBeforeUnload);
                 }
             } else {
                 quizContainer.style.display = 'none';
