@@ -1327,7 +1327,7 @@
             <a href="https://etpanthiya.lk" class="etpanthiya-link" target="_blank">
                 <i class="fas fa-external-link-alt"></i> Visit ET Panthiya
             </a>
-            <a href="https://wa.me/94771234567?text=Hello" class="whatsapp-group-link" target="_blank">
+            <a href="https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with..." class="whatsapp-group-link" target="_blank">
                 <i class="fab fa-whatsapp"></i> Join WhatsApp Group
             </a>
         </div>
@@ -1946,7 +1946,6 @@ All The best 😚!</p>
         const btnVerifyOtp = document.getElementById('btnVerifyOtp');
         const resendOtp = document.getElementById('resendOtp');
         const showSignup = document.getElementById('showSignup');
-        const showLogin = document.getElementById('showLogin');
         const showLoginFromSignup = document.getElementById('showLoginFromSignup');
         const showLoginFromEmail = document.getElementById('showLoginFromEmail');
         const studentModal = document.getElementById('studentModal');
@@ -2036,7 +2035,6 @@ All The best 😚!</p>
             
             // Show signup/login links
             showSignup.addEventListener('click', () => switchAuthTab('signup'));
-            showLogin.addEventListener('click', () => switchAuthTab('login'));
             showLoginFromSignup.addEventListener('click', () => switchAuthTab('login'));
             showLoginFromEmail.addEventListener('click', () => switchAuthTab('login'));
             
@@ -2115,6 +2113,23 @@ All The best 😚!</p>
             
             // Beforeunload event
             window.addEventListener('beforeunload', handleBeforeUnload);
+            
+            // Lesson card dropdown buttons
+            document.querySelectorAll('.dropdown-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const dropdown = btn.nextElementSibling;
+                    if (auth.currentUser) {
+                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                    } else {
+                        const lessonCard = btn.closest('.lesson-card');
+                        const lessonId = lessonCard.getAttribute('data-lesson');
+                        showNotification('Please login to access quiz levels', 'warning');
+                        showAuthModal('login');
+                        currentLesson = lessonId;
+                    }
+                });
+            });
         }
 
         // Populate level dropdowns
