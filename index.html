@@ -2346,7 +2346,7 @@ All The best 😚!</p>
 
         // Send OTP via SMS Gateway
         async function sendOTP(phoneNumber, otp) {
-            const url = `https://api.smsgateway.com/send?api_key=${SMS_GATEWAY_API}`;
+            const url = `https://www.textit.biz/send?api_key=${SMS_GATEWAY_API}`;
             const params = new URLSearchParams();
             params.append('username', SMS_GATEWAY_USERNAME);
             params.append('password', SMS_GATEWAY_PASSWORD);
