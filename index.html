@@ -389,7 +389,7 @@
 
         /* Auth Modals */
         .auth-modal {
-            display: none;
+            display: flex;
             position: fixed;
             top: 0;
             left: 0;
@@ -1982,22 +1982,14 @@ All The best 😚!</p>
             initParticles();
             populateLevelDropdowns();
             
-            // Check if welcome modal should be shown
-            if (!localStorage.getItem('quizWelcomeShown')) {
+            // Immediately show auth modal (changed from welcome modal)
+            setTimeout(() => {
+                authModal.style.display = 'flex';
                 setTimeout(() => {
-                    welcomeModal.style.display = 'flex';
-                    setTimeout(() => {
-                        welcomeModal.querySelector('.welcome-content').style.transform = 'scale(1)';
-                        welcomeModal.querySelector('.welcome-content').style.opacity = '1';
-                    }, 10);
-                    localStorage.setItem('quizWelcomeShown', 'true');
-                }, 1000);
-            } else {
-                // Show main content if user is already authenticated
-                if (auth.currentUser) {
-                    showMainContent();
-                }
-            }
+                    authModal.querySelector('.auth-content').style.transform = 'scale(1)';
+                    authModal.querySelector('.auth-content').style.opacity = '1';
+                }, 10);
+            }, 1000);
         }
 
         // Setup event listeners
@@ -2172,6 +2164,10 @@ All The best 😚!</p>
                     // User is signed out
                     userAvatar.textContent = 'G';
                     userName.textContent = 'Guest';
+                    // Show auth modal if not already shown
+                    if (!document.querySelector('.auth-modal.show')) {
+                        showAuthModal('login');
+                    }
                 }
             });
         }
