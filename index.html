@@ -1858,6 +1858,11 @@ All The best 😚!</p>
         const db = firebase.firestore();
         const auth = firebase.auth();
 
+        // SMS Gateway Configuration
+        const SMS_GATEWAY_API = '1fd2gkd1610b16db8dtd25deadh8146';
+        const SMS_GATEWAY_USERNAME = '94769343928';
+        const SMS_GATEWAY_PASSWORD = '9694';
+
         // Enable Firestore persistence
         firebase.firestore().enablePersistence()
             .catch((err) => {
@@ -1916,6 +1921,7 @@ All The best 😚!</p>
         let otpAttempts = 0;
         let lastOtpSentTime = 0;
         let otpResendTimer;
+        let generatedOtp = null;
 
         // DOM Elements
         const backButton = document.getElementById('backButton');
@@ -2156,7 +2162,6 @@ All The best 😚!</p>
                 if (user) {
                     // User is signed in
                     updateUserProfile(user);
-                    showMainContent();
                     
                     // Check if user has completed profile
                     checkUserProfile(user);
@@ -2164,6 +2169,8 @@ All The best 😚!</p>
                     // User is signed out
                     userAvatar.textContent = 'G';
                     userName.textContent = 'Guest';
+                    mainContainer.style.display = 'none';
+                    
                     // Show auth modal if not already shown
                     if (!document.querySelector('.auth-modal.show')) {
                         showAuthModal('login');
@@ -2179,6 +2186,8 @@ All The best 😚!</p>
                 const userData = userDoc.data();
                 if (!userData.profileCompleted) {
                     showNoticeModal();
+                } else {
+                    showMainContent();
                 }
             } else {
                 showNoticeModal();
@@ -2330,6 +2339,36 @@ All The best 😚!</p>
             signupPassword.value = '';
         }
 
+        // Generate a random 6-digit OTP
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000).toString();
+        }
+
+        // Send OTP via SMS Gateway
+        async function sendOTP(phoneNumber, otp) {
+            const url = `https://api.smsgateway.com/send?api_key=${SMS_GATEWAY_API}`;
+            const params = new URLSearchParams();
+            params.append('username', SMS_GATEWAY_USERNAME);
+            params.append('password', SMS_GATEWAY_PASSWORD);
+            params.append('to', `94${phoneNumber}`);
+            params.append('message', `Your ET Panthiya.lk verification code is: ${otp}`);
+            
+            try {
+                const response = await fetch(`${url}&${params.toString()}`);
+                const data = await response.json();
+                
+                if (data.status === 'success') {
+                    return true;
+                } else {
+                    console.error('Failed to send OTP:', data.message);
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error sending OTP:', error);
+                return false;
+            }
+        }
+
         // Handle send OTP
         async function handleSendOtp() {
             const phone = signupPhone.value.trim();
@@ -2348,14 +2387,19 @@ All The best 😚!</p>
                 btnSendOtp.disabled = true;
                 btnSendOtp.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                 
-                // In a real app, you would send OTP via SMS gateway here
-                // For demo purposes, we'll simulate it
-                verificationId = "simulated-verification-id";
+                // Generate OTP
+                generatedOtp = generateOTP();
                 
-                // Show OTP form
-                showOtpForm(phone);
+                // Send OTP via SMS Gateway
+                const otpSent = await sendOTP(phone, generatedOtp);
                 
-                showNotification('OTP sent to your phone number', 'success');
+                if (otpSent) {
+                    // Show OTP form
+                    showOtpForm(phone);
+                    showNotification('OTP sent to your phone number', 'success');
+                } else {
+                    throw new Error('Failed to send OTP');
+                }
             } catch (error) {
                 console.error('Error sending OTP:', error);
                 showNotification('Failed to send OTP. Please try again.', 'danger');
@@ -2421,9 +2465,8 @@ All The best 😚!</p>
                 // Increment OTP attempts
                 otpAttempts++;
                 
-                // In a real app, you would verify the OTP with Firebase Auth
-                // For demo purposes, we'll simulate successful verification
-                if (otp === '123456') { // Demo OTP code
+                // Verify the OTP
+                if (otp === generatedOtp) {
                     showNotification('Phone number verified!', 'success');
                     
                     // Proceed to email/password form
@@ -2453,9 +2496,14 @@ All The best 😚!</p>
                 resendOtp.classList.add('disabled');
                 resendOtp.textContent = 'Sending...';
                 
-                // In a real app, you would resend the OTP via SMS gateway
-                // For demo purposes, we'll simulate it
-                setTimeout(() => {
+                // Generate new OTP
+                generatedOtp = generateOTP();
+                const phone = otpPhoneNumber.textContent;
+                
+                // Resend OTP via SMS Gateway
+                const otpSent = await sendOTP(phone, generatedOtp);
+                
+                if (otpSent) {
                     showNotification('New OTP sent to your phone number', 'success');
                     
                     // Reset timer
@@ -2476,7 +2524,9 @@ All The best 😚!</p>
                             resendOtp.textContent = 'Resend OTP';
                         }
                     }, 1000);
-                }, 1000);
+                } else {
+                    throw new Error('Failed to resend OTP');
+                }
             } catch (error) {
                 console.error('Resend OTP error:', error);
                 showNotification('Failed to resend OTP. Please try again.', 'danger');
