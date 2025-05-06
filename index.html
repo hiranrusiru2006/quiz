@@ -350,11 +350,23 @@
             transition: var(--transition);
             box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
             width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .dropdown-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .dropdown-btn i {
+            transition: var(--transition);
+        }
+
+        .dropdown-btn.open i {
+            transform: rotate(180deg);
         }
 
         .dropdown-content {
@@ -368,6 +380,11 @@
             width: 100%;
             max-height: 300px;
             overflow-y: auto;
+            margin-top: 5px;
+        }
+
+        .dropdown-content.show {
+            display: block;
         }
 
         .dropdown-content a {
@@ -376,6 +393,7 @@
             text-decoration: none;
             display: block;
             transition: var(--transition);
+            text-align: center;
         }
 
         .dropdown-content a:hover {
@@ -383,8 +401,9 @@
             border-radius: 8px;
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
+        .dropdown-content a i {
+            margin-right: 8px;
+            color: var(--primary);
         }
 
         /* Auth Modals */
@@ -402,6 +421,14 @@
             backdrop-filter: blur(5px);
             overflow-y: auto;
             padding: 20px 0;
+        }
+
+        .auth-modal.locked {
+            pointer-events: none;
+        }
+
+        .auth-modal.locked .auth-content {
+            pointer-events: all;
         }
 
         .auth-content {
@@ -557,6 +584,13 @@
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
         }
 
+        .btn-auth:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         .auth-footer {
             text-align: center;
             margin-top: 20px;
@@ -612,6 +646,29 @@
         .resend-otp a.disabled {
             color: var(--text-secondary);
             pointer-events: none;
+        }
+
+        /* Terms Checkbox */
+        .terms-checkbox {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+
+        .terms-checkbox input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .terms-checkbox label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+        }
+
+        .terms-checkbox a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
         }
 
         /* Student Details Modal */
@@ -688,6 +745,14 @@
             padding: 20px 0;
         }
 
+        .notice-modal.locked {
+            pointer-events: none;
+        }
+
+        .notice-modal.locked .notice-content {
+            pointer-events: all;
+        }
+
         .notice-content {
             background: white;
             border-radius: var(--border-radius);
@@ -747,6 +812,13 @@
         .btn-notice:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .btn-notice:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
 
         /* Quiz Container */
@@ -1350,10 +1422,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1367,10 +1439,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1384,10 +1456,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1401,10 +1473,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1418,10 +1490,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1435,10 +1507,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1452,10 +1524,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1469,10 +1541,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1486,10 +1558,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1503,10 +1575,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1520,10 +1592,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1537,10 +1609,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1554,10 +1626,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1571,10 +1643,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1588,10 +1660,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1605,10 +1677,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1622,10 +1694,10 @@ All The best 😚!</p>
                 <p>2025-05-02</p>
                 <div class="lesson-meta">
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 200 questions</div>
                 </div>
                 <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
+                    <button class="dropdown-btn">Start Quiz <i class="fas fa-chevron-down"></i></button>
                     <div class="dropdown-content">
                         <!-- Levels will be added dynamically -->
                     </div>
@@ -1669,7 +1741,7 @@ All The best 😚!</p>
                 <!-- Signup Form Part 1 - Phone Verification -->
                 <div class="auth-form" id="signupPhoneForm">
                     <div class="form-group">
-                        <label for="signupPhone">Phone Number</label>
+                        <label for="signupPhone">WhatsApp Number</label>
                         <div class="phone-input">
                             <span class="prefix">+94</span>
                             <input type="tel" id="signupPhone" placeholder="7XXXXXXXX" maxlength="9">
@@ -1706,12 +1778,41 @@ All The best 😚!</p>
                 <!-- Signup Form Part 3 - Email & Password -->
                 <div class="auth-form" id="signupForm">
                     <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
                         <label for="signupEmail">Email</label>
                         <input type="email" id="signupEmail" placeholder="Enter your email">
                     </div>
                     <div class="form-group">
                         <label for="signupPassword">Password</label>
                         <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupSchool">School</label>
+                        <input type="text" id="signupSchool" placeholder="Enter your school">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupDistrict">District</label>
+                        <input type="text" id="signupDistrict" placeholder="Enter your district">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupExamYear">Exam Year</label>
+                        <input type="number" id="signupExamYear" min="2023" max="2030" placeholder="Enter exam year">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupGender">Gender</label>
+                        <select id="signupGender">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="agreeTerms" required>
+                        <label for="agreeTerms">I agree to the <a href="#" id="showTerms">Terms of Service</a></label>
                     </div>
                     <button class="btn-auth" id="btnSignup">Complete Sign Up</button>
                     <div class="auth-footer">
@@ -1722,45 +1823,36 @@ All The best 😚!</p>
         </div>
     </div>
 
-    <!-- Student Details Modal -->
-    <div class="student-modal" id="studentModal">
-        <div class="student-content">
-            <div class="student-header">
-                <h2>Student Information</h2>
-                <p>Please provide your details to continue</p>
+    <!-- Terms of Service Modal -->
+    <div class="alert-modal" id="termsModal">
+        <div class="alert-content">
+            <div class="alert-icon">
+                <i class="fas fa-file-contract"></i>
             </div>
-            <div class="student-body">
-                <form id="studentForm">
-                    <div class="form-group">
-                        <label for="studentName">Full Name</label>
-                        <input type="text" id="studentName" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentEmail">Email</label>
-                        <input type="email" id="studentEmail" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentExamYear">Exam Year</label>
-                        <input type="number" id="studentExamYear" min="2023" max="2030" placeholder="Enter exam year" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentSchool">School</label>
-                        <input type="text" id="studentSchool" placeholder="Enter your school" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentDistrict">District</label>
-                        <input type="text" id="studentDistrict" placeholder="Enter your district" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentWhatsapp">WhatsApp Number</label>
-                        <div class="phone-input">
-                            <span class="prefix">+94</span>
-                            <input type="tel" id="studentWhatsapp" placeholder="7XXXXXXXX" maxlength="9" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-auth" id="btnSaveStudent">Save Information</button>
-                </form>
+            <h3 class="alert-title">Terms of Service</h3>
+            <div class="alert-message" style="text-align: left; max-height: 300px; overflow-y: auto;">
+                <h4>1. Acceptance of Terms</h4>
+                <p>By using the ET Panthiya.lk Quiz Portal, you agree to be bound by these Terms of Service.</p>
+                
+                <h4>2. User Accounts</h4>
+                <p>You must provide accurate and complete information when creating an account. You are responsible for maintaining the confidentiality of your account credentials.</p>
+                
+                <h4>3. Privacy Policy</h4>
+                <p>Your personal information will be handled in accordance with our Privacy Policy. We collect data to improve our services and provide personalized experiences.</p>
+                
+                <h4>4. User Conduct</h4>
+                <p>You agree not to use the service for any unlawful purpose or in any way that might harm, damage, or disparage any other party.</p>
+                
+                <h4>5. Intellectual Property</h4>
+                <p>All content on this platform is the property of ET Panthiya.lk and is protected by copyright laws.</p>
+                
+                <h4>6. Limitation of Liability</h4>
+                <p>ET Panthiya.lk shall not be liable for any indirect, incidental, special, consequential or punitive damages resulting from your use of the service.</p>
+                
+                <h4>7. Changes to Terms</h4>
+                <p>We reserve the right to modify these terms at any time. Your continued use of the service constitutes acceptance of the modified terms.</p>
             </div>
+            <button class="btn-alert" id="btnAcceptTerms">I Understand</button>
         </div>
     </div>
 
@@ -1768,12 +1860,20 @@ All The best 😚!</p>
     <div class="notice-modal" id="noticeModal">
         <div class="notice-content">
             <div class="notice-header">
-                <h2>IMPORTANT</h2>
+                <h2>IMPORTANT NOTICE</h2>
             </div>
             <div class="notice-body">
-                <p>"Please note that the information below is collected solely to collect feedback from users of our software and to properly maintain our software updates. Please be advised that any information you enter will not be shared with any other party in any way."</p>
-                <p>"පහත තොරතුරු ලබා ගනුයේ අපගේ මෘදුකාංගය භාවිතා කරන පරීශීලකයින් පිලිබද අදහස් ලබාගෙන අපගේ මෘදුකාංගයේ යාවත්කාලීන කටයුතු නිසියාකාරව පවත්වා ගැනීමට පමණක් බව කරුණාවෙන් සලකන්න . ඔබ ඇතුළත් කරන කිසිදු තොරතුරක් කිසිදු ආකරයකින් වෙනත් පාර්ශවයක් වෙත නොලැබෙන බව කාරුණිකව දන්වා සිටිමු"</p>
-                <button class="btn-notice" id="btnAcceptNotice">I Understand</button>
+                <p>Welcome to ET Panthiya.lk Quiz Portal! Before you proceed, please read the following important information:</p>
+                <p>1. All quiz sessions are timed (30 minutes per level).</p>
+                <p>2. You must complete the quiz within the allocated time.</p>
+                <p>3. Your progress will be saved automatically.</p>
+                <p>4. The information you provide will be used to enhance your learning experience and will not be shared with third parties.</p>
+                <p>5. By using this portal, you agree to our Terms of Service.</p>
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="agreeNotice" required>
+                    <label for="agreeNotice">I have read and understood the above notice</label>
+                </div>
+                <button class="btn-notice" id="btnAcceptNotice" disabled>Continue</button>
             </div>
         </div>
     </div>
@@ -1814,20 +1914,6 @@ All The best 😚!</p>
             <h3 class="alert-title">Time's Up!</h3>
             <p class="alert-message">Your quiz time has expired. The quiz will now be submitted automatically.</p>
             <button class="btn-alert" id="btnAcknowledgeTimeUp">OK</button>
-        </div>
-    </div>
-
-    <!-- Welcome Modal -->
-    <div class="welcome-modal" id="welcomeModal">
-        <div class="welcome-content">
-            <div class="welcome-header">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Welcome">
-            </div>
-            <div class="welcome-body">
-                <h2>Welcome to Interactive Quiz Portal 2025!</h2>
-                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please login or sign up to get started.</p>
-                <button class="btn-alert" id="btnWelcomeContinue">Get Started</button>
-            </div>
         </div>
     </div>
 
@@ -1913,6 +1999,7 @@ All The best 😚!</p>
         let timeLeft;
         let quizActive = false;
         let quizDuration = 30; // Default duration in minutes
+        let warned15 = false;
         let warned10 = false;
         let warned5 = false;
         let currentLesson = null;
@@ -1942,8 +2029,13 @@ All The best 😚!</p>
         const loginEmail = document.getElementById('loginEmail');
         const loginPassword = document.getElementById('loginPassword');
         const btnLogin = document.getElementById('btnLogin');
+        const signupName = document.getElementById('signupName');
         const signupEmail = document.getElementById('signupEmail');
         const signupPassword = document.getElementById('signupPassword');
+        const signupSchool = document.getElementById('signupSchool');
+        const signupDistrict = document.getElementById('signupDistrict');
+        const signupExamYear = document.getElementById('signupExamYear');
+        const signupGender = document.getElementById('signupGender');
         const signupPhone = document.getElementById('signupPhone');
         const btnSendOtp = document.getElementById('btnSendOtp');
         const btnSignup = document.getElementById('btnSignup');
@@ -1954,17 +2046,9 @@ All The best 😚!</p>
         const showSignup = document.getElementById('showSignup');
         const showLoginFromSignup = document.getElementById('showLoginFromSignup');
         const showLoginFromEmail = document.getElementById('showLoginFromEmail');
-        const studentModal = document.getElementById('studentModal');
-        const studentForm = document.getElementById('studentForm');
-        const studentName = document.getElementById('studentName');
-        const studentEmail = document.getElementById('studentEmail');
-        const studentExamYear = document.getElementById('studentExamYear');
-        const studentSchool = document.getElementById('studentSchool');
-        const studentDistrict = document.getElementById('studentDistrict');
-        const studentWhatsapp = document.getElementById('studentWhatsapp');
-        const btnSaveStudent = document.getElementById('btnSaveStudent');
         const noticeModal = document.getElementById('noticeModal');
         const btnAcceptNotice = document.getElementById('btnAcceptNotice');
+        const agreeNotice = document.getElementById('agreeNotice');
         const quizContainer = document.getElementById('quizContainer');
         const quizIframe = document.getElementById('quizIframe');
         const quizTitle = document.getElementById('quizTitle');
@@ -1976,9 +2060,11 @@ All The best 😚!</p>
         const btnAcknowledgeTimeUp = document.getElementById('btnAcknowledgeTimeUp');
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
-        const welcomeModal = document.getElementById('welcomeModal');
-        const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
-        const lessonCards = document.querySelectorAll('.lesson-card');
+        const termsModal = document.getElementById('termsModal');
+        const showTerms = document.getElementById('showTerms');
+        const btnAcceptTerms = document.getElementById('btnAcceptTerms');
+        const agreeTerms = document.getElementById('agreeTerms');
+        const dropdownBtns = document.querySelectorAll('.dropdown-btn');
         const dropdownContents = document.querySelectorAll('.dropdown-content');
 
         // Initialize the app
@@ -1988,7 +2074,7 @@ All The best 😚!</p>
             initParticles();
             populateLevelDropdowns();
             
-            // Immediately show auth modal (changed from welcome modal)
+            // Show auth modal immediately
             setTimeout(() => {
                 authModal.style.display = 'flex';
                 setTimeout(() => {
@@ -2009,18 +2095,6 @@ All The best 😚!</p>
             // WhatsApp button
             whatsappButton.addEventListener('click', () => {
                 window.open('https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with...', '_blank');
-            });
-            
-            // Welcome modal
-            btnWelcomeContinue.addEventListener('click', () => {
-                welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-                welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-                setTimeout(() => {
-                    welcomeModal.style.display = 'none';
-                    if (!auth.currentUser) {
-                        showAuthModal('login');
-                    }
-                }, 300);
             });
             
             // Auth modal tabs
@@ -2072,14 +2146,34 @@ All The best 😚!</p>
             // Signup form
             btnSignup.addEventListener('click', handleSignup);
             
-            // Student form
-            studentForm.addEventListener('submit', saveStudentDetails);
-            studentWhatsapp.addEventListener('input', formatPhoneNumber);
-            
             // Notice modal
             btnAcceptNotice.addEventListener('click', () => {
-                hideNoticeModal();
-                showStudentModal();
+                if (agreeNotice.checked) {
+                    hideNoticeModal();
+                    showMainContent();
+                }
+            });
+            
+            agreeNotice.addEventListener('change', () => {
+                btnAcceptNotice.disabled = !agreeNotice.checked;
+            });
+            
+            // Terms modal
+            showTerms.addEventListener('click', (e) => {
+                e.preventDefault();
+                termsModal.style.display = 'flex';
+                setTimeout(() => {
+                    termsModal.querySelector('.alert-content').style.transform = 'scale(1)';
+                    termsModal.querySelector('.alert-content').style.opacity = '1';
+                }, 10);
+            });
+            
+            btnAcceptTerms.addEventListener('click', () => {
+                termsModal.style.display = 'none';
+            });
+            
+            agreeTerms.addEventListener('change', () => {
+                btnSignup.disabled = !agreeTerms.checked;
             });
             
             // Quiz controls
@@ -2093,38 +2187,56 @@ All The best 😚!</p>
             // Window click handlers
             window.addEventListener('click', (e) => {
                 if (e.target === authModal) hideAuthModal();
-                if (e.target === studentModal) hideStudentModal();
                 if (e.target === noticeModal) hideNoticeModal();
                 if (e.target === timeWarningModal) hideAlertModal(timeWarningModal);
                 if (e.target === timeUpModal) {
                     hideAlertModal(timeUpModal);
                     closeQuiz();
                 }
-                if (e.target === welcomeModal) {
-                    welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-                    welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-                    setTimeout(() => {
-                        welcomeModal.style.display = 'none';
-                    }, 300);
+                if (e.target === termsModal) {
+                    termsModal.style.display = 'none';
+                }
+                
+                // Close dropdowns when clicking outside
+                if (!e.target.closest('.dropdown')) {
+                    dropdownContents.forEach(dropdown => {
+                        dropdown.classList.remove('show');
+                    });
+                    dropdownBtns.forEach(btn => {
+                        btn.classList.remove('open');
+                    });
                 }
             });
             
             // Beforeunload event
             window.addEventListener('beforeunload', handleBeforeUnload);
             
-            // Lesson card dropdown buttons
-            document.querySelectorAll('.dropdown-btn').forEach(btn => {
+            // Dropdown buttons
+            dropdownBtns.forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const dropdown = btn.nextElementSibling;
-                    if (auth.currentUser) {
-                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                    const isOpen = dropdown.classList.contains('show');
+                    
+                    // Close all other dropdowns
+                    dropdownContents.forEach(d => {
+                        if (d !== dropdown) {
+                            d.classList.remove('show');
+                        }
+                    });
+                    dropdownBtns.forEach(b => {
+                        if (b !== btn) {
+                            b.classList.remove('open');
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    if (isOpen) {
+                        dropdown.classList.remove('show');
+                        btn.classList.remove('open');
                     } else {
-                        const lessonCard = btn.closest('.lesson-card');
-                        const lessonId = lessonCard.getAttribute('data-lesson');
-                        showNotification('Please login to access quiz levels', 'warning');
-                        showAuthModal('login');
-                        currentLesson = lessonId;
+                        dropdown.classList.add('show');
+                        btn.classList.add('open');
                     }
                 });
             });
@@ -2133,10 +2245,12 @@ All The best 😚!</p>
         // Populate level dropdowns
         function populateLevelDropdowns() {
             dropdownContents.forEach(dropdown => {
+                dropdown.innerHTML = ''; // Clear existing content
+                
                 for (let i = 1; i <= 20; i++) {
                     const levelLink = document.createElement('a');
                     levelLink.href = '#';
-                    levelLink.textContent = `Level ${i}`;
+                    levelLink.innerHTML = `<i class="fas fa-layer-group"></i> Level ${i}`;
                     levelLink.addEventListener('click', (e) => {
                         e.preventDefault();
                         const lessonCard = dropdown.closest('.lesson-card');
@@ -2149,7 +2263,13 @@ All The best 😚!</p>
                             currentLevel = i;
                             showNotification('Please login to access quiz levels', 'warning');
                             showAuthModal('login');
+                            // Lock the modal so user can't close without logging in
+                            authModal.classList.add('locked');
                         }
+                        
+                        // Close dropdown
+                        dropdown.classList.remove('show');
+                        dropdown.previousElementSibling.classList.remove('open');
                     });
                     dropdown.appendChild(levelLink);
                 }
@@ -2165,16 +2285,14 @@ All The best 😚!</p>
                     
                     // Check if user has completed profile
                     checkUserProfile(user);
+                    
+                    // Unlock auth modal if it was locked
+                    authModal.classList.remove('locked');
                 } else {
                     // User is signed out
                     userAvatar.textContent = 'G';
                     userName.textContent = 'Guest';
                     mainContainer.style.display = 'none';
-                    
-                    // Show auth modal if not already shown
-                    if (!document.querySelector('.auth-modal.show')) {
-                        showAuthModal('login');
-                    }
                 }
             });
         }
@@ -2186,11 +2304,13 @@ All The best 😚!</p>
                 const userData = userDoc.data();
                 if (!userData.profileCompleted) {
                     showNoticeModal();
+                    noticeModal.classList.add('locked');
                 } else {
                     showMainContent();
                 }
             } else {
                 showNoticeModal();
+                noticeModal.classList.add('locked');
             }
         }
 
@@ -2232,24 +2352,6 @@ All The best 😚!</p>
             }, 300);
         }
 
-        // Show student modal
-        function showStudentModal() {
-            studentModal.style.display = 'flex';
-            setTimeout(() => {
-                studentModal.querySelector('.student-content').style.transform = 'scale(1)';
-                studentModal.querySelector('.student-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Hide student modal
-        function hideStudentModal() {
-            studentModal.querySelector('.student-content').style.transform = 'scale(0.9)';
-            studentModal.querySelector('.student-content').style.opacity = '0';
-            setTimeout(() => {
-                studentModal.style.display = 'none';
-            }, 300);
-        }
-
         // Show notice modal
         function showNoticeModal() {
             noticeModal.style.display = 'flex';
@@ -2284,7 +2386,7 @@ All The best 😚!</p>
                 loginForm.classList.add('active');
             } else if (tab === 'signup') {
                 authModalTitle.textContent = 'Sign Up - Part 1';
-                authModalSubtitle.textContent = 'Verify your phone number';
+                authModalSubtitle.textContent = 'Verify your WhatsApp number';
                 signupPhoneForm.classList.add('active');
             }
         }
@@ -2328,15 +2430,22 @@ All The best 😚!</p>
         // Show email/password form
         function showEmailPasswordForm() {
             authModalTitle.textContent = 'Sign Up - Part 3';
-            authModalSubtitle.textContent = 'Create your account';
+            authModalSubtitle.textContent = 'Complete your profile';
             
             loginForm.classList.remove('active');
             signupOtpForm.classList.remove('active');
             signupForm.classList.add('active');
             
             // Clear form
+            signupName.value = '';
             signupEmail.value = '';
             signupPassword.value = '';
+            signupSchool.value = '';
+            signupDistrict.value = '';
+            signupExamYear.value = '';
+            signupGender.value = '';
+            agreeTerms.checked = false;
+            btnSignup.disabled = true;
         }
 
         // Generate a random 6-digit OTP
@@ -2346,21 +2455,22 @@ All The best 😚!</p>
 
         // Send OTP via SMS Gateway
         async function sendOTP(phoneNumber, otp) {
-            const url = `https://www.textit.biz/send?api_key=${SMS_GATEWAY_API}`;
+            const url = `https://www.textit.biz/sendmsg`;
             const params = new URLSearchParams();
-            params.append('username', SMS_GATEWAY_USERNAME);
-            params.append('password', SMS_GATEWAY_PASSWORD);
+            params.append('id', SMS_GATEWAY_USERNAME);
+            params.append('pw', SMS_GATEWAY_PASSWORD);
             params.append('to', `94${phoneNumber}`);
-            params.append('message', `Your ET Panthiya.lk verification code is: ${otp}`);
+            params.append('text', `Your ET Panthiya.lk verification code is: ${otp}`);
             
             try {
-                const response = await fetch(`${url}&${params.toString()}`);
-                const data = await response.json();
+                const response = await fetch(`${url}?${params.toString()}`);
+                const data = await response.text();
                 
-                if (data.status === 'success') {
+                // Simple check for success (adjust based on your gateway's response)
+                if (data.includes('OK')) {
                     return true;
                 } else {
-                    console.error('Failed to send OTP:', data.message);
+                    console.error('Failed to send OTP:', data);
                     return false;
                 }
             } catch (error) {
@@ -2374,7 +2484,7 @@ All The best 😚!</p>
             const phone = signupPhone.value.trim();
             
             if (!phone) {
-                showNotification('Please enter your phone number', 'warning');
+                showNotification('Please enter your WhatsApp number', 'warning');
                 return;
             }
             
@@ -2396,7 +2506,7 @@ All The best 😚!</p>
                 if (otpSent) {
                     // Show OTP form
                     showOtpForm(phone);
-                    showNotification('OTP sent to your phone number', 'success');
+                    showNotification('OTP sent to your WhatsApp number', 'success');
                 } else {
                     throw new Error('Failed to send OTP');
                 }
@@ -2467,7 +2577,7 @@ All The best 😚!</p>
                 
                 // Verify the OTP
                 if (otp === generatedOtp) {
-                    showNotification('Phone number verified!', 'success');
+                    showNotification('WhatsApp number verified!', 'success');
                     
                     // Proceed to email/password form
                     showEmailPasswordForm();
@@ -2504,7 +2614,7 @@ All The best 😚!</p>
                 const otpSent = await sendOTP(phone, generatedOtp);
                 
                 if (otpSent) {
-                    showNotification('New OTP sent to your phone number', 'success');
+                    showNotification('New OTP sent to your WhatsApp number', 'success');
                     
                     // Reset timer
                     clearInterval(otpResendTimer);
@@ -2537,16 +2647,27 @@ All The best 😚!</p>
 
         // Handle signup
         async function handleSignup() {
+            const name = signupName.value.trim();
             const email = signupEmail.value.trim();
             const password = signupPassword.value.trim();
+            const school = signupSchool.value.trim();
+            const district = signupDistrict.value.trim();
+            const examYear = signupExamYear.value.trim();
+            const gender = signupGender.value;
+            const phone = `+94${otpPhoneNumber.textContent}`;
             
-            if (!email || !password) {
+            if (!name || !email || !password || !school || !district || !examYear || !gender) {
                 showNotification('Please fill all fields', 'warning');
                 return;
             }
             
             if (password.length < 6) {
                 showNotification('Password must be at least 6 characters', 'warning');
+                return;
+            }
+            
+            if (!agreeTerms.checked) {
+                showNotification('You must agree to the Terms of Service', 'warning');
                 return;
             }
             
@@ -2557,12 +2678,35 @@ All The best 😚!</p>
                 // Create user with email/password
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 
+                // Update user profile with display name
+                await userCredential.user.updateProfile({
+                    displayName: name
+                });
+                
+                // Save additional user data to Firestore
+                const userData = {
+                    uid: userCredential.user.uid,
+                    name,
+                    email,
+                    phone,
+                    school,
+                    district,
+                    examYear: parseInt(examYear),
+                    gender,
+                    profileCompleted: true,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    completedLevels: {}
+                };
+                
+                await db.collection('users').doc(userCredential.user.uid).set(userData);
+                
                 showNotification('Account created successfully!', 'success');
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
                 
-                // Show notice modal before student details
+                // Show notice modal
                 showNoticeModal();
+                noticeModal.classList.add('locked');
                 
                 // If there's a pending lesson, start quiz after profile completion
                 if (currentLesson && currentLevel) {
@@ -2583,73 +2727,6 @@ All The best 😚!</p>
             }
         }
 
-        // Save student details
-        async function saveStudentDetails(e) {
-            e.preventDefault();
-            
-            const name = studentName.value.trim();
-            const email = studentEmail.value.trim();
-            const examYear = studentExamYear.value.trim();
-            const school = studentSchool.value.trim();
-            const district = studentDistrict.value.trim();
-            const whatsapp = studentWhatsapp.value.trim();
-            
-            if (!name || !email || !examYear || !school || !district || !whatsapp) {
-                showNotification('Please fill all fields', 'warning');
-                return;
-            }
-            
-            if (whatsapp.length !== 9 || !/^\d+$/.test(whatsapp)) {
-                showNotification('Please enter a valid 9-digit WhatsApp number', 'warning');
-                return;
-            }
-            
-            try {
-                btnSaveStudent.disabled = true;
-                btnSaveStudent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-                
-                const user = auth.currentUser;
-                
-                // Update user profile with display name
-                await user.updateProfile({
-                    displayName: name
-                });
-                
-                // Save additional user data to Firestore
-                const userData = {
-                    uid: user.uid,
-                    name,
-                    email,
-                    examYear: parseInt(examYear),
-                    school,
-                    district,
-                    whatsapp: `+94${whatsapp}`,
-                    profileCompleted: true,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    completedLevels: {}
-                };
-                
-                await db.collection('users').doc(user.uid).set(userData, { merge: true });
-                
-                showNotification('Profile information saved successfully!', 'success');
-                hideStudentModal();
-                updateUserProfile(user);
-                
-                // If there's a pending lesson, start quiz
-                if (currentLesson && currentLevel) {
-                    startQuiz(currentLesson, currentLevel);
-                    currentLesson = null;
-                    currentLevel = null;
-                }
-            } catch (error) {
-                console.error('Error saving student details:', error);
-                showNotification('Failed to save information. Please try again.', 'danger');
-            } finally {
-                btnSaveStudent.disabled = false;
-                btnSaveStudent.textContent = 'Save Information';
-            }
-        }
-
         // Format phone number
         function formatPhoneNumber() {
             let value = this.value.replace(/\D/g, '');
@@ -2664,6 +2741,7 @@ All The best 😚!</p>
             quizActive = true;
             quizDuration = 30; // 30 minutes for all levels
             timeLeft = quizDuration * 60; // Convert minutes to seconds
+            warned15 = false;
             warned10 = false;
             warned5 = false;
             updateTimerDisplay();
@@ -2684,12 +2762,12 @@ All The best 😚!</p>
             quizTimer = setInterval(updateQuizTimer, 1000);
             
             // Show notification
-            showNotification(`Quiz started! You have 30 minutes to complete 15 questions.`, 'success');
+            showNotification(`Quiz started! You have 30 minutes to complete.`, 'success');
             
             // Speak the time limit
             if ('speechSynthesis' in window) {
                 const speech = new SpeechSynthesisUtterance();
-                speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete 15 questions. Good luck!`;
+                speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete. Good luck!`;
                 window.speechSynthesis.speak(speech);
             }
             
@@ -2702,10 +2780,14 @@ All The best 😚!</p>
             timeLeft--;
             updateTimerDisplay();
             
-            // Check for warnings (10, 5 minutes remaining)
+            // Check for warnings (15, 10, 5 minutes remaining)
             const minutesLeft = Math.ceil(timeLeft / 60);
             
-            if (minutesLeft === 10 && !warned10) {
+            if (minutesLeft === 15 && !warned15) {
+                showTimeWarning(`You have 15 minutes remaining to complete your quiz.`);
+                warningSound.play();
+                warned15 = true;
+            } else if (minutesLeft === 10 && !warned10) {
                 showTimeWarning(`You have 10 minutes remaining to complete your quiz.`);
                 warningSound.play();
                 warned10 = true;
