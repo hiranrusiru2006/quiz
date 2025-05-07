@@ -29,6 +29,9 @@
             --border-radius: 12px;
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --silver: #C0C0C0;
+            --gold: #FFD700;
+            --diamond: #b9f2ff;
         }
 
         * {
@@ -1275,6 +1278,312 @@
             font-size: 0.9rem;
         }
 
+        /* Profile Modal */
+        .profile-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1006;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .profile-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .profile-modal.show .profile-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .profile-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin: 0 auto 15px;
+            border: 3px solid white;
+        }
+
+        .profile-body {
+            padding: 30px;
+        }
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        .profile-info p {
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profile-info p span:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .profile-info p span:last-child {
+            color: var(--text-secondary);
+        }
+
+        .badge-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .badge {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .badge-silver {
+            background: var(--silver);
+            color: #333;
+        }
+
+        .badge-gold {
+            background: var(--gold);
+            color: #333;
+        }
+
+        .badge-diamond {
+            background: var(--diamond);
+            color: #333;
+        }
+
+        .badge-label {
+            position: absolute;
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .profile-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-delete-account {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-delete-account:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(214, 48, 49, 0.4);
+        }
+
+        .btn-logout {
+            background: var(--warning);
+            color: var(--dark);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-logout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(253, 203, 110, 0.4);
+        }
+
+        /* Delete Account Modal */
+        .delete-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1007;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .delete-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .delete-modal.show .delete-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .delete-header {
+            background: var(--danger);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .delete-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .delete-body {
+            padding: 30px;
+            text-align: center;
+        }
+
+        .delete-body p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .delete-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Verify Phone Modal */
+        .verify-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1008;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .verify-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .verify-modal.show .verify-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .verify-header {
+            background: var(--warning);
+            color: var(--dark);
+            padding: 20px;
+            text-align: center;
+        }
+
+        .verify-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .verify-body {
+            padding: 30px;
+        }
+
+        .verify-body p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .verify-otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .verify-otp-inputs input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            font-size: 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .verify-otp-inputs input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .verify-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .dropdown-content {
@@ -1294,6 +1603,15 @@
             
             .terms-content {
                 max-height: 70vh;
+            }
+            
+            .profile-footer, .delete-footer, .verify-footer {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-delete-account, .btn-logout {
+                width: 100%;
             }
         }
 
@@ -1352,19 +1670,19 @@
                 font-size: 0.9rem;
             }
             
-            .otp-inputs input {
+            .otp-inputs input, .verify-otp-inputs input {
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
             }
             
             /* Mobile keyboard fix */
-            .auth-modal, .student-modal, .notice-modal {
+            .auth-modal, .student-modal, .notice-modal, .profile-modal, .delete-modal, .verify-modal {
                 align-items: flex-start;
                 padding-top: 20px;
             }
             
-            .auth-content, .student-content, .notice-content {
+            .auth-content, .student-content, .notice-content, .profile-content, .delete-content, .verify-content {
                 margin-top: 20px;
             }
             
@@ -2023,6 +2341,93 @@ All The best 😚!</p>
         </div>
     </div>
 
+    <!-- Profile Modal -->
+    <div class="profile-modal" id="profileModal">
+        <div class="profile-content">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">U</div>
+                <h2>User Profile</h2>
+                <p id="profileEmail">user@example.com</p>
+            </div>
+            <div class="profile-body">
+                <div class="profile-info">
+                    <p><span>Name:</span> <span id="profileName">User Name</span></p>
+                    <p><span>Gender:</span> <span id="profileGender">Male</span></p>
+                    <p><span>Exam Year:</span> <span id="profileExamYear">2025</span></p>
+                    <p><span>School:</span> <span id="profileSchool">School Name</span></p>
+                    <p><span>District:</span> <span id="profileDistrict">District</span></p>
+                    <p><span>WhatsApp:</span> <span id="profileWhatsapp">+947XXXXXXXX</span></p>
+                    <p><span>Completed Levels:</span> <span id="profileCompletedLevels">0/17</span></p>
+                </div>
+                
+                <div class="badge-container">
+                    <div class="badge badge-silver" id="badgeSilver">
+                        <i class="fas fa-award"></i>
+                        <span class="badge-label">Silver</span>
+                    </div>
+                    <div class="badge badge-gold" id="badgeGold" style="display: none;">
+                        <i class="fas fa-award"></i>
+                        <span class="badge-label">Gold</span>
+                    </div>
+                    <div class="badge badge-diamond" id="badgeDiamond" style="display: none;">
+                        <i class="fas fa-gem"></i>
+                        <span class="badge-label">Diamond</span>
+                    </div>
+                </div>
+            </div>
+            <div class="profile-footer">
+                <button class="btn-delete-account" id="btnDeleteAccount">Delete Account</button>
+                <button class="btn-logout" id="btnLogout">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Modal -->
+    <div class="delete-modal" id="deleteModal">
+        <div class="delete-content">
+            <div class="delete-header">
+                <h2>Delete Account</h2>
+                <p>This action cannot be undone</p>
+            </div>
+            <div class="delete-body">
+                <p>Are you sure you want to delete your account? All your data including completed levels will be permanently removed.</p>
+                <p>You will need to verify your phone number to confirm this action.</p>
+            </div>
+            <div class="delete-footer">
+                <button class="btn-alert" id="btnCancelDelete">Cancel</button>
+                <button class="btn-delete-account" id="btnConfirmDelete">Delete Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Verify Phone Modal -->
+    <div class="verify-modal" id="verifyModal">
+        <div class="verify-content">
+            <div class="verify-header">
+                <h2>Verify Phone Number</h2>
+                <p>Enter the OTP sent to your phone</p>
+            </div>
+            <div class="verify-body">
+                <p>We've sent a 6-digit verification code to <span id="verifyPhoneNumber">+947XXXXXXXX</span></p>
+                <div class="verify-otp-inputs">
+                    <input type="text" maxlength="1" class="verify-otp-input">
+                    <input type="text" maxlength="1" class="verify-otp-input">
+                    <input type="text" maxlength="1" class="verify-otp-input">
+                    <input type="text" maxlength="1" class="verify-otp-input">
+                    <input type="text" maxlength="1" class="verify-otp-input">
+                    <input type="text" maxlength="1" class="verify-otp-input">
+                </div>
+                <div class="resend-otp">
+                    Didn't receive code? <a id="resendVerifyOtp">Resend OTP</a>
+                </div>
+            </div>
+            <div class="verify-footer">
+                <button class="btn-alert" id="btnCancelVerify">Cancel</button>
+                <button class="btn-auth" id="btnVerifyDelete">Verify & Delete</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Floating Notification -->
     <div class="notification" id="floatingNotification">
         <i class="fas fa-info-circle"></i>
@@ -2125,6 +2530,7 @@ All The best 😚!</p>
         let lastOtpSentTime = 0;
         let otpResendTimer;
         let generatedOtp = "";
+        let deleteVerificationOtp = "";
 
         // DOM Elements
         const backButton = document.getElementById('backButton');
@@ -2188,6 +2594,30 @@ All The best 😚!</p>
         const acceptTerms = document.getElementById('acceptTerms');
         const btnAcceptTerms = document.getElementById('btnAcceptTerms');
         const greeting = document.getElementById('greeting');
+        const profileModal = document.getElementById('profileModal');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileName = document.getElementById('profileName');
+        const profileEmail = document.getElementById('profileEmail');
+        const profileGender = document.getElementById('profileGender');
+        const profileExamYear = document.getElementById('profileExamYear');
+        const profileSchool = document.getElementById('profileSchool');
+        const profileDistrict = document.getElementById('profileDistrict');
+        const profileWhatsapp = document.getElementById('profileWhatsapp');
+        const profileCompletedLevels = document.getElementById('profileCompletedLevels');
+        const btnDeleteAccount = document.getElementById('btnDeleteAccount');
+        const btnLogout = document.getElementById('btnLogout');
+        const deleteModal = document.getElementById('deleteModal');
+        const btnCancelDelete = document.getElementById('btnCancelDelete');
+        const btnConfirmDelete = document.getElementById('btnConfirmDelete');
+        const verifyModal = document.getElementById('verifyModal');
+        const verifyPhoneNumber = document.getElementById('verifyPhoneNumber');
+        const verifyOtpInputs = document.querySelectorAll('.verify-otp-input');
+        const btnCancelVerify = document.getElementById('btnCancelVerify');
+        const btnVerifyDelete = document.getElementById('btnVerifyDelete');
+        const resendVerifyOtp = document.getElementById('resendVerifyOtp');
+        const badgeSilver = document.getElementById('badgeSilver');
+        const badgeGold = document.getElementById('badgeGold');
+        const badgeDiamond = document.getElementById('badgeDiamond');
 
         // Initialize the app
         function init() {
@@ -2243,7 +2673,7 @@ All The best 😚!</p>
             backButton.addEventListener('click', handleBackButton);
             
             // User profile
-            userProfile.addEventListener('click', toggleAuthModal);
+            userProfile.addEventListener('click', toggleProfileModal);
             
             // WhatsApp button
             whatsappButton.addEventListener('click', () => {
@@ -2329,6 +2759,35 @@ All The best 😚!</p>
                 closeQuiz();
             });
             
+            // Profile modal controls
+            btnDeleteAccount.addEventListener('click', showDeleteModal);
+            btnLogout.addEventListener('click', handleLogout);
+            
+            // Delete account modal controls
+            btnCancelDelete.addEventListener('click', () => hideModal(deleteModal));
+            btnConfirmDelete.addEventListener('click', showVerifyModal);
+            
+            // Verify modal controls
+            btnCancelVerify.addEventListener('click', () => hideModal(verifyModal));
+            btnVerifyDelete.addEventListener('click', verifyDeleteAccount);
+            resendVerifyOtp.addEventListener('click', resendDeleteOtp);
+            
+            verifyOtpInputs.forEach((input, index) => {
+                input.addEventListener('input', () => {
+                    if (input.value.length === 1) {
+                        if (index < verifyOtpInputs.length - 1) {
+                            verifyOtpInputs[index + 1].focus();
+                        }
+                    }
+                });
+                
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && input.value.length === 0 && index > 0) {
+                        verifyOtpInputs[index - 1].focus();
+                    }
+                });
+            });
+            
             // Window click handlers
             window.addEventListener('click', (e) => {
                 if (e.target === authModal) hideAuthModal();
@@ -2345,6 +2804,15 @@ All The best 😚!</p>
                     setTimeout(() => {
                         welcomeModal.style.display = 'none';
                     }, 300);
+                }
+                if (e.target === profileModal) {
+                    hideModal(profileModal);
+                }
+                if (e.target === deleteModal) {
+                    hideModal(deleteModal);
+                }
+                if (e.target === verifyModal) {
+                    hideModal(verifyModal);
                 }
                 if (e.target === termsModal) {
                     // Prevent closing terms modal by clicking outside
@@ -2435,7 +2903,7 @@ All The best 😚!</p>
         function updateUserProfile(user) {
             if (user.displayName) {
                 userAvatar.textContent = user.displayName.charAt(0).toUpperCase();
-                userName.textContent = user.displayName;
+                userName.textContent = 'User';
             } else {
                 userAvatar.textContent = 'U';
                 userName.textContent = 'User';
@@ -2503,6 +2971,144 @@ All The best 😚!</p>
             setTimeout(() => {
                 noticeModal.style.display = 'none';
             }, 300);
+        }
+
+        // Show profile modal
+        async function showProfileModal() {
+            if (!auth.currentUser) return;
+            
+            try {
+                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    
+                    // Update profile info
+                    profileAvatar.textContent = userData.name ? userData.name.charAt(0).toUpperCase() : 'U';
+                    profileName.textContent = userData.name || 'Not provided';
+                    profileEmail.textContent = userData.email || 'Not provided';
+                    profileGender.textContent = userData.gender || 'Not provided';
+                    profileExamYear.textContent = userData.examYear || 'Not provided';
+                    profileSchool.textContent = userData.school || 'Not provided';
+                    profileDistrict.textContent = userData.district || 'Not provided';
+                    profileWhatsapp.textContent = userData.whatsapp || 'Not provided';
+                    
+                    // Calculate completed levels
+                    let completedCount = 0;
+                    if (userData.completedLevels) {
+                        completedCount = Object.keys(userData.completedLevels).length;
+                    }
+                    profileCompletedLevels.textContent = `${completedCount}/17`;
+                    
+                    // Update badge display
+                    badgeSilver.style.display = 'none';
+                    badgeGold.style.display = 'none';
+                    badgeDiamond.style.display = 'none';
+                    
+                    if (completedCount >= 10) {
+                        badgeDiamond.style.display = 'flex';
+                    } else if (completedCount >= 5) {
+                        badgeGold.style.display = 'flex';
+                    } else {
+                        badgeSilver.style.display = 'flex';
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                showNotification('Failed to load profile information', 'danger');
+            }
+            
+            profileModal.style.display = 'flex';
+            setTimeout(() => {
+                profileModal.querySelector('.profile-content').style.transform = 'scale(1)';
+                profileModal.querySelector('.profile-content').style.opacity = '1';
+            }, 10);
+        }
+
+        // Hide profile modal
+        function hideProfileModal() {
+            profileModal.querySelector('.profile-content').style.transform = 'scale(0.9)';
+            profileModal.querySelector('.profile-content').style.opacity = '0';
+            setTimeout(() => {
+                profileModal.style.display = 'none';
+            }, 300);
+        }
+
+        // Show delete modal
+        function showDeleteModal() {
+            deleteModal.style.display = 'flex';
+            setTimeout(() => {
+                deleteModal.querySelector('.delete-content').style.transform = 'scale(1)';
+                deleteModal.querySelector('.delete-content').style.opacity = '1';
+            }, 10);
+        }
+
+        // Show verify modal
+        async function showVerifyModal() {
+            hideModal(deleteModal);
+            
+            try {
+                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    verifyPhoneNumber.textContent = userData.whatsapp || '+94XXXXXXXXX';
+                    
+                    // Generate a 6-digit random code
+                    deleteVerificationOtp = Math.floor(100000 + Math.random() * 900000).toString();
+                    
+                    // Prepare message (URL encoded)
+                    const phone = userData.whatsapp.replace('+94', '');
+                    const message = `Your+account+deletion+code+is:+${deleteVerificationOtp}`;
+                    
+                    // Build the API URL
+                    const apiUrl = `https://www.textit.biz/sendmsg/?id=${TEXTIT_ID}&pw=${TEXTIT_PW}&to=94${phone}&text=${message}`;
+                    
+                    // Make the API call
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`SMS gateway error: ${response.status}`);
+                    }
+                    
+                    const responseText = await response.text();
+                    
+                    // Check for success response (TextIt.biz returns "OK" on success)
+                    if (responseText.includes("OK")) {
+                        showNotification(`Verification code sent to ${userData.whatsapp}`, 'success');
+                    } else {
+                        throw new Error(responseText);
+                    }
+                }
+            } catch (error) {
+                console.error('Error sending OTP:', error);
+                showNotification('Failed to send OTP. Please try again.', 'danger');
+                
+                // For testing purposes, show the code anyway
+                showNotification(`Demo mode: Your OTP is ${deleteVerificationOtp}`, 'info');
+            }
+            
+            verifyModal.style.display = 'flex';
+            setTimeout(() => {
+                verifyModal.querySelector('.verify-content').style.transform = 'scale(1)';
+                verifyModal.querySelector('.verify-content').style.opacity = '1';
+            }, 10);
+        }
+
+        // Hide modal (generic function)
+        function hideModal(modal) {
+            modal.querySelector('.modal-content').style.transform = 'scale(0.9)';
+            modal.querySelector('.modal-content').style.opacity = '0';
+            setTimeout(() => {
+                modal.style.display = 'none';
+            }, 300);
+        }
+
+        // Toggle profile modal
+        function toggleProfileModal() {
+            if (auth.currentUser) {
+                showProfileModal();
+            } else {
+                showAuthModal('login');
+            }
         }
 
         // Switch auth tab
@@ -2900,6 +3506,113 @@ All The best 😚!</p>
             let value = this.value.replace(/\D/g, '');
             if (value.length > 9) value = value.substring(0, 9);
             this.value = value;
+        }
+
+        // Handle logout
+        async function handleLogout() {
+            try {
+                await auth.signOut();
+                showNotification('Logged out successfully', 'success');
+                hideProfileModal();
+            } catch (error) {
+                console.error('Logout error:', error);
+                showNotification('Failed to logout. Please try again.', 'danger');
+            }
+        }
+
+        // Resend delete account OTP
+        async function resendDeleteOtp() {
+            try {
+                resendVerifyOtp.classList.add('disabled');
+                resendVerifyOtp.textContent = 'Sending...';
+                
+                // Generate a new OTP
+                deleteVerificationOtp = Math.floor(100000 + Math.random() * 900000).toString();
+                
+                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                if (userDoc.exists) {
+                    const userData = userDoc.data();
+                    const phone = userData.whatsapp.replace('+94', '');
+                    
+                    // Prepare message (URL encoded)
+                    const message = `Your+new+account+deletion+code+is:+${deleteVerificationOtp}`;
+                    
+                    // Build the API URL
+                    const apiUrl = `https://www.textit.biz/sendmsg/?id=${TEXTIT_ID}&pw=${TEXTIT_PW}&to=94${phone}&text=${message}`;
+                    
+                    // Make the API call
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`SMS gateway error: ${response.status}`);
+                    }
+                    
+                    const responseText = await response.text();
+                    
+                    if (responseText.includes("OK")) {
+                        showNotification('New OTP sent to your phone number', 'success');
+                        
+                        // Disable resend button for 1 minute
+                        let secondsLeft = 60;
+                        resendVerifyOtp.textContent = `Resend OTP (${secondsLeft}s)`;
+                        
+                        const timer = setInterval(() => {
+                            secondsLeft--;
+                            resendVerifyOtp.textContent = `Resend OTP (${secondsLeft}s)`;
+                            
+                            if (secondsLeft <= 0) {
+                                clearInterval(timer);
+                                resendVerifyOtp.classList.remove('disabled');
+                                resendVerifyOtp.textContent = 'Resend OTP';
+                            }
+                        }, 1000);
+                    } else {
+                        throw new Error(responseText);
+                    }
+                }
+            } catch (error) {
+                console.error('Resend OTP error:', error);
+                showNotification('Failed to resend OTP. Please try again.', 'danger');
+                resendVerifyOtp.classList.remove('disabled');
+                resendVerifyOtp.textContent = 'Resend OTP';
+                
+                // For testing purposes, show the code anyway
+                showNotification(`Demo mode: Your new OTP is ${deleteVerificationOtp}`, 'info');
+            }
+        }
+
+        // Verify delete account
+        async function verifyDeleteAccount() {
+            const otp = Array.from(verifyOtpInputs).map(input => input.value).join('');
+            
+            if (otp.length !== 6) {
+                showNotification('Please enter a 6-digit code', 'warning');
+                return;
+            }
+            
+            try {
+                btnVerifyDelete.disabled = true;
+                btnVerifyDelete.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+                
+                if (otp === deleteVerificationOtp) {
+                    // Delete user data from Firestore
+                    await db.collection('users').doc(auth.currentUser.uid).delete();
+                    
+                    // Delete user from Firebase Auth
+                    await auth.currentUser.delete();
+                    
+                    showNotification('Account deleted successfully', 'success');
+                    hideModal(verifyModal);
+                } else {
+                    showNotification('Invalid verification code', 'danger');
+                }
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                showNotification('Failed to delete account. Please try again.', 'danger');
+            } finally {
+                btnVerifyDelete.disabled = false;
+                btnVerifyDelete.textContent = 'Verify & Delete';
+            }
         }
 
         // Start quiz
