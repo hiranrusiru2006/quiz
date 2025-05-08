@@ -1947,6 +1947,28 @@
             .btn-terms {
                 width: 100%;
             }
+            
+            /* Student form mobile adjustments */
+            .student-body {
+                padding: 15px;
+            }
+            
+            .form-group {
+                margin-bottom: 15px;
+            }
+            
+            .form-group input, .form-group select {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .phone-input .prefix {
+                padding: 10px;
+            }
+            
+            .btn-auth {
+                padding: 10px 20px;
+            }
         }
 
         /* Animation Classes */
@@ -2011,6 +2033,17 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* Remember me checkbox */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -2161,6 +2194,10 @@ All The best 😚!</p>
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
                         <input type="password" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
                     </div>
                     <button class="btn-auth" id="btnLogin">Login</button>
                     <div class="auth-footer">
@@ -2418,7 +2455,7 @@ All The best 😚!</p>
         </div>
     </div>
 
-    <!-- Confirm Delete Modal -->
+    <!-- Delete Confirmation Modal -->
     <div class="confirm-delete-modal" id="confirmDeleteModal">
         <div class="confirm-delete-content">
             <div class="confirm-delete-header">
@@ -2605,6 +2642,7 @@ All The best 😚!</p>
         const signupForm = document.getElementById('signupForm');
         const loginEmail = document.getElementById('loginEmail');
         const loginPassword = document.getElementById('loginPassword');
+        const rememberMe = document.getElementById('rememberMe');
         const btnLogin = document.getElementById('btnLogin');
         const signupEmail = document.getElementById('signupEmail');
         const signupPassword = document.getElementById('signupPassword');
@@ -2689,6 +2727,19 @@ All The best 😚!</p>
             updateGreeting();
             populateLessonsGrid();
             startAdTimer();
+            loadRememberedCredentials();
+        }
+
+        // Load remembered credentials if available
+        function loadRememberedCredentials() {
+            const rememberedEmail = localStorage.getItem('rememberedEmail');
+            const rememberedPassword = localStorage.getItem('rememberedPassword');
+            
+            if (rememberedEmail && rememberedPassword) {
+                loginEmail.value = rememberedEmail;
+                loginPassword.value = rememberedPassword;
+                rememberMe.checked = true;
+            }
         }
 
         // Populate lessons grid
@@ -2840,8 +2891,10 @@ All The best 😚!</p>
                 });
             });
             
-            // Show signup link
-            showSignup.addEventListener('click', () => switchAuthTab('signup'));
+            // Show signup link - now shows terms first
+            showSignup.addEventListener('click', () => {
+                showTermsModal();
+            });
             
             // Login form
             btnLogin.addEventListener('click', handleLogin);
@@ -2959,6 +3012,11 @@ All The best 😚!</p>
                 // Ad modal
                 if (adModal.style.display === 'flex' && e.target === adModal) {
                     hideModal(adModal);
+                }
+                
+                // Terms modal
+                if (termsModal.style.display === 'flex' && e.target === termsModal) {
+                    hideModal(termsModal);
                 }
             });
         }
@@ -3172,7 +3230,7 @@ All The best 😚!</p>
                 const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
                 if (userDoc.exists) {
                     const userData = userDoc.data();
-                    verifyPhoneNumber.textContent = userData.whatsapp || '+94XXXXXXXXX';
+                    verifyPhoneNumber.textContent = userData.whatsapp || '+94XXXXXXXX';
                     
                     // Generate a 6-digit random code
                     deleteVerificationOtp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -3227,11 +3285,27 @@ All The best 😚!</p>
 
         // Hide modal (generic function)
         function hideModal(modal) {
-            modal.querySelector('.modal-content').style.transform = 'scale(0.9)';
-            modal.querySelector('.modal-content').style.opacity = '0';
-            setTimeout(() => {
-                modal.style.display = 'none';
-            }, 300);
+            if (!modal) return;
+            
+            const content = modal.querySelector('.modal-content') || 
+                           modal.querySelector('.terms-content') || 
+                           modal.querySelector('.auth-content') || 
+                           modal.querySelector('.student-content') || 
+                           modal.querySelector('.notice-content') || 
+                           modal.querySelector('.profile-content') || 
+                           modal.querySelector('.delete-content') || 
+                           modal.querySelector('.verify-content') || 
+                           modal.querySelector('.confirm-delete-content') || 
+                           modal.querySelector('.alert-content') || 
+                           modal.querySelector('.ad-content');
+            
+            if (content) {
+                content.style.transform = 'scale(0.9)';
+                content.style.opacity = '0';
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            }
         }
 
         // Toggle profile modal
@@ -3388,6 +3462,15 @@ All The best 😚!</p>
                 showNotification('Login successful!', 'success');
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
+                
+                // Remember credentials if checkbox is checked
+                if (rememberMe.checked) {
+                    localStorage.setItem('rememberedEmail', email);
+                    localStorage.setItem('rememberedPassword', password);
+                } else {
+                    localStorage.removeItem('rememberedEmail');
+                    localStorage.removeItem('rememberedPassword');
+                }
                 
                 // Check if user has completed profile
                 const userDoc = await db.collection('users').doc(userCredential.user.uid).get();
