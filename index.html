@@ -523,7 +523,6 @@
             align-items: center;
             backdrop-filter: blur(5px);
             overflow-y: auto;
-            padding: 20px 0;
         }
 
         .auth-content {
@@ -563,9 +562,26 @@
             opacity: 0.9;
         }
 
-        /* Remove close button from auth modals */
         .close-auth {
-            display: none !important;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-auth:hover {
+            background: rgba(0,0,0,0.4);
+            transform: rotate(90deg);
         }
 
         .auth-body {
@@ -735,7 +751,6 @@
             align-items: center;
             backdrop-filter: blur(5px);
             overflow-y: auto;
-            padding: 20px 0;
         }
 
         .student-content {
@@ -774,9 +789,26 @@
             opacity: 0.9;
         }
 
-        /* Remove close button from student modal */
         .close-student {
-            display: none !important;
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-student:hover {
+            background: rgba(0,0,0,0.4);
+            transform: rotate(90deg);
         }
 
         .student-body {
@@ -797,7 +829,6 @@
             align-items: center;
             backdrop-filter: blur(5px);
             overflow-y: auto;
-            padding: 20px 0;
         }
 
         .notice-content {
@@ -1575,6 +1606,84 @@
             justify-content: space-between;
         }
 
+        /* Delete Confirmation Modal */
+        .confirm-delete-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1009;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .confirm-delete-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .confirm-delete-modal.show .confirm-delete-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .confirm-delete-header {
+            background: var(--danger);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .confirm-delete-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .confirm-delete-body {
+            padding: 30px;
+        }
+
+        .confirm-delete-body p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .confirm-delete-note {
+            background: #fff8e1;
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .confirm-delete-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .btn-cancel-delete {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .btn-confirm-delete {
+            background: var(--danger);
+            color: white;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .dropdown-content {
@@ -1668,12 +1777,12 @@
             }
             
             /* Mobile keyboard fix */
-            .auth-modal, .student-modal, .notice-modal, .profile-modal, .delete-modal, .verify-modal {
+            .student-modal {
                 align-items: flex-start;
                 padding-top: 20px;
             }
             
-            .auth-content, .student-content, .notice-content, .profile-content, .delete-content, .verify-content {
+            .student-content {
                 margin-top: 20px;
             }
             
@@ -1777,6 +1886,9 @@
         <div class="terms-content">
             <div class="terms-header">
                 <h2>Terms and Conditions</h2>
+                <button class="close-auth" id="closeTerms">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="terms-body">
                 <h3>Welcome to ET Panthiya.lk Quiz Portal</h3>
@@ -1878,6 +1990,9 @@ All The best 😚!</p>
             <div class="auth-header">
                 <h2 id="authModalTitle">Welcome Back!</h2>
                 <p id="authModalSubtitle">Please login to continue</p>
+                <button class="close-auth" id="closeAuth">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="auth-body">
                 <div class="auth-tabs">
@@ -1957,6 +2072,9 @@ All The best 😚!</p>
             <div class="student-header">
                 <h2>Student Information</h2>
                 <p>Please provide your details to continue</p>
+                <button class="close-student" id="closeStudent">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="student-body">
                 <form id="studentForm">
@@ -2007,6 +2125,9 @@ All The best 😚!</p>
         <div class="notice-content">
             <div class="notice-header">
                 <h2>IMPORTANT</h2>
+                <button class="close-student" id="closeNotice">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="notice-body">
                 <p>"Please note that the information below is collected solely to collect feedback from users of our software and to properly maintain our software updates. Please be advised that any information you enter will not be shared with any other party in any way."</p>
@@ -2062,6 +2183,9 @@ All The best 😚!</p>
                 <div class="profile-avatar" id="profileAvatar">U</div>
                 <h2>User Profile</h2>
                 <p id="profileEmail">user@example.com</p>
+                <button class="close-auth" id="closeProfile">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
             <div class="profile-body">
                 <div class="profile-info">
@@ -2138,6 +2262,32 @@ All The best 😚!</p>
             <div class="verify-footer">
                 <button class="btn-alert" id="btnCancelVerify">Cancel</button>
                 <button class="btn-auth" id="btnVerifyDelete">Verify & Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Modal -->
+    <div class="confirm-delete-modal" id="confirmDeleteModal">
+        <div class="confirm-delete-content">
+            <div class="confirm-delete-header">
+                <h2>Confirm Account Deletion</h2>
+                <p>Final confirmation required</p>
+            </div>
+            <div class="confirm-delete-body">
+                <p>You are about to permanently delete your account and all associated data.</p>
+                
+                <div class="confirm-delete-note">
+                    <p><strong>Important Note:</strong> This action will delete your account permanently and you won't be able to use our app again. If you need any data removed from our servers, please contact support.</p>
+                    <a href="https://wa.me/94779817525?text=DELETE%20MY%20ALL%20CREDITIONALS" class="whatsapp-group-link" target="_blank" style="margin-top: 10px; display: inline-block;">
+                        <i class="fab fa-whatsapp"></i> Contact Support via WhatsApp
+                    </a>
+                </div>
+                
+                <p>To proceed with account deletion, click the "Delete My Account" button below.</p>
+            </div>
+            <div class="confirm-delete-footer">
+                <button class="btn-alert btn-cancel-delete" id="btnFinalCancelDelete">Cancel</button>
+                <button class="btn-alert btn-confirm-delete" id="btnFinalConfirmDelete">Delete My Account</button>
             </div>
         </div>
     </div>
@@ -2347,6 +2497,14 @@ All The best 😚!</p>
         const badgeDiamond = document.getElementById('badgeDiamond');
         const formPreloader = document.querySelector('.form-preloader');
         const lessonsGrid = document.querySelector('.lessons-grid');
+        const closeTerms = document.getElementById('closeTerms');
+        const closeAuth = document.getElementById('closeAuth');
+        const closeStudent = document.getElementById('closeStudent');
+        const closeNotice = document.getElementById('closeNotice');
+        const closeProfile = document.getElementById('closeProfile');
+        const confirmDeleteModal = document.getElementById('confirmDeleteModal');
+        const btnFinalCancelDelete = document.getElementById('btnFinalCancelDelete');
+        const btnFinalConfirmDelete = document.getElementById('btnFinalConfirmDelete');
 
         // Initialize the app
         function init() {
@@ -2438,6 +2596,19 @@ All The best 😚!</p>
 
         // Setup event listeners
         function setupEventListeners() {
+            // Close buttons
+            closeTerms.addEventListener('click', () => hideModal(termsModal));
+            closeAuth.addEventListener('click', () => {
+                if (!auth.currentUser) {
+                    showNotification('You must login to access the content', 'warning');
+                    return;
+                }
+                hideAuthModal();
+            });
+            closeStudent.addEventListener('click', () => hideModal(studentModal));
+            closeNotice.addEventListener('click', () => hideModal(noticeModal));
+            closeProfile.addEventListener('click', () => hideProfileModal());
+            
             // Terms modal
             acceptTerms.addEventListener('change', (e) => {
                 btnAcceptTerms.disabled = !e.target.checked;
@@ -2557,8 +2728,30 @@ All The best 😚!</p>
                 });
             });
             
+            // Final delete confirmation
+            btnFinalCancelDelete.addEventListener('click', () => hideModal(confirmDeleteModal));
+            btnFinalConfirmDelete.addEventListener('click', finalDeleteAccount);
+            
             // Beforeunload event
             window.addEventListener('beforeunload', handleBeforeUnload);
+            
+            // Click outside modals to close (only for allowed modals)
+            document.addEventListener('click', (e) => {
+                // Profile modal
+                if (profileModal.style.display === 'flex' && e.target === profileModal) {
+                    hideProfileModal();
+                }
+                
+                // Student modal
+                if (studentModal.style.display === 'flex' && e.target === studentModal) {
+                    hideModal(studentModal);
+                }
+                
+                // Notice modal
+                if (noticeModal.style.display === 'flex' && e.target === noticeModal) {
+                    hideModal(noticeModal);
+                }
+            });
         }
 
         // Check auth state
@@ -2588,13 +2781,19 @@ All The best 😚!</p>
                     // User is signed out
                     userAvatar.textContent = 'G';
                     
+                    // Show auth modal immediately
+                    showAuthModal('login');
+                    
+                    // Hide main content
+                    mainContainer.classList.remove('show');
+                    setTimeout(() => {
+                        mainContainer.style.display = 'none';
+                    }, 500);
+                    
                     // Show terms modal if not accepted yet
                     const termsAccepted = localStorage.getItem('termsAccepted');
                     if (!termsAccepted) {
                         showTermsModal();
-                    } else {
-                        // Show auth modal if terms accepted but not logged in
-                        showAuthModal('login');
                     }
                 }
             });
@@ -2798,6 +2997,16 @@ All The best 😚!</p>
             setTimeout(() => {
                 verifyModal.querySelector('.verify-content').style.transform = 'scale(1)';
                 verifyModal.querySelector('.verify-content').style.opacity = '1';
+            }, 10);
+        }
+
+        // Show confirm delete modal
+        function showConfirmDeleteModal() {
+            hideModal(verifyModal);
+            confirmDeleteModal.style.display = 'flex';
+            setTimeout(() => {
+                confirmDeleteModal.querySelector('.confirm-delete-content').style.transform = 'scale(1)';
+                confirmDeleteModal.querySelector('.confirm-delete-content').style.opacity = '1';
             }, 10);
         }
 
@@ -3322,29 +3531,45 @@ All The best 😚!</p>
                 btnVerifyDelete.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
                 
                 if (otp === deleteVerificationOtp) {
-                    // Delete user data from Firestore
-                    await db.collection('users').doc(auth.currentUser.uid).delete();
-                    
-                    // Delete user from Firebase Auth
-                    await auth.currentUser.delete();
-                    
-                    showNotification('Account deleted successfully', 'success');
-                    hideModal(verifyModal);
-                    hideProfileModal();
-                    mainContainer.classList.remove('show');
-                    setTimeout(() => {
-                        mainContainer.style.display = 'none';
-                    }, 500);
-                    showAuthModal('login');
+                    showConfirmDeleteModal();
                 } else {
                     showNotification('Invalid verification code', 'danger');
                 }
             } catch (error) {
-                console.error('Error deleting account:', error);
-                showNotification('Failed to delete account. Please try again.', 'danger');
+                console.error('Error verifying OTP:', error);
+                showNotification('Failed to verify OTP. Please try again.', 'danger');
             } finally {
                 btnVerifyDelete.disabled = false;
                 btnVerifyDelete.textContent = 'Verify & Delete';
+            }
+        }
+
+        // Final delete account
+        async function finalDeleteAccount() {
+            try {
+                btnFinalConfirmDelete.disabled = true;
+                btnFinalConfirmDelete.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+                
+                // Delete user data from Firestore
+                await db.collection('users').doc(auth.currentUser.uid).delete();
+                
+                // Delete user from Firebase Auth
+                await auth.currentUser.delete();
+                
+                showNotification('Account deleted successfully', 'success');
+                hideModal(confirmDeleteModal);
+                hideProfileModal();
+                mainContainer.classList.remove('show');
+                setTimeout(() => {
+                    mainContainer.style.display = 'none';
+                }, 500);
+                showAuthModal('login');
+            } catch (error) {
+                console.error('Error deleting account:', error);
+                showNotification('Failed to delete account. Please try again.', 'danger');
+            } finally {
+                btnFinalConfirmDelete.disabled = false;
+                btnFinalConfirmDelete.textContent = 'Delete My Account';
             }
         }
 
