@@ -302,6 +302,14 @@
             background: linear-gradient(to right, #fff, #a29bfe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .header h1.show {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .header p {
@@ -330,6 +338,12 @@
             align-items: center;
             background: rgba(255,255,255,0.2);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .logo-circle:hover {
+            transform: scale(1.05);
         }
 
         .logo-circle img {
@@ -338,6 +352,13 @@
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid white;
+        }
+
+        .profile-label {
+            color: white;
+            font-size: 1rem;
+            margin-top: 5px;
+            font-weight: 500;
         }
 
         /* Banner */
@@ -479,6 +500,13 @@
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
         }
 
+        .dropdown-btn.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         .dropdown-content {
             display: none;
             position: absolute;
@@ -607,6 +635,11 @@
             border-bottom: 3px solid var(--primary);
         }
 
+        .auth-tab.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
         .auth-form {
             display: none;
         }
@@ -679,6 +712,13 @@
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
         }
 
+        .btn-auth.disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         .auth-footer {
             text-align: center;
             margin-top: 20px;
@@ -691,6 +731,11 @@
             font-weight: 600;
             text-decoration: none;
             cursor: pointer;
+        }
+
+        .auth-footer a.disabled {
+            color: var(--text-secondary);
+            cursor: not-allowed;
         }
 
         .otp-container {
@@ -1239,45 +1284,6 @@
             transform: translateX(-3px);
         }
 
-        /* User Profile */
-        .user-profile {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
-            padding: 5px 10px 5px 5px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition);
-            z-index: 999;
-        }
-
-        .user-profile:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 600;
-            margin-right: 8px;
-        }
-
-        .user-name {
-            color: white;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
         /* Profile Modal */
         .profile-modal {
             display: none;
@@ -1443,6 +1449,26 @@
             box-shadow: 0 5px 15px rgba(253, 203, 110, 0.4);
         }
 
+        .btn-close-profile {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.2);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-close-profile:hover {
+            background: rgba(0,0,0,0.3);
+            transform: rotate(90deg);
+        }
+
         /* Delete Account Modal */
         .delete-modal {
             display: none;
@@ -1584,6 +1610,42 @@
             justify-content: space-between;
         }
 
+        /* Quiz Start Preloader */
+        .quiz-preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1009;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+            display: none;
+        }
+
+        .quiz-preloader .loader {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .quiz-preloader p {
+            color: white;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .dropdown-content {
@@ -1717,6 +1779,28 @@
             animation: pulse 2s infinite;
         }
 
+        /* Typewriter effect */
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary) }
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: .15em solid var(--primary);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret .75s step-end infinite;
+        }
+
         /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
@@ -1798,12 +1882,6 @@
         <i class="fas fa-arrow-left"></i>
     </div>
 
-    <!-- User Profile -->
-    <div class="user-profile" id="userProfile">
-        <div class="user-avatar" id="userAvatar">G</div>
-        <div class="user-name" id="userName">Guest</div>
-    </div>
-
     <!-- Particles Background -->
     <div class="particles" id="particles-js"></div>
 
@@ -1812,13 +1890,20 @@
         <i class="fab fa-whatsapp"></i>
     </div>
 
+    <!-- Quiz Start Preloader -->
+    <div class="quiz-preloader" id="quizPreloader">
+        <div class="loader"></div>
+        <p>Loading Quiz...</p>
+    </div>
+
     <!-- Main Container -->
     <div class="container">
         <div class="header">
-            <div class="logo-circle">
-                <img src="UDR.jpg" alt="Quiz Logo">
+            <div class="logo-circle" id="profileLogo">
+                <span id="userInitial">G</span>
             </div>
-            <h1>ET Panthiya.lk Quiz Portal</h1>
+            <div class="profile-label" id="profileLabel">Profile</div>
+            <h1 id="mainTitle">ET Panthiya.lk Quiz Portal</h1>
             <p>"The Quiz Portal"  ET Panthiya.lk අපේ වැඩක් ✨🎉. Enjoy & Learn 😎😜</p>
             <div class="greeting" id="greeting"></div>
         </div>
@@ -2139,16 +2224,13 @@ All The best 😚!</p>
     <div class="auth-modal" id="authModal">
         <div class="auth-content">
             <div class="auth-header">
-                <div class="close-auth" id="closeAuth">
-                    <i class="fas fa-times"></i>
-                </div>
                 <h2 id="authModalTitle">Welcome Back!</h2>
                 <p id="authModalSubtitle">Please login to continue</p>
             </div>
             <div class="auth-body">
                 <div class="auth-tabs">
                     <div class="auth-tab active" data-tab="login">Login</div>
-                    <div class="auth-tab" data-tab="signup">Sign Up</div>
+                    <div class="auth-tab" id="signupTab" data-tab="signup">Sign Up</div>
                 </div>
                 
                 <!-- Login Form -->
@@ -2327,24 +2409,13 @@ All The best 😚!</p>
         </div>
     </div>
 
-    <!-- Welcome Modal -->
-    <div class="welcome-modal" id="welcomeModal">
-        <div class="welcome-content">
-            <div class="welcome-header">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Welcome">
-            </div>
-            <div class="welcome-body">
-                <h2>Welcome to Interactive Quiz Portal 2025!</h2>
-                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please login or sign up to get started.</p>
-                <button class="btn-alert" id="btnWelcomeContinue">Get Started</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Profile Modal -->
     <div class="profile-modal" id="profileModal">
         <div class="profile-content">
             <div class="profile-header">
+                <div class="btn-close-profile" id="btnCloseProfile">
+                    <i class="fas fa-times"></i>
+                </div>
                 <div class="profile-avatar" id="profileAvatar">U</div>
                 <h2>User Profile</h2>
                 <p id="profileEmail">user@example.com</p>
@@ -2356,7 +2427,7 @@ All The best 😚!</p>
                     <p><span>Exam Year:</span> <span id="profileExamYear">2025</span></p>
                     <p><span>School:</span> <span id="profileSchool">School Name</span></p>
                     <p><span>District:</span> <span id="profileDistrict">District</span></p>
-                    <p><span>WhatsApp:</span> <span id="profileWhatsapp">+947XXXXXXXX</span></p>
+                    <p><span>WhatsApp:</span> <span id="profileWhatsapp">+94XXXXXXXXX</span></p>
                     <p><span>Completed Levels:</span> <span id="profileCompletedLevels">0/17</span></p>
                 </div>
                 
@@ -2469,6 +2540,9 @@ All The best 😚!</p>
         const TEXTIT_ID = "94769343928";
         const TEXTIT_PW = "9694";
 
+        // Your email to receive student details
+        const YOUR_EMAIL = "your-email@example.com";
+
         // Audio elements
         const startSound = document.getElementById('startSound');
         const warningSound = document.getElementById('warningSound');
@@ -2531,19 +2605,21 @@ All The best 😚!</p>
         let otpResendTimer;
         let generatedOtp = "";
         let deleteVerificationOtp = "";
+        let hasAccount = false;
 
         // DOM Elements
         const backButton = document.getElementById('backButton');
-        const userProfile = document.getElementById('userProfile');
-        const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
+        const profileLogo = document.getElementById('profileLogo');
+        const userInitial = document.getElementById('userInitial');
+        const profileLabel = document.getElementById('profileLabel');
         const whatsappButton = document.getElementById('whatsappButton');
         const mainContainer = document.querySelector('.container');
+        const mainTitle = document.getElementById('mainTitle');
         const authModal = document.getElementById('authModal');
         const authModalTitle = document.getElementById('authModalTitle');
         const authModalSubtitle = document.getElementById('authModalSubtitle');
-        const closeAuth = document.getElementById('closeAuth');
         const authTabs = document.querySelectorAll('.auth-tab');
+        const signupTab = document.getElementById('signupTab');
         const loginForm = document.getElementById('loginForm');
         const signupPhoneForm = document.getElementById('signupPhoneForm');
         const signupOtpForm = document.getElementById('signupOtpForm');
@@ -2586,13 +2662,7 @@ All The best 😚!</p>
         const btnAcknowledgeTimeUp = document.getElementById('btnAcknowledgeTimeUp');
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
-        const welcomeModal = document.getElementById('welcomeModal');
-        const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
-        const lessonCards = document.querySelectorAll('.lesson-card');
-        const dropdownContents = document.querySelectorAll('.dropdown-content');
-        const termsModal = document.getElementById('termsModal');
-        const acceptTerms = document.getElementById('acceptTerms');
-        const btnAcceptTerms = document.getElementById('btnAcceptTerms');
+        const quizPreloader = document.getElementById('quizPreloader');
         const greeting = document.getElementById('greeting');
         const profileModal = document.getElementById('profileModal');
         const profileAvatar = document.getElementById('profileAvatar');
@@ -2606,6 +2676,7 @@ All The best 😚!</p>
         const profileCompletedLevels = document.getElementById('profileCompletedLevels');
         const btnDeleteAccount = document.getElementById('btnDeleteAccount');
         const btnLogout = document.getElementById('btnLogout');
+        const btnCloseProfile = document.getElementById('btnCloseProfile');
         const deleteModal = document.getElementById('deleteModal');
         const btnCancelDelete = document.getElementById('btnCancelDelete');
         const btnConfirmDelete = document.getElementById('btnConfirmDelete');
@@ -2669,44 +2740,33 @@ All The best 😚!</p>
                 }, 300);
             });
             
+            // Profile logo click
+            profileLogo.addEventListener('click', toggleProfileModal);
+            
             // Back button
             backButton.addEventListener('click', handleBackButton);
-            
-            // User profile
-            userProfile.addEventListener('click', toggleProfileModal);
             
             // WhatsApp button
             whatsappButton.addEventListener('click', () => {
                 window.open('https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with...', '_blank');
             });
             
-            // Welcome modal
-            btnWelcomeContinue.addEventListener('click', () => {
-                welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-                welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-                setTimeout(() => {
-                    welcomeModal.style.display = 'none';
-                    if (!auth.currentUser) {
-                        showAuthModal('login');
-                    }
-                }, 300);
-            });
-            
             // Auth modal tabs
             authTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
+                    if (tab.classList.contains('disabled')) return;
                     const tabName = tab.getAttribute('data-tab');
                     switchAuthTab(tabName);
                 });
             });
             
             // Show signup/login links
-            showSignup.addEventListener('click', () => switchAuthTab('signup'));
+            showSignup.addEventListener('click', () => {
+                if (hasAccount) return;
+                switchAuthTab('signup');
+            });
             showLoginFromSignup.addEventListener('click', () => switchAuthTab('login'));
             showLoginFromEmail.addEventListener('click', () => switchAuthTab('login'));
-            
-            // Close auth modal
-            closeAuth.addEventListener('click', () => hideAuthModal());
             
             // Login form
             btnLogin.addEventListener('click', handleLogin);
@@ -2762,6 +2822,7 @@ All The best 😚!</p>
             // Profile modal controls
             btnDeleteAccount.addEventListener('click', showDeleteModal);
             btnLogout.addEventListener('click', handleLogout);
+            btnCloseProfile.addEventListener('click', () => hideModal(profileModal));
             
             // Delete account modal controls
             btnCancelDelete.addEventListener('click', () => hideModal(deleteModal));
@@ -2788,49 +2849,14 @@ All The best 😚!</p>
                 });
             });
             
-            // Window click handlers
-            window.addEventListener('click', (e) => {
-                if (e.target === authModal) hideAuthModal();
-                if (e.target === studentModal) hideStudentModal();
-                if (e.target === noticeModal) hideNoticeModal();
-                if (e.target === timeWarningModal) hideAlertModal(timeWarningModal);
-                if (e.target === timeUpModal) {
-                    hideAlertModal(timeUpModal);
-                    closeQuiz();
-                }
-                if (e.target === welcomeModal) {
-                    welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-                    welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-                    setTimeout(() => {
-                        welcomeModal.style.display = 'none';
-                    }, 300);
-                }
-                if (e.target === profileModal) {
-                    hideModal(profileModal);
-                }
-                if (e.target === deleteModal) {
-                    hideModal(deleteModal);
-                }
-                if (e.target === verifyModal) {
-                    hideModal(verifyModal);
-                }
-                if (e.target === termsModal) {
-                    // Prevent closing terms modal by clicking outside
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            });
-            
-            // Beforeunload event
-            window.addEventListener('beforeunload', handleBeforeUnload);
-            
             // Lesson card dropdown buttons
             document.querySelectorAll('.dropdown-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const dropdown = btn.nextElementSibling;
                     if (auth.currentUser) {
-                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                        // Show notice before starting quiz
+                        showQuizNotice(btn);
                     } else {
                         const lessonCard = btn.closest('.lesson-card');
                         const lessonId = lessonCard.getAttribute('data-lesson');
@@ -2840,6 +2866,24 @@ All The best 😚!</p>
                     }
                 });
             });
+        }
+
+        // Show quiz notice before starting
+        function showQuizNotice(btn) {
+            const quizNotice = confirm("Are you ready to start the quiz? You'll have 30 minutes to complete it.");
+            if (quizNotice) {
+                // Show preloader
+                quizPreloader.style.display = 'flex';
+                
+                // Start quiz after 2 seconds
+                setTimeout(() => {
+                    quizPreloader.style.display = 'none';
+                    const lessonCard = btn.closest('.lesson-card');
+                    const lessonId = lessonCard.getAttribute('data-lesson');
+                    const level = 1; // Default level
+                    startQuiz(lessonId, level);
+                }, 2000);
+            }
         }
 
         // Populate level dropdowns
@@ -2855,7 +2899,8 @@ All The best 😚!</p>
                         const lessonId = lessonCard.getAttribute('data-lesson');
                         
                         if (auth.currentUser) {
-                            startQuiz(lessonId, i);
+                            // Show notice before starting quiz
+                            showQuizNotice(levelLink);
                         } else {
                             currentLesson = lessonId;
                             currentLevel = i;
@@ -2878,12 +2923,42 @@ All The best 😚!</p>
                     
                     // Check if user has completed profile
                     checkUserProfile(user);
+                    
+                    // Disable signup tab if user already has account
+                    hasAccount = true;
+                    signupTab.classList.add('disabled');
+                    showSignup.classList.add('disabled');
+                    
+                    // Load saved login info
+                    loadSavedLogin();
+                    
+                    // Animate title after login
+                    setTimeout(() => {
+                        mainTitle.classList.add('show');
+                    }, 500);
                 } else {
                     // User is signed out
-                    userAvatar.textContent = 'G';
-                    userName.textContent = 'Guest';
+                    userInitial.textContent = 'G';
+                    profileLabel.textContent = 'Profile';
+                    hasAccount = false;
+                    signupTab.classList.remove('disabled');
+                    showSignup.classList.remove('disabled');
                 }
             });
+        }
+
+        // Load saved login info
+        function loadSavedLogin() {
+            const savedEmail = localStorage.getItem('quizPortalEmail');
+            if (savedEmail) {
+                loginEmail.value = savedEmail;
+                loginPassword.focus();
+            }
+        }
+
+        // Save login info
+        function saveLoginInfo(email) {
+            localStorage.setItem('quizPortalEmail', email);
         }
 
         // Check if user has completed profile
@@ -2902,11 +2977,11 @@ All The best 😚!</p>
         // Update user profile display
         function updateUserProfile(user) {
             if (user.displayName) {
-                userAvatar.textContent = user.displayName.charAt(0).toUpperCase();
-                userName.textContent = 'User';
+                userInitial.textContent = user.displayName.charAt(0).toUpperCase();
+                profileLabel.textContent = 'Profile';
             } else {
-                userAvatar.textContent = 'U';
-                userName.textContent = 'User';
+                userInitial.textContent = 'U';
+                profileLabel.textContent = 'Profile';
             }
         }
 
@@ -3257,6 +3332,9 @@ All The best 😚!</p>
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
                 
+                // Save login info
+                saveLoginInfo(email);
+                
                 // If there's a pending lesson, start quiz
                 if (currentLesson && currentLevel) {
                     startQuiz(currentLesson, currentLevel);
@@ -3407,6 +3485,9 @@ All The best 😚!</p>
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
                 
+                // Save login info
+                saveLoginInfo(email);
+                
                 // Show notice modal before student details
                 showNoticeModal();
                 
@@ -3464,7 +3545,21 @@ All The best 😚!</p>
                     displayName: name
                 });
                 
-                // Save additional user data to Firestore
+                // Send email with student details (simulated with console.log)
+                console.log(`Sending email to ${YOUR_EMAIL} with student details:
+                    Name: ${name}
+                    Gender: ${gender}
+                    Email: ${email}
+                    Exam Year: ${examYear}
+                    School: ${school}
+                    District: ${district}
+                    WhatsApp: +94${whatsapp}
+                `);
+                
+                // For demo purposes, we'll just log it
+                showNotification('Student information submitted successfully!', 'success');
+                
+                // Save minimal user data to Firestore
                 const userData = {
                     uid: user.uid,
                     name,
@@ -3482,15 +3577,15 @@ All The best 😚!</p>
                 
                 await db.collection('users').doc(user.uid).set(userData, { merge: true });
                 
-                showNotification('Profile information saved successfully!', 'success');
                 hideStudentModal();
-                updateUserProfile(user);
                 
-                // If there's a pending lesson, start quiz
+                // Show login modal with message
+                showNotification('Please login with your credentials', 'info');
+                showAuthModal('login');
+                
+                // If there's a pending lesson, start quiz after login
                 if (currentLesson && currentLevel) {
-                    startQuiz(currentLesson, currentLevel);
-                    currentLesson = null;
-                    currentLevel = null;
+                    // Will be handled after login
                 }
             } catch (error) {
                 console.error('Error saving student details:', error);
@@ -3792,15 +3887,6 @@ All The best 😚!</p>
             setTimeout(() => {
                 floatingNotification.classList.remove('show');
             }, 5000);
-        }
-
-        // Toggle auth modal
-        function toggleAuthModal() {
-            if (authModal.style.display === 'flex') {
-                hideAuthModal();
-            } else {
-                showAuthModal(auth.currentUser ? 'logout' : 'login');
-            }
         }
 
         // Handle back button
