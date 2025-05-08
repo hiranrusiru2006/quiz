@@ -455,6 +455,17 @@
             font-weight: 600;
         }
 
+        .progress-indicator {
+            display: inline-block;
+            background: rgba(0, 184, 148, 0.1);
+            color: var(--success);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+
         .dropdown {
             position: relative;
             display: inline-block;
@@ -658,6 +669,14 @@
 
         .phone-input input {
             border-radius: 0 8px 8px 0 !important;
+            -webkit-appearance: none;
+            -moz-appearance: textfield;
+        }
+
+        .phone-input input::-webkit-outer-spin-button,
+        .phone-input input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         .btn-auth {
@@ -1112,7 +1131,7 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            z-index: 999;
+            z-index: 9999;
             transform: translateX(150%);
             transition: var(--transition);
         }
@@ -1297,7 +1316,7 @@
             color: white;
             font-weight: 500;
             font-size: 0.9rem;
-            display: none; /* Hide the full name */
+            display: none;
         }
 
         /* Profile Modal */
@@ -1684,6 +1703,134 @@
             color: white;
         }
 
+        /* Ad Banner Modal */
+        .ad-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1010;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .ad-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ad-modal.show .ad-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .ad-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .ad-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .close-ad {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.2);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-ad:hover {
+            background: rgba(0,0,0,0.4);
+            transform: rotate(90deg);
+        }
+
+        .ad-body {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .ad-body img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .ad-body p {
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .btn-ad {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .btn-ad:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        /* Emoji Rain */
+        .emoji-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 24px;
+            animation: emoji-fall linear forwards;
+        }
+
+        @keyframes emoji-fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .dropdown-content {
@@ -1712,6 +1859,18 @@
             
             .btn-delete-account, .btn-logout {
                 width: 100%;
+            }
+
+            /* Mobile keyboard fixes */
+            .auth-modal, .student-modal, .notice-modal {
+                align-items: flex-start;
+                padding-top: 20px;
+                overflow-y: auto;
+            }
+
+            .auth-content, .student-content, .notice-content {
+                margin-top: 20px;
+                margin-bottom: 20px;
             }
         }
 
@@ -1774,16 +1933,6 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
-            }
-            
-            /* Mobile keyboard fix */
-            .student-modal {
-                align-items: flex-start;
-                padding-top: 20px;
-            }
-            
-            .student-content {
-                margin-top: 20px;
             }
             
             .terms-footer {
@@ -1880,6 +2029,9 @@
     <div class="form-preloader">
         <div class="loader"></div>
     </div>
+
+    <!-- Emoji Rain -->
+    <div class="emoji-rain" id="emojiRain"></div>
 
     <!-- Terms and Conditions Modal -->
     <div class="terms-modal" id="termsModal">
@@ -2022,7 +2174,7 @@ All The best 😚!</p>
                         <label for="signupPhone">Phone Number</label>
                         <div class="phone-input">
                             <span class="prefix">+94</span>
-                            <input type="tel" id="signupPhone" placeholder="7XXXXXXXX" maxlength="9">
+                            <input type="tel" id="signupPhone" placeholder="7XXXXXXXX" maxlength="9" inputmode="numeric">
                         </div>
                     </div>
                     <button class="btn-auth" id="btnSendOtp">Send Verification Code</button>
@@ -2036,12 +2188,12 @@ All The best 😚!</p>
                     </div>
                     <div class="form-group">
                         <div class="otp-inputs">
-                            <input type="text" maxlength="1" class="otp-input">
-                            <input type="text" maxlength="1" class="otp-input">
-                            <input type="text" maxlength="1" class="otp-input">
-                            <input type="text" maxlength="1" class="otp-input">
-                            <input type="text" maxlength="1" class="otp-input">
-                            <input type="text" maxlength="1" class="otp-input">
+                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
                         </div>
                     </div>
                     <button class="btn-auth" id="btnVerifyOtp">Verify OTP</button>
@@ -2111,7 +2263,7 @@ All The best 😚!</p>
                         <label for="studentWhatsapp">WhatsApp Number</label>
                         <div class="phone-input">
                             <span class="prefix">+94</span>
-                            <input type="tel" id="studentWhatsapp" placeholder="7XXXXXXXX" maxlength="9" required>
+                            <input type="tel" id="studentWhatsapp" placeholder="7XXXXXXXX" maxlength="9" required inputmode="numeric">
                         </div>
                     </div>
                     <button type="submit" class="btn-auth" id="btnSaveStudent">Save Information</button>
@@ -2248,12 +2400,12 @@ All The best 😚!</p>
             <div class="verify-body">
                 <p>We've sent a 6-digit verification code to <span id="verifyPhoneNumber">+947XXXXXXXX</span></p>
                 <div class="verify-otp-inputs">
-                    <input type="text" maxlength="1" class="verify-otp-input">
-                    <input type="text" maxlength="1" class="verify-otp-input">
-                    <input type="text" maxlength="1" class="verify-otp-input">
-                    <input type="text" maxlength="1" class="verify-otp-input">
-                    <input type="text" maxlength="1" class="verify-otp-input">
-                    <input type="text" maxlength="1" class="verify-otp-input">
+                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
+                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
+                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
+                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
+                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
+                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
                 </div>
                 <div class="resend-otp">
                     Didn't receive code? <a id="resendVerifyOtp">Resend OTP</a>
@@ -2288,6 +2440,23 @@ All The best 😚!</p>
             <div class="confirm-delete-footer">
                 <button class="btn-alert btn-cancel-delete" id="btnFinalCancelDelete">Cancel</button>
                 <button class="btn-alert btn-confirm-delete" id="btnFinalConfirmDelete">Delete My Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Banner Modal -->
+    <div class="ad-modal" id="adModal">
+        <div class="ad-content">
+            <div class="ad-header">
+                <h2>Special Offer!</h2>
+                <button class="close-ad" id="closeAd">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="ad-body">
+                <img src="https://via.placeholder.com/400x200?text=Ad+Banner" alt="Special Offer">
+                <p>Get 50% off on all our premium courses for a limited time only!</p>
+                <a href="#" class="btn-ad">Learn More</a>
             </div>
         </div>
     </div>
@@ -2416,6 +2585,9 @@ All The best 😚!</p>
         let otpResendTimer;
         let generatedOtp = "";
         let deleteVerificationOtp = "";
+        let adTimer;
+        let firstLogin = true;
+        let termsAccepted = localStorage.getItem('termsAccepted') === 'true';
 
         // DOM Elements
         const backButton = document.getElementById('backButton');
@@ -2505,6 +2677,9 @@ All The best 😚!</p>
         const confirmDeleteModal = document.getElementById('confirmDeleteModal');
         const btnFinalCancelDelete = document.getElementById('btnFinalCancelDelete');
         const btnFinalConfirmDelete = document.getElementById('btnFinalConfirmDelete');
+        const emojiRain = document.getElementById('emojiRain');
+        const adModal = document.getElementById('adModal');
+        const closeAd = document.getElementById('closeAd');
 
         // Initialize the app
         function init() {
@@ -2513,16 +2688,33 @@ All The best 😚!</p>
             initParticles();
             updateGreeting();
             populateLessonsGrid();
+            startAdTimer();
         }
 
         // Populate lessons grid
-        function populateLessonsGrid() {
+        async function populateLessonsGrid() {
             lessonsGrid.innerHTML = '';
+            
+            // Get user's completed levels if logged in
+            let completedLevels = {};
+            if (auth.currentUser) {
+                try {
+                    const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
+                    if (userDoc.exists) {
+                        completedLevels = userDoc.data().completedLevels || {};
+                    }
+                } catch (error) {
+                    console.error('Error fetching completed levels:', error);
+                }
+            }
             
             for (let i = 1; i <= 17; i++) {
                 const lessonCard = document.createElement('div');
                 lessonCard.className = 'lesson-card';
                 lessonCard.setAttribute('data-lesson', i);
+                
+                // Calculate completed levels for this lesson
+                const lessonCompleted = completedLevels[i] ? completedLevels[i].length : 0;
                 
                 lessonCard.innerHTML = `
                     <img src="${lessonImages[i]}" alt="${lessonTitles[i]}" class="lesson-image">
@@ -2532,12 +2724,17 @@ All The best 😚!</p>
                         <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                         <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                     </div>
+                    ${lessonCompleted > 0 ? `<div class="progress-indicator"><i class="fas fa-check-circle"></i> ${lessonCompleted}/20 levels completed</div>` : ''}
                     <div class="dropdown">
                         <button class="dropdown-btn">Start Quiz</button>
                         <div class="dropdown-content">
-                            ${Array(20).fill().map((_, j) => 
-                                `<a href="#" data-level="${j+1}">Level ${j+1}</a>`
-                            ).join('')}
+                            ${Array(20).fill().map((_, j) => {
+                                const levelNum = j + 1;
+                                const isCompleted = completedLevels[i] && completedLevels[i].includes(levelNum);
+                                return `<a href="#" data-level="${levelNum}" class="${isCompleted ? 'completed' : ''}">
+                                    ${isCompleted ? '<i class="fas fa-check-circle"></i> ' : ''}Level ${levelNum}
+                                </a>`;
+                            }).join('')}
                         </div>
                     </div>
                 `;
@@ -2608,6 +2805,7 @@ All The best 😚!</p>
             closeStudent.addEventListener('click', () => hideModal(studentModal));
             closeNotice.addEventListener('click', () => hideModal(noticeModal));
             closeProfile.addEventListener('click', () => hideProfileModal());
+            closeAd.addEventListener('click', () => hideModal(adModal));
             
             // Terms modal
             acceptTerms.addEventListener('change', (e) => {
@@ -2617,13 +2815,10 @@ All The best 😚!</p>
             btnAcceptTerms.addEventListener('click', () => {
                 // Store that user has accepted terms in localStorage
                 localStorage.setItem('termsAccepted', 'true');
+                termsAccepted = true;
                 
-                termsModal.querySelector('.terms-content').style.transform = 'scale(0.9)';
-                termsModal.querySelector('.terms-content').style.opacity = '0';
-                setTimeout(() => {
-                    termsModal.style.display = 'none';
-                    showAuthModal('login');
-                }, 300);
+                hideModal(termsModal);
+                showAuthModal('login');
             });
             
             // Back button
@@ -2751,6 +2946,20 @@ All The best 😚!</p>
                 if (noticeModal.style.display === 'flex' && e.target === noticeModal) {
                     hideModal(noticeModal);
                 }
+                
+                // Auth modal
+                if (authModal.style.display === 'flex' && e.target === authModal) {
+                    if (!auth.currentUser) {
+                        showNotification('You must login to access the content', 'warning');
+                        return;
+                    }
+                    hideAuthModal();
+                }
+                
+                // Ad modal
+                if (adModal.style.display === 'flex' && e.target === adModal) {
+                    hideModal(adModal);
+                }
             });
         }
 
@@ -2767,13 +2976,18 @@ All The best 😚!</p>
                     if (userDoc.exists && userDoc.data().profileCompleted) {
                         // User has completed profile, show main content
                         showMainContent();
+                        
+                        // Show welcome animation on first login
+                        if (firstLogin) {
+                            firstLogin = false;
+                            showEmojiRain();
+                        }
                     } else {
                         // User needs to complete profile
                         showNoticeModal();
                     }
                     
-                    // Check if terms were accepted (only show once)
-                    const termsAccepted = localStorage.getItem('termsAccepted');
+                    // Show terms modal if not accepted yet (only once)
                     if (!termsAccepted) {
                         showTermsModal();
                     }
@@ -2790,8 +3004,7 @@ All The best 😚!</p>
                         mainContainer.style.display = 'none';
                     }, 500);
                     
-                    // Show terms modal if not accepted yet
-                    const termsAccepted = localStorage.getItem('termsAccepted');
+                    // Show terms modal if not accepted yet (only once)
                     if (!termsAccepted) {
                         showTermsModal();
                     }
@@ -2902,18 +3115,20 @@ All The best 😚!</p>
                     // Calculate completed levels
                     let completedCount = 0;
                     if (userData.completedLevels) {
-                        completedCount = Object.keys(userData.completedLevels).length;
+                        completedCount = Object.keys(userData.completedLevels).reduce((acc, key) => {
+                            return acc + userData.completedLevels[key].length;
+                        }, 0);
                     }
-                    profileCompletedLevels.textContent = `${completedCount}/17`;
+                    profileCompletedLevels.textContent = `${completedCount}/340`;
                     
                     // Update badge display
                     badgeSilver.style.display = 'none';
                     badgeGold.style.display = 'none';
                     badgeDiamond.style.display = 'none';
                     
-                    if (completedCount >= 10) {
+                    if (completedCount >= 100) {
                         badgeDiamond.style.display = 'flex';
-                    } else if (completedCount >= 5) {
+                    } else if (completedCount >= 50) {
                         badgeGold.style.display = 'flex';
                     } else {
                         badgeSilver.style.display = 'flex';
@@ -3706,12 +3921,15 @@ All The best 😚!</p>
                             completedLevels[currentLesson] = [];
                         }
                         
-                        if (!completedLevels[currentLesson].includes(currentLevel)) {
-                            completedLevels[currentLesson].push(currentLevel);
+                        if (!completedLevels[currentLesson].includes(parseInt(currentLevel))) {
+                            completedLevels[currentLesson].push(parseInt(currentLevel));
                             await userRef.update({
                                 completedLevels: completedLevels,
                                 lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                             });
+                            
+                            // Update the UI to reflect completed level
+                            populateLessonsGrid();
                         }
                     }
                 } catch (error) {
@@ -3737,6 +3955,9 @@ All The best 😚!</p>
                     quizContainer.style.display = 'none';
                     quizIframe.src = '';
                     quizActive = false;
+                    
+                    // Mark as completed if user stayed until the end
+                    endQuiz();
                 }
             } else {
                 quizContainer.style.display = 'none';
@@ -3807,6 +4028,54 @@ All The best 😚!</p>
                 
                 particles.appendChild(particle);
             }
+        }
+
+        // Show emoji rain animation
+        function showEmojiRain() {
+            const emojis = ['🎉', '🎊', '✨', '🌟', '🏆', '👍', '💯', '🎓', '📚', '🏅'];
+            emojiRain.style.display = 'block';
+            
+            // Create 50 emojis
+            for (let i = 0; i < 50; i++) {
+                const emoji = document.createElement('div');
+                emoji.className = 'emoji';
+                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                emoji.style.left = `${Math.random() * 100}vw`;
+                emoji.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                emoji.style.animationDelay = `${Math.random() * 2}s`;
+                emojiRain.appendChild(emoji);
+                
+                // Remove emoji after animation completes
+                setTimeout(() => {
+                    emoji.remove();
+                }, 5000);
+            }
+            
+            // Hide container after animation
+            setTimeout(() => {
+                emojiRain.style.display = 'none';
+                emojiRain.innerHTML = '';
+            }, 5000);
+        }
+
+        // Start ad timer
+        function startAdTimer() {
+            // Show first ad after 10 minutes
+            adTimer = setTimeout(() => {
+                showAdModal();
+                
+                // Then show every 10 minutes
+                setInterval(showAdModal, 10 * 60 * 1000);
+            }, 10 * 60 * 1000);
+        }
+
+        // Show ad modal
+        function showAdModal() {
+            adModal.style.display = 'flex';
+            setTimeout(() => {
+                adModal.querySelector('.ad-content').style.transform = 'scale(1)';
+                adModal.querySelector('.ad-content').style.opacity = '1';
+            }, 10);
         }
 
         // Preloader
