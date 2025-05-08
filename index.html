@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ET Panthiya.lk Quiz Portal 2025</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Add Firebase SDK -->
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
@@ -563,24 +563,9 @@
             opacity: 0.9;
         }
 
+        /* Remove close button from auth modals */
         .close-auth {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.2);
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .close-auth:hover {
-            background: rgba(0,0,0,0.3);
-            transform: rotate(90deg);
+            display: none !important;
         }
 
         .auth-body {
@@ -789,6 +774,11 @@
             opacity: 0.9;
         }
 
+        /* Remove close button from student modal */
+        .close-student {
+            display: none !important;
+        }
+
         .student-body {
             padding: 30px;
         }
@@ -900,7 +890,7 @@
         }
 
         .timer {
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0,0,0,0.2);
             padding: 5px 15px;
             border-radius: 50px;
             font-weight: 600;
@@ -1276,6 +1266,7 @@
             color: white;
             font-weight: 500;
             font-size: 0.9rem;
+            display: none; /* Hide the full name */
         }
 
         /* Profile Modal */
@@ -1734,6 +1725,35 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--secondary);
         }
+
+        /* Form Preloader */
+        .form-preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            display: none;
+        }
+
+        .form-preloader .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -1745,6 +1765,11 @@
             <div></div><div></div><div></div>
         </div>
         <div class="loading-text">Loading Interactive Quiz Portal</div>
+    </div>
+
+    <!-- Form Preloader -->
+    <div class="form-preloader">
+        <div class="loader"></div>
     </div>
 
     <!-- Terms and Conditions Modal -->
@@ -1801,7 +1826,6 @@
     <!-- User Profile -->
     <div class="user-profile" id="userProfile">
         <div class="user-avatar" id="userAvatar">G</div>
-        <div class="user-name" id="userName">Guest</div>
     </div>
 
     <!-- Particles Background -->
@@ -1816,7 +1840,7 @@
     <div class="container">
         <div class="header">
             <div class="logo-circle">
-                <img src="UDR.jpg" alt="Quiz Logo">
+                <img src="https://via.placeholder.com/160x160" alt="Quiz Logo">
             </div>
             <h1>ET Panthiya.lk Quiz Portal</h1>
             <p>"The Quiz Portal"  ET Panthiya.lk අපේ වැඩක් ✨🎉. Enjoy & Learn 😎😜</p>
@@ -1844,294 +1868,7 @@ All The best 😚!</p>
 
         <!-- Lessons Grid -->
         <div class="lessons-grid">
-            <!-- Lesson 1 -->
-            <div class="lesson-card" data-lesson="1">
-                <img src="1.png" alt=" ET හැඳින්වීම" class="lesson-image">
-                <h3> ET හැඳින්වීම</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 2 -->
-            <div class="lesson-card" data-lesson="2">
-                <img src="2.png" alt=" ඉංජිනේරු ඇඳීම Drawing" class="lesson-image">
-                <h3> ඉංජිනේරු ඇඳීම Drawing</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 3 -->
-            <div class="lesson-card" data-lesson="3">
-                <img src="3.png" alt="නිෂ්පාදන තාක්ෂණවේදය Production" class="lesson-image">
-                <h3>නිෂ්පාදන තාක්ෂණවේදය Production</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 4 -->
-            <div class="lesson-card" data-lesson="4">
-                <img src="4.png" alt=" ගොඩනැගිලි තාක්ෂණවේදය" class="lesson-image">
-                <h3> ගොඩනැගිලි තාක්ෂණවේදය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 5 -->
-            <div class="lesson-card" data-lesson="5">
-                <img src="5.png" alt=" යන්ත්‍ර වල බල සම්ප්‍රේෂණය හා චලිත හැසිරීම්" class="lesson-image">
-                <h3> යන්ත්‍ර වල බල සම්ප්‍රේෂණය හා චලිත හැසිරීම්</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 6 -->
-            <div class="lesson-card" data-lesson="6">
-                <img src="6.png" alt=" ඉංජිනේරු ආරක්ෂාව Safety" class="lesson-image">
-                <h3> ඉංජිනේරු ආරක්ෂාව Safety</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 7 -->
-            <div class="lesson-card" data-lesson="7">
-                <img src="7.png" alt=" ස්වයංචල තාක්ෂණය Automobile" class="lesson-image">
-                <h3> ස්වයංචල තාක්ෂණය Automobile</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 8 -->
-            <div class="lesson-card" data-lesson="8">
-                <img src="8.png" alt="විදුලි තාක්ෂණවේදය Electrical" class="lesson-image">
-                <h3> විදුලි තාක්ෂණවේදය Electrical</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 9 -->
-            <div class="lesson-card" data-lesson="9">
-                <img src="9.png" alt=" ඒකක හා මිනුම්" class="lesson-image">
-                <h3> ඒකක හා මිනුම්</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 10 -->
-            <div class="lesson-card" data-lesson="10">
-                <img src="10.png" alt="විදුලි යන්ත්‍ර හා බල පද්ධති (මෝටර් පාඩම)" class="lesson-image">
-                <h3>විදුලි යන්ත්‍ර හා බල පද්ධති (මෝටර් පාඩම)</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 11 -->
-            <div class="lesson-card" data-lesson="11">
-                <img src="11.png" alt=" ප්‍රමිති හා පිරිවිතර" class="lesson-image">
-                <h3> ප්‍රමිති හා පිරිවිතර</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 12 -->
-            <div class="lesson-card" data-lesson="12">
-                <img src="12.png" alt=" බිම් මැනුම්" class="lesson-image">
-                <h3> බිම් මැනුම්</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 13 -->
-            <div class="lesson-card" data-lesson="13">
-                <img src="13.png" alt=" තරල යන්‍ත්‍ර" class="lesson-image">
-                <h3> තරල යන්‍ත්‍ර</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 14 -->
-            <div class="lesson-card" data-lesson="14">
-                <img src="14.png" alt="ඉලෙක්ට්‍රොනික් තාක්ෂණය" class="lesson-image">
-                <h3>ඉලෙක්ට්‍රොනික් තාක්ෂණය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 15 -->
-            <div class="lesson-card" data-lesson="15">
-                <img src="15.png" alt=" ජල සම්පාදනය හා කසල අපහනය" class="lesson-image">
-                <h3> ජල සම්පාදනය හා කසල අපහනය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 16 -->
-            <div class="lesson-card" data-lesson="16">
-                <img src="16.png" alt="ප්‍රමාණ බිල්පත් සැකසීම ඇස්තමේන්තුකරණය (TDS BOQ)" class="lesson-image">
-                <h3>ප්‍රමාණ බිල්පත් සැකසීම ඇස්තමේන්තුකරණය (TDS BOQ)</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
-
-            <!-- Lesson 17 -->
-            <div class="lesson-card" data-lesson="17">
-                <img src="17.png" alt=" ව්‍යවසායකත්වය හා කළමනාකරණය" class="lesson-image">
-                <h3> ව්‍යවසායකත්වය හා කළමනාකරණය</h3>
-                <p>2025-05-02</p>
-                <div class="lesson-meta">
-                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
-            </div>
+            <!-- Lesson cards will be populated dynamically -->
         </div>
     </div>
 
@@ -2139,9 +1876,6 @@ All The best 😚!</p>
     <div class="auth-modal" id="authModal">
         <div class="auth-content">
             <div class="auth-header">
-                <div class="close-auth" id="closeAuth">
-                    <i class="fas fa-times"></i>
-                </div>
                 <h2 id="authModalTitle">Welcome Back!</h2>
                 <p id="authModalSubtitle">Please login to continue</p>
             </div>
@@ -2177,9 +1911,6 @@ All The best 😚!</p>
                         </div>
                     </div>
                     <button class="btn-auth" id="btnSendOtp">Send Verification Code</button>
-                    <div class="auth-footer">
-                        Already have an account? <a id="showLoginFromSignup">Login</a>
-                    </div>
                 </div>
                 
                 <!-- Signup Form Part 2 - OTP Verification -->
@@ -2215,9 +1946,6 @@ All The best 😚!</p>
                         <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)">
                     </div>
                     <button class="btn-auth" id="btnSignup">Complete Sign Up</button>
-                    <div class="auth-footer">
-                        Already have an account? <a id="showLoginFromEmail">Login</a>
-                    </div>
                 </div>
             </div>
         </div>
@@ -2324,20 +2052,6 @@ All The best 😚!</p>
             <h3 class="alert-title">Time's Up!</h3>
             <p class="alert-message">Your quiz time has expired. The quiz will now be submitted automatically.</p>
             <button class="btn-alert" id="btnAcknowledgeTimeUp">OK</button>
-        </div>
-    </div>
-
-    <!-- Welcome Modal -->
-    <div class="welcome-modal" id="welcomeModal">
-        <div class="welcome-content">
-            <div class="welcome-header">
-                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Welcome">
-            </div>
-            <div class="welcome-body">
-                <h2>Welcome to Interactive Quiz Portal 2025!</h2>
-                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please login or sign up to get started.</p>
-                <button class="btn-alert" id="btnWelcomeContinue">Get Started</button>
-            </div>
         </div>
     </div>
 
@@ -2476,23 +2190,23 @@ All The best 😚!</p>
 
         // Google Form URLs for each lesson level (replace with your actual form URLs)
         const formUrls = {
-            1: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            2: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            3: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            4: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            5: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            6: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            7: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            8: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            9: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            10: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            11: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            12: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            13: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            14: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            15: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            16: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
-            17: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`)
+            1: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_1/viewform?embedded=true&level=${i+1}`),
+            2: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_2/viewform?embedded=true&level=${i+1}`),
+            3: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_3/viewform?embedded=true&level=${i+1}`),
+            4: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_4/viewform?embedded=true&level=${i+1}`),
+            5: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_5/viewform?embedded=true&level=${i+1}`),
+            6: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_6/viewform?embedded=true&level=${i+1}`),
+            7: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_7/viewform?embedded=true&level=${i+1}`),
+            8: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_8/viewform?embedded=true&level=${i+1}`),
+            9: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_9/viewform?embedded=true&level=${i+1}`),
+            10: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_10/viewform?embedded=true&level=${i+1}`),
+            11: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_11/viewform?embedded=true&level=${i+1}`),
+            12: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_12/viewform?embedded=true&level=${i+1}`),
+            13: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_13/viewform?embedded=true&level=${i+1}`),
+            14: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_14/viewform?embedded=true&level=${i+1}`),
+            15: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_15/viewform?embedded=true&level=${i+1}`),
+            16: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_16/viewform?embedded=true&level=${i+1}`),
+            17: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_17/viewform?embedded=true&level=${i+1}`)
         };
 
         // Lesson titles for display
@@ -2516,6 +2230,27 @@ All The best 😚!</p>
             17: "ව්‍යවසායකත්වය හා කළමනාකරණය"
         };
 
+        // Image URLs for lessons
+        const lessonImages = {
+            1: "https://via.placeholder.com/300x150?text=Lesson+1",
+            2: "https://via.placeholder.com/300x150?text=Lesson+2",
+            3: "https://via.placeholder.com/300x150?text=Lesson+3",
+            4: "https://via.placeholder.com/300x150?text=Lesson+4",
+            5: "https://via.placeholder.com/300x150?text=Lesson+5",
+            6: "https://via.placeholder.com/300x150?text=Lesson+6",
+            7: "https://via.placeholder.com/300x150?text=Lesson+7",
+            8: "https://via.placeholder.com/300x150?text=Lesson+8",
+            9: "https://via.placeholder.com/300x150?text=Lesson+9",
+            10: "https://via.placeholder.com/300x150?text=Lesson+10",
+            11: "https://via.placeholder.com/300x150?text=Lesson+11",
+            12: "https://via.placeholder.com/300x150?text=Lesson+12",
+            13: "https://via.placeholder.com/300x150?text=Lesson+13",
+            14: "https://via.placeholder.com/300x150?text=Lesson+14",
+            15: "https://via.placeholder.com/300x150?text=Lesson+15",
+            16: "https://via.placeholder.com/300x150?text=Lesson+16",
+            17: "https://via.placeholder.com/300x150?text=Lesson+17"
+        };
+
         // Variables for timer
         let quizTimer;
         let timeLeft;
@@ -2536,13 +2271,11 @@ All The best 😚!</p>
         const backButton = document.getElementById('backButton');
         const userProfile = document.getElementById('userProfile');
         const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
         const whatsappButton = document.getElementById('whatsappButton');
         const mainContainer = document.querySelector('.container');
         const authModal = document.getElementById('authModal');
         const authModalTitle = document.getElementById('authModalTitle');
         const authModalSubtitle = document.getElementById('authModalSubtitle');
-        const closeAuth = document.getElementById('closeAuth');
         const authTabs = document.querySelectorAll('.auth-tab');
         const loginForm = document.getElementById('loginForm');
         const signupPhoneForm = document.getElementById('signupPhoneForm');
@@ -2561,8 +2294,6 @@ All The best 😚!</p>
         const btnVerifyOtp = document.getElementById('btnVerifyOtp');
         const resendOtp = document.getElementById('resendOtp');
         const showSignup = document.getElementById('showSignup');
-        const showLoginFromSignup = document.getElementById('showLoginFromSignup');
-        const showLoginFromEmail = document.getElementById('showLoginFromEmail');
         const studentModal = document.getElementById('studentModal');
         const studentForm = document.getElementById('studentForm');
         const studentName = document.getElementById('studentName');
@@ -2586,10 +2317,6 @@ All The best 😚!</p>
         const btnAcknowledgeTimeUp = document.getElementById('btnAcknowledgeTimeUp');
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
-        const welcomeModal = document.getElementById('welcomeModal');
-        const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
-        const lessonCards = document.querySelectorAll('.lesson-card');
-        const dropdownContents = document.querySelectorAll('.dropdown-content');
         const termsModal = document.getElementById('termsModal');
         const acceptTerms = document.getElementById('acceptTerms');
         const btnAcceptTerms = document.getElementById('btnAcceptTerms');
@@ -2618,23 +2345,79 @@ All The best 😚!</p>
         const badgeSilver = document.getElementById('badgeSilver');
         const badgeGold = document.getElementById('badgeGold');
         const badgeDiamond = document.getElementById('badgeDiamond');
+        const formPreloader = document.querySelector('.form-preloader');
+        const lessonsGrid = document.querySelector('.lessons-grid');
 
         // Initialize the app
         function init() {
             setupEventListeners();
             checkAuthState();
             initParticles();
-            populateLevelDropdowns();
             updateGreeting();
+            populateLessonsGrid();
+        }
+
+        // Populate lessons grid
+        function populateLessonsGrid() {
+            lessonsGrid.innerHTML = '';
             
-            // Show terms modal after preloader
-            setTimeout(() => {
-                termsModal.style.display = 'flex';
-                setTimeout(() => {
-                    termsModal.querySelector('.terms-content').style.transform = 'scale(1)';
-                    termsModal.querySelector('.terms-content').style.opacity = '1';
-                }, 10);
-            }, 1500);
+            for (let i = 1; i <= 17; i++) {
+                const lessonCard = document.createElement('div');
+                lessonCard.className = 'lesson-card';
+                lessonCard.setAttribute('data-lesson', i);
+                
+                lessonCard.innerHTML = `
+                    <img src="${lessonImages[i]}" alt="${lessonTitles[i]}" class="lesson-image">
+                    <h3>${lessonTitles[i]}</h3>
+                    <p>2025-05-02</p>
+                    <div class="lesson-meta">
+                        <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                        <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                    </div>
+                    <div class="dropdown">
+                        <button class="dropdown-btn">Start Quiz</button>
+                        <div class="dropdown-content">
+                            ${Array(20).fill().map((_, j) => 
+                                `<a href="#" data-level="${j+1}">Level ${j+1}</a>`
+                            ).join('')}
+                        </div>
+                    </div>
+                `;
+                
+                lessonsGrid.appendChild(lessonCard);
+            }
+            
+            // Add event listeners to lesson cards
+            document.querySelectorAll('.lesson-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    if (!auth.currentUser) {
+                        showNotification('Please login to access quiz levels', 'warning');
+                        showAuthModal('login');
+                        currentLesson = card.getAttribute('data-lesson');
+                    }
+                });
+            });
+            
+            // Add event listeners to level links
+            document.querySelectorAll('.dropdown-content a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const lessonCard = link.closest('.lesson-card');
+                    const lessonId = lessonCard.getAttribute('data-lesson');
+                    const level = link.getAttribute('data-level');
+                    
+                    if (auth.currentUser) {
+                        startQuiz(lessonId, level);
+                    } else {
+                        currentLesson = lessonId;
+                        currentLevel = level;
+                        showNotification('Please login to access quiz levels', 'warning');
+                        showAuthModal('login');
+                    }
+                });
+            });
         }
 
         // Update greeting based on time of day
@@ -2661,6 +2444,9 @@ All The best 😚!</p>
             });
             
             btnAcceptTerms.addEventListener('click', () => {
+                // Store that user has accepted terms in localStorage
+                localStorage.setItem('termsAccepted', 'true');
+                
                 termsModal.querySelector('.terms-content').style.transform = 'scale(0.9)';
                 termsModal.querySelector('.terms-content').style.opacity = '0';
                 setTimeout(() => {
@@ -2680,18 +2466,6 @@ All The best 😚!</p>
                 window.open('https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with...', '_blank');
             });
             
-            // Welcome modal
-            btnWelcomeContinue.addEventListener('click', () => {
-                welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-                welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-                setTimeout(() => {
-                    welcomeModal.style.display = 'none';
-                    if (!auth.currentUser) {
-                        showAuthModal('login');
-                    }
-                }, 300);
-            });
-            
             // Auth modal tabs
             authTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
@@ -2700,13 +2474,8 @@ All The best 😚!</p>
                 });
             });
             
-            // Show signup/login links
+            // Show signup link
             showSignup.addEventListener('click', () => switchAuthTab('signup'));
-            showLoginFromSignup.addEventListener('click', () => switchAuthTab('login'));
-            showLoginFromEmail.addEventListener('click', () => switchAuthTab('login'));
-            
-            // Close auth modal
-            closeAuth.addEventListener('click', () => hideAuthModal());
             
             // Login form
             btnLogin.addEventListener('click', handleLogin);
@@ -2788,125 +2557,55 @@ All The best 😚!</p>
                 });
             });
             
-            // Window click handlers
-            window.addEventListener('click', (e) => {
-                if (e.target === authModal) hideAuthModal();
-                if (e.target === studentModal) hideStudentModal();
-                if (e.target === noticeModal) hideNoticeModal();
-                if (e.target === timeWarningModal) hideAlertModal(timeWarningModal);
-                if (e.target === timeUpModal) {
-                    hideAlertModal(timeUpModal);
-                    closeQuiz();
-                }
-                if (e.target === welcomeModal) {
-                    welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
-                    welcomeModal.querySelector('.welcome-content').style.opacity = '0';
-                    setTimeout(() => {
-                        welcomeModal.style.display = 'none';
-                    }, 300);
-                }
-                if (e.target === profileModal) {
-                    hideModal(profileModal);
-                }
-                if (e.target === deleteModal) {
-                    hideModal(deleteModal);
-                }
-                if (e.target === verifyModal) {
-                    hideModal(verifyModal);
-                }
-                if (e.target === termsModal) {
-                    // Prevent closing terms modal by clicking outside
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-            });
-            
             // Beforeunload event
             window.addEventListener('beforeunload', handleBeforeUnload);
-            
-            // Lesson card dropdown buttons
-            document.querySelectorAll('.dropdown-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const dropdown = btn.nextElementSibling;
-                    if (auth.currentUser) {
-                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-                    } else {
-                        const lessonCard = btn.closest('.lesson-card');
-                        const lessonId = lessonCard.getAttribute('data-lesson');
-                        showNotification('Please login to access quiz levels', 'warning');
-                        showAuthModal('login');
-                        currentLesson = lessonId;
-                    }
-                });
-            });
-        }
-
-        // Populate level dropdowns
-        function populateLevelDropdowns() {
-            dropdownContents.forEach(dropdown => {
-                for (let i = 1; i <= 20; i++) {
-                    const levelLink = document.createElement('a');
-                    levelLink.href = '#';
-                    levelLink.textContent = `Level ${i}`;
-                    levelLink.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const lessonCard = dropdown.closest('.lesson-card');
-                        const lessonId = lessonCard.getAttribute('data-lesson');
-                        
-                        if (auth.currentUser) {
-                            startQuiz(lessonId, i);
-                        } else {
-                            currentLesson = lessonId;
-                            currentLevel = i;
-                            showNotification('Please login to access quiz levels', 'warning');
-                            showAuthModal('login');
-                        }
-                    });
-                    dropdown.appendChild(levelLink);
-                }
-            });
         }
 
         // Check auth state
         function checkAuthState() {
-            auth.onAuthStateChanged(user => {
+            auth.onAuthStateChanged(async user => {
                 if (user) {
                     // User is signed in
                     updateUserProfile(user);
-                    showMainContent();
                     
                     // Check if user has completed profile
-                    checkUserProfile(user);
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    
+                    if (userDoc.exists && userDoc.data().profileCompleted) {
+                        // User has completed profile, show main content
+                        showMainContent();
+                    } else {
+                        // User needs to complete profile
+                        showNoticeModal();
+                    }
+                    
+                    // Check if terms were accepted (only show once)
+                    const termsAccepted = localStorage.getItem('termsAccepted');
+                    if (!termsAccepted) {
+                        showTermsModal();
+                    }
                 } else {
                     // User is signed out
                     userAvatar.textContent = 'G';
-                    userName.textContent = 'Guest';
+                    
+                    // Show terms modal if not accepted yet
+                    const termsAccepted = localStorage.getItem('termsAccepted');
+                    if (!termsAccepted) {
+                        showTermsModal();
+                    } else {
+                        // Show auth modal if terms accepted but not logged in
+                        showAuthModal('login');
+                    }
                 }
             });
-        }
-
-        // Check if user has completed profile
-        async function checkUserProfile(user) {
-            const userDoc = await db.collection('users').doc(user.uid).get();
-            if (userDoc.exists) {
-                const userData = userDoc.data();
-                if (!userData.profileCompleted) {
-                    showNoticeModal();
-                }
-            } else {
-                showNoticeModal();
-            }
         }
 
         // Update user profile display
         function updateUserProfile(user) {
             if (user.displayName) {
                 userAvatar.textContent = user.displayName.charAt(0).toUpperCase();
-                userName.textContent = 'User';
             } else {
                 userAvatar.textContent = 'U';
-                userName.textContent = 'User';
             }
         }
 
@@ -2915,6 +2614,15 @@ All The best 😚!</p>
             mainContainer.style.display = 'block';
             setTimeout(() => {
                 mainContainer.classList.add('show');
+            }, 10);
+        }
+
+        // Show terms modal
+        function showTermsModal() {
+            termsModal.style.display = 'flex';
+            setTimeout(() => {
+                termsModal.querySelector('.terms-content').style.transform = 'scale(1)';
+                termsModal.querySelector('.terms-content').style.opacity = '1';
             }, 10);
         }
 
@@ -3257,6 +2965,17 @@ All The best 😚!</p>
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
                 
+                // Check if user has completed profile
+                const userDoc = await db.collection('users').doc(userCredential.user.uid).get();
+                
+                if (userDoc.exists && userDoc.data().profileCompleted) {
+                    // User has completed profile, show main content
+                    showMainContent();
+                } else {
+                    // User needs to complete profile
+                    showNoticeModal();
+                }
+                
                 // If there's a pending lesson, start quiz
                 if (currentLesson && currentLevel) {
                     startQuiz(currentLesson, currentLevel);
@@ -3454,6 +3173,7 @@ All The best 😚!</p>
             }
             
             try {
+                showFormPreloader();
                 btnSaveStudent.disabled = true;
                 btnSaveStudent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
                 
@@ -3485,6 +3205,7 @@ All The best 😚!</p>
                 showNotification('Profile information saved successfully!', 'success');
                 hideStudentModal();
                 updateUserProfile(user);
+                showMainContent();
                 
                 // If there's a pending lesson, start quiz
                 if (currentLesson && currentLevel) {
@@ -3496,6 +3217,7 @@ All The best 😚!</p>
                 console.error('Error saving student details:', error);
                 showNotification('Failed to save information. Please try again.', 'danger');
             } finally {
+                hideFormPreloader();
                 btnSaveStudent.disabled = false;
                 btnSaveStudent.textContent = 'Save Information';
             }
@@ -3514,6 +3236,11 @@ All The best 😚!</p>
                 await auth.signOut();
                 showNotification('Logged out successfully', 'success');
                 hideProfileModal();
+                mainContainer.classList.remove('show');
+                setTimeout(() => {
+                    mainContainer.style.display = 'none';
+                }, 500);
+                showAuthModal('login');
             } catch (error) {
                 console.error('Logout error:', error);
                 showNotification('Failed to logout. Please try again.', 'danger');
@@ -3603,6 +3330,12 @@ All The best 😚!</p>
                     
                     showNotification('Account deleted successfully', 'success');
                     hideModal(verifyModal);
+                    hideProfileModal();
+                    mainContainer.classList.remove('show');
+                    setTimeout(() => {
+                        mainContainer.style.display = 'none';
+                    }, 500);
+                    showAuthModal('login');
                 } else {
                     showNotification('Invalid verification code', 'danger');
                 }
@@ -3626,33 +3359,48 @@ All The best 😚!</p>
             warned5 = false;
             updateTimerDisplay();
             
-            // Play start sound
-            startSound.play();
+            // Show form preloader
+            showFormPreloader();
             
             // Set quiz title
             quizTitle.textContent = `${lessonTitles[lessonId]} - Level ${level}`;
             
-            // Load Google Form in iframe
-            quizIframe.src = formUrls[lessonId][level - 1] || 'about:blank';
-            
-            // Show quiz container
-            quizContainer.style.display = 'flex';
-            
-            // Start timer
-            quizTimer = setInterval(updateQuizTimer, 1000);
-            
-            // Show notification
-            showNotification(`Quiz started! You have 30 minutes to complete 15 questions.`, 'success');
-            
-            // Speak the time limit
-            if ('speechSynthesis' in window) {
-                const speech = new SpeechSynthesisUtterance();
-                speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete 15 questions. Good luck!`;
-                window.speechSynthesis.speak(speech);
-            }
-            
-            // Show back button
-            backButton.classList.add('show');
+            // Load Google Form in iframe after a short delay to show preloader
+            setTimeout(() => {
+                quizIframe.src = formUrls[lessonId][level - 1] || 'about:blank';
+                quizIframe.onload = () => {
+                    hideFormPreloader();
+                };
+                
+                // Show quiz container
+                quizContainer.style.display = 'flex';
+                
+                // Start timer
+                quizTimer = setInterval(updateQuizTimer, 1000);
+                
+                // Show notification
+                showNotification(`Quiz started! You have 30 minutes to complete 15 questions.`, 'success');
+                
+                // Speak the time limit
+                if ('speechSynthesis' in window) {
+                    const speech = new SpeechSynthesisUtterance();
+                    speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete 15 questions. Good luck!`;
+                    window.speechSynthesis.speak(speech);
+                }
+                
+                // Show back button
+                backButton.classList.add('show');
+            }, 500);
+        }
+
+        // Show form preloader
+        function showFormPreloader() {
+            formPreloader.style.display = 'flex';
+        }
+
+        // Hide form preloader
+        function hideFormPreloader() {
+            formPreloader.style.display = 'none';
         }
 
         // Update quiz timer
@@ -3792,15 +3540,6 @@ All The best 😚!</p>
             setTimeout(() => {
                 floatingNotification.classList.remove('show');
             }, 5000);
-        }
-
-        // Toggle auth modal
-        function toggleAuthModal() {
-            if (authModal.style.display === 'flex') {
-                hideAuthModal();
-            } else {
-                showAuthModal(auth.currentUser ? 'logout' : 'login');
-            }
         }
 
         // Handle back button
