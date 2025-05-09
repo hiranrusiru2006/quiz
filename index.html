@@ -333,13 +333,7 @@
             font-weight: 600;
         }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .dropdown-btn {
+        .btn-start-quiz {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             border: none;
@@ -352,44 +346,187 @@
             width: 100%;
         }
 
-        .dropdown-btn:hover {
+        .btn-start-quiz:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
         }
 
-        .dropdown-content {
+        /* Level Selection Modal */
+        .level-modal {
             display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 8px;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            max-height: 300px;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1006;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .level-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: var(--box-shadow);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+            overflow: hidden;
+        }
+
+        .level-modal.show .level-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .level-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .level-header h2 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .level-header p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .level-body {
+            padding: 20px;
+            max-height: 60vh;
             overflow-y: auto;
         }
 
-        .dropdown-content a {
-            color: var(--text-primary);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .level-btn {
+            background: #f5f6fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .level-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .level-btn.completed {
+            background: rgba(0, 184, 148, 0.1);
+            border-color: var(--success);
+        }
+
+        .level-btn.completed::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .level-btn.locked {
+            background: rgba(214, 48, 49, 0.1);
+            border-color: var(--danger);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .level-btn.locked::after {
+            content: '🔒';
+            position: absolute;
+            top: 2px;
+            right: 5px;
+        }
+
+        .level-footer {
+            text-align: center;
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .btn-close-levels {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
             transition: var(--transition);
         }
 
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-            border-radius: 8px;
+        .btn-close-levels:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
         }
 
-        .dropdown:hover .dropdown-content {
-            display: block;
+        /* Progress circle */
+        .progress-circle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #f0f0f0;
+        }
+
+        .progress-circle::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+        }
+
+        .progress-circle-fill {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            clip: rect(0, 12px, 24px, 0);
+            background: var(--success);
+            transform: rotate(0deg);
+        }
+
+        /* Level lock indicator */
+        .level-lock {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--danger);
         }
 
         /* Auth Modals */
         .auth-modal {
-            display: flex;
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -497,6 +634,18 @@
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
             outline: none;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .remember-me input {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
         }
 
         .phone-input {
@@ -1040,6 +1189,112 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
+        /* Quick Actions Dropdown */
+        .quick-actions {
+            position: fixed;
+            bottom: 30px;
+            left: 110px;
+            z-index: 999;
+        }
+
+        .quick-actions-btn {
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quick-actions-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .quick-actions-menu {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 200px;
+            transform: scale(0.9);
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .quick-actions-menu.show {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .quick-actions-menu a {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .quick-actions-menu a:hover {
+            background: #f5f6fa;
+        }
+
+        .quick-actions-menu a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Papers Floating Button */
+        .papers-float {
+            position: fixed;
+            bottom: 30px;
+            left: 190px;
+            width: 60px;
+            height: 60px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 999;
+            cursor: pointer;
+            transition: var(--transition);
+            animation: pulse-papers 2s infinite;
+        }
+
+        .papers-float:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes pulse-papers {
+            0% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(52, 152, 219, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(52, 152, 219, 0);
+            }
+        }
+
         @keyframes pulse-whatsapp {
             0% {
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
@@ -1140,24 +1395,27 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            display: flex;
-            align-items: center;
+            width: 40px;
+            height: 40px;
             background: rgba(255,255,255,0.2);
             backdrop-filter: blur(5px);
-            padding: 5px 10px 5px 5px;
-            border-radius: 50px;
+            border-radius: 50%;
             cursor: pointer;
             transition: var(--transition);
             z-index: 999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .user-profile:hover {
             background: rgba(255,255,255,0.3);
+            transform: scale(1.1);
         }
 
         .user-avatar {
-            width: 30px;
-            height: 30px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: var(--primary);
             color: white;
@@ -1165,30 +1423,188 @@
             justify-content: center;
             align-items: center;
             font-weight: 600;
-            margin-right: 8px;
+            font-size: 1.1rem;
         }
 
-        .user-name {
+        /* Profile Info Popup */
+        .profile-popup {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            width: 300px;
+            z-index: 1000;
+            transform: scale(0.95);
+            opacity: 0;
+            transition: var(--transition);
+            pointer-events: none;
+        }
+
+        .profile-popup.show {
+            transform: scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .profile-header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
-            font-weight: 500;
+            padding: 15px;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: white;
+            color: var(--primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.5rem;
+            margin: 0 auto 10px;
+            border: 3px solid white;
+        }
+
+        .profile-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .profile-badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .badge-silver {
+            background: linear-gradient(to right, #bdc3c7, #9b9b9b);
+            color: white;
+        }
+
+        .badge-gold {
+            background: linear-gradient(to right, #FFD700, #D4AF37);
+            color: white;
+        }
+
+        .badge-diamond {
+            background: linear-gradient(to right, #b9f2ff, #00b4d8);
+            color: white;
+        }
+
+        .profile-body {
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .profile-detail {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-detail:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 3px;
+        }
+
+        .detail-value {
             font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            display: block;
+            width: 100%;
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .btn-logout:hover {
+            background: #c0392b;
+        }
+
+        .btn-close-popup {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
         }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .dropdown-content {
-                position: relative;
-                box-shadow: none;
-                border: 1px solid #ddd;
-                margin-top: 5px;
-            }
-            
             .auth-content, .student-content, .terms-content {
                 margin: 10px 0;
             }
             
             .auth-body, .student-body, .terms-body {
                 padding: 20px;
+            }
+
+            .profile-popup {
+                width: 280px;
+                right: 10px;
+            }
+
+            .levels-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                font-size: 25px;
+                bottom: 20px;
+                left: 20px;
+            }
+
+            .quick-actions {
+                left: 90px;
+                bottom: 20px;
+            }
+
+            .quick-actions-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .papers-float {
+                left: 160px;
+                bottom: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
             }
         }
 
@@ -1211,14 +1627,6 @@
 
             .auth-content {
                 padding: 15px;
-            }
-
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                font-size: 25px;
-                bottom: 20px;
-                left: 20px;
             }
 
             .logo-circle {
@@ -1261,6 +1669,38 @@
             
             .auth-content, .student-content, .terms-content {
                 margin-top: 20px;
+            }
+
+            .profile-popup {
+                width: 90%;
+                right: 5%;
+            }
+
+            .levels-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .quick-actions {
+                left: 80px;
+                bottom: 15px;
+            }
+
+            .quick-actions-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+
+            .quick-actions-menu {
+                width: 180px;
+            }
+
+            .papers-float {
+                left: 140px;
+                bottom: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
             }
         }
 
@@ -1319,7 +1759,22 @@
     <!-- User Profile -->
     <div class="user-profile" id="userProfile">
         <div class="user-avatar" id="userAvatar">G</div>
-        <div class="user-name" id="userName">Guest</div>
+    </div>
+
+    <!-- Profile Info Popup -->
+    <div class="profile-popup" id="profilePopup">
+        <div class="profile-header">
+            <button class="btn-close-popup" id="btnCloseProfile">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="profile-avatar" id="profileAvatar">G</div>
+            <div class="profile-name" id="profileName">Guest</div>
+            <div class="profile-badge" id="profileBadge">Not Logged In</div>
+        </div>
+        <div class="profile-body" id="profileBody">
+            <!-- User details will be populated here -->
+        </div>
+        <button class="btn-logout" id="btnLogout">Log Out</button>
     </div>
 
     <!-- Particles Background -->
@@ -1328,6 +1783,29 @@
     <!-- WhatsApp Floating Button -->
     <div class="whatsapp-float" id="whatsappButton">
         <i class="fab fa-whatsapp"></i>
+    </div>
+
+    <!-- Quick Actions Dropdown -->
+    <div class="quick-actions">
+        <div class="quick-actions-btn" id="quickActionsBtn">
+            <i class="fas fa-ellipsis-v"></i>
+        </div>
+        <div class="quick-actions-menu" id="quickActionsMenu">
+            <a href="https://example.com/attendance" target="_blank">
+                <i class="fas fa-user-check"></i> Attendance
+            </a>
+            <a href="https://example.com/feedback" target="_blank">
+                <i class="fas fa-comment-dots"></i> Anonymous Feedback
+            </a>
+            <a href="https://example.com/results" target="_blank">
+                <i class="fas fa-chart-bar"></i> Results
+            </a>
+        </div>
+    </div>
+
+    <!-- Papers Floating Button -->
+    <div class="papers-float" id="papersButton">
+        <i class="fas fa-file-alt"></i>
     </div>
 
     <!-- Main Container -->
@@ -1370,12 +1848,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="1">Start Quiz</button>
             </div>
 
             <!-- Lesson 2 -->
@@ -1387,12 +1860,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="2">Start Quiz</button>
             </div>
 
             <!-- Lesson 3 -->
@@ -1404,12 +1872,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="3">Start Quiz</button>
             </div>
 
             <!-- Lesson 4 -->
@@ -1421,12 +1884,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="4">Start Quiz</button>
             </div>
 
             <!-- Lesson 5 -->
@@ -1438,12 +1896,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="5">Start Quiz</button>
             </div>
 
             <!-- Lesson 6 -->
@@ -1455,12 +1908,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="6">Start Quiz</button>
             </div>
 
             <!-- Lesson 7 -->
@@ -1472,12 +1920,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="7">Start Quiz</button>
             </div>
 
             <!-- Lesson 8 -->
@@ -1489,12 +1932,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="8">Start Quiz</button>
             </div>
 
             <!-- Lesson 9 -->
@@ -1506,12 +1944,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="9">Start Quiz</button>
             </div>
 
             <!-- Lesson 10 -->
@@ -1523,12 +1956,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="10">Start Quiz</button>
             </div>
 
             <!-- Lesson 11 -->
@@ -1540,12 +1968,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="11">Start Quiz</button>
             </div>
 
             <!-- Lesson 12 -->
@@ -1557,12 +1980,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="12">Start Quiz</button>
             </div>
 
             <!-- Lesson 13 -->
@@ -1574,12 +1992,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="13">Start Quiz</button>
             </div>
 
             <!-- Lesson 14 -->
@@ -1591,12 +2004,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="14">Start Quiz</button>
             </div>
 
             <!-- Lesson 15 -->
@@ -1608,12 +2016,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="15">Start Quiz</button>
             </div>
 
             <!-- Lesson 16 -->
@@ -1625,12 +2028,7 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
-                </div>
+                <button class="btn-start-quiz" data-lesson="16">Start Quiz</button>
             </div>
 
             <!-- Lesson 17 -->
@@ -1642,12 +2040,25 @@ All The best 😚!</p>
                     <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
                     <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
                 </div>
-                <div class="dropdown">
-                    <button class="dropdown-btn">Start Quiz</button>
-                    <div class="dropdown-content">
-                        <!-- Levels will be added dynamically -->
-                    </div>
+                <button class="btn-start-quiz" data-lesson="17">Start Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Level Selection Modal -->
+    <div class="level-modal" id="levelModal">
+        <div class="level-content">
+            <div class="level-header">
+                <h2 id="levelModalTitle">Select Level</h2>
+                <p id="levelModalSubtitle">Choose a level to start the quiz</p>
+            </div>
+            <div class="level-body">
+                <div class="levels-grid" id="levelsGrid">
+                    <!-- Levels will be added dynamically -->
                 </div>
+            </div>
+            <div class="level-footer">
+                <button class="btn-close-levels" id="btnCloseLevels">Close</button>
             </div>
         </div>
     </div>
@@ -1674,6 +2085,10 @@ All The best 😚!</p>
                     <div class="form-group">
                         <label for="loginPassword">Password</label>
                         <input type="password" id="loginPassword" placeholder="Enter your password">
+                    </div>
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
                     </div>
                     <button class="btn-auth" id="btnLogin">Login</button>
                     <div class="auth-footer">
@@ -1717,6 +2132,10 @@ All The best 😚!</p>
                     <div class="form-group">
                         <label for="signupPassword">Password</label>
                         <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)">
+                    </div>
+                    <div class="remember-me">
+                        <input type="checkbox" id="rememberMeSignup" checked>
+                        <label for="rememberMeSignup">Remember me</label>
                     </div>
                     <button class="btn-auth" id="btnSignup">Complete Sign Up</button>
                     <div class="auth-footer">
@@ -1888,8 +2307,8 @@ All The best 😚!</p>
         const auth = firebase.auth();
 
         // Your TextIt.biz credentials
-        const TEXTIT_ID = "94760273554";  // Your registered phone number
-        const TEXTIT_PW = "2204";        // Your password
+        const TEXTIT_ID = "94769343928";  // Your registered phone number
+        const TEXTIT_PW = "9694";        // Your password
         
         // Store the generated verification code
         let generatedCode = "";
@@ -1957,8 +2376,17 @@ All The best 😚!</p>
         const backButton = document.getElementById('backButton');
         const userProfile = document.getElementById('userProfile');
         const userAvatar = document.getElementById('userAvatar');
-        const userName = document.getElementById('userName');
+        const profilePopup = document.getElementById('profilePopup');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const profileName = document.getElementById('profileName');
+        const profileBadge = document.getElementById('profileBadge');
+        const profileBody = document.getElementById('profileBody');
+        const btnCloseProfile = document.getElementById('btnCloseProfile');
+        const btnLogout = document.getElementById('btnLogout');
         const whatsappButton = document.getElementById('whatsappButton');
+        const quickActionsBtn = document.getElementById('quickActionsBtn');
+        const quickActionsMenu = document.getElementById('quickActionsMenu');
+        const papersButton = document.getElementById('papersButton');
         const mainContainer = document.querySelector('.container');
         const authModal = document.getElementById('authModal');
         const authModalTitle = document.getElementById('authModalTitle');
@@ -1970,6 +2398,7 @@ All The best 😚!</p>
         const signupForm = document.getElementById('signupForm');
         const loginEmail = document.getElementById('loginEmail');
         const loginPassword = document.getElementById('loginPassword');
+        const rememberMe = document.getElementById('rememberMe');
         const btnLogin = document.getElementById('btnLogin');
         const signupEmail = document.getElementById('signupEmail');
         const signupPassword = document.getElementById('signupPassword');
@@ -2007,8 +2436,13 @@ All The best 😚!</p>
         const notificationMessage = document.getElementById('notificationMessage');
         const welcomeModal = document.getElementById('welcomeModal');
         const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
+        const levelModal = document.getElementById('levelModal');
+        const levelModalTitle = document.getElementById('levelModalTitle');
+        const levelModalSubtitle = document.getElementById('levelModalSubtitle');
+        const levelsGrid = document.getElementById('levelsGrid');
+        const btnCloseLevels = document.getElementById('btnCloseLevels');
         const lessonCards = document.querySelectorAll('.lesson-card');
-        const dropdownContents = document.querySelectorAll('.dropdown-content');
+        const btnStartQuiz = document.querySelectorAll('.btn-start-quiz');
         const sendSpinner = document.getElementById('sendSpinner');
         const sendText = document.getElementById('sendText');
 
@@ -2017,16 +2451,43 @@ All The best 😚!</p>
             setupEventListeners();
             checkAuthState();
             initParticles();
-            populateLevelDropdowns();
             
-            // Immediately show auth modal (changed from welcome modal)
+            // Load saved login info if available
+            loadSavedLogin();
+            
+            // Show welcome message based on time of day
+            showTimeBasedWelcome();
+            
+            // Show main content immediately without requiring login
             setTimeout(() => {
-                authModal.style.display = 'flex';
+                mainContainer.style.display = 'block';
                 setTimeout(() => {
-                    authModal.querySelector('.auth-content').style.transform = 'scale(1)';
-                    authModal.querySelector('.auth-content').style.opacity = '1';
+                    mainContainer.classList.add('show');
                 }, 10);
             }, 1000);
+        }
+
+        // Show time-based welcome message
+        function showTimeBasedWelcome() {
+            const hour = new Date().getHours();
+            let message = "";
+            let emoji = "";
+            
+            if (hour >= 5 && hour < 12) {
+                message = "Good Morning!";
+                emoji = "☀️";
+            } else if (hour >= 12 && hour < 17) {
+                message = "Good Afternoon!";
+                emoji = "🌞";
+            } else if (hour >= 17 && hour < 21) {
+                message = "Good Evening!";
+                emoji = "🌆";
+            } else {
+                message = "Good Night!";
+                emoji = "🌙";
+            }
+            
+            showNotification(`${message} ${emoji} Welcome to ET Panthiya Quiz Portal`, 'success');
         }
 
         // Setup event listeners
@@ -2035,11 +2496,35 @@ All The best 😚!</p>
             backButton.addEventListener('click', handleBackButton);
             
             // User profile
-            userProfile.addEventListener('click', toggleAuthModal);
+            userProfile.addEventListener('click', toggleProfilePopup);
+            btnCloseProfile.addEventListener('click', () => profilePopup.classList.remove('show'));
+            btnLogout.addEventListener('click', handleLogout);
+            
+            // Close profile popup when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!userProfile.contains(e.target) && !profilePopup.contains(e.target)) {
+                    profilePopup.classList.remove('show');
+                }
+            });
             
             // WhatsApp button
             whatsappButton.addEventListener('click', () => {
                 window.open('https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with...', '_blank');
+            });
+            
+            // Papers button
+            papersButton.addEventListener('click', () => {
+                window.open('https://example.com/papers', '_blank');
+            });
+            
+            // Quick actions dropdown
+            quickActionsBtn.addEventListener('click', toggleQuickActions);
+            
+            // Close quick actions when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!quickActionsBtn.contains(e.target) && !quickActionsMenu.contains(e.target)) {
+                    quickActionsMenu.classList.remove('show');
+                }
             });
             
             // Welcome modal
@@ -2048,9 +2533,6 @@ All The best 😚!</p>
                 welcomeModal.querySelector('.welcome-content').style.opacity = '0';
                 setTimeout(() => {
                     welcomeModal.style.display = 'none';
-                    if (!auth.currentUser) {
-                        showAuthModal('login');
-                    }
                 }, 300);
             });
             
@@ -2106,20 +2588,16 @@ All The best 😚!</p>
                 closeQuiz();
             });
             
-            // Lesson card dropdown buttons
-            document.querySelectorAll('.dropdown-btn').forEach(btn => {
+            // Level selection modal
+            btnCloseLevels.addEventListener('click', () => {
+                hideLevelModal();
+            });
+            
+            // Start quiz buttons
+            btnStartQuiz.forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const dropdown = btn.nextElementSibling;
-                    if (auth.currentUser) {
-                        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-                    } else {
-                        const lessonCard = btn.closest('.lesson-card');
-                        const lessonId = lessonCard.getAttribute('data-lesson');
-                        showNotification('Please login to access quiz levels', 'warning');
-                        showAuthModal('login');
-                        currentLesson = lessonId;
-                    }
+                    const lessonId = btn.getAttribute('data-lesson');
+                    showLevelModal(lessonId);
                 });
             });
             
@@ -2127,50 +2605,148 @@ All The best 😚!</p>
             window.addEventListener('beforeunload', handleBeforeUnload);
         }
 
-        // Populate level dropdowns
-        function populateLevelDropdowns() {
-            dropdownContents.forEach(dropdown => {
-                for (let i = 1; i <= 20; i++) {
-                    const levelLink = document.createElement('a');
-                    levelLink.href = '#';
-                    levelLink.textContent = `Level ${i}`;
-                    levelLink.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const lessonCard = dropdown.closest('.lesson-card');
-                        const lessonId = lessonCard.getAttribute('data-lesson');
-                        
-                        if (auth.currentUser) {
-                            startQuiz(lessonId, i);
+        // Toggle quick actions menu
+        function toggleQuickActions() {
+            quickActionsMenu.classList.toggle('show');
+        }
+
+        // Show level selection modal
+        function showLevelModal(lessonId) {
+            currentLesson = lessonId;
+            levelModalTitle.textContent = `${lessonTitles[lessonId]}`;
+            levelModalSubtitle.textContent = 'Select a level to start the quiz';
+            
+            // Clear existing levels
+            levelsGrid.innerHTML = '';
+            
+            // Get user's completed levels if logged in
+            let completedLevels = [];
+            const user = auth.currentUser;
+            
+            if (user) {
+                db.collection('users').doc(user.uid).get()
+                    .then(doc => {
+                        if (doc.exists) {
+                            const userData = doc.data();
+                            completedLevels = userData.completedLevels?.[lessonId] || [];
+                        }
+                        populateLevels(completedLevels);
+                    })
+                    .catch(error => {
+                        console.error('Error getting user data:', error);
+                        populateLevels([]);
+                    });
+            } else {
+                // For guest users, only allow level 1
+                populateLevels([]);
+            }
+            
+            levelModal.style.display = 'flex';
+            setTimeout(() => {
+                levelModal.querySelector('.level-content').style.transform = 'scale(1)';
+                levelModal.querySelector('.level-content').style.opacity = '1';
+            }, 10);
+        }
+
+        // Populate levels in the modal
+        function populateLevels(completedLevels) {
+            const user = auth.currentUser;
+            
+            for (let i = 1; i <= 20; i++) {
+                const levelBtn = document.createElement('div');
+                levelBtn.className = 'level-btn';
+                levelBtn.textContent = `Level ${i}`;
+                
+                if (completedLevels.includes(i)) {
+                    levelBtn.classList.add('completed');
+                } else if (i > 1 && !user) {
+                    // Lock all levels except level 1 for guests
+                    levelBtn.classList.add('locked');
+                } else if (i > 1 && !completedLevels.includes(i-1)) {
+                    // Lock level if previous level not completed
+                    levelBtn.classList.add('locked');
+                }
+                
+                if (!levelBtn.classList.contains('locked')) {
+                    levelBtn.addEventListener('click', () => {
+                        if (i === 1 || user) {
+                            startQuiz(currentLesson, i);
+                            hideLevelModal();
                         } else {
-                            currentLesson = lessonId;
-                            currentLevel = i;
-                            showNotification('Please login to access quiz levels', 'warning');
+                            // Show auth modal if trying to access level 2+ without login
+                            showNotification('Please login to access this level', 'warning');
                             showAuthModal('login');
                         }
                     });
-                    dropdown.appendChild(levelLink);
                 }
-            });
+                
+                levelsGrid.appendChild(levelBtn);
+            }
+        }
+
+        // Hide level modal
+        function hideLevelModal() {
+            levelModal.querySelector('.level-content').style.transform = 'scale(0.9)';
+            levelModal.querySelector('.level-content').style.opacity = '0';
+            setTimeout(() => {
+                levelModal.style.display = 'none';
+            }, 300);
+        }
+
+        // Load saved login info from localStorage
+        function loadSavedLogin() {
+            const savedEmail = localStorage.getItem('quizPortalEmail');
+            const savedPassword = localStorage.getItem('quizPortalPassword');
+            
+            if (savedEmail && savedPassword) {
+                loginEmail.value = savedEmail;
+                loginPassword.value = savedPassword;
+                rememberMe.checked = true;
+            }
+        }
+
+        // Save login info to localStorage
+        function saveLoginInfo(email, password) {
+            if (rememberMe.checked) {
+                localStorage.setItem('quizPortalEmail', email);
+                localStorage.setItem('quizPortalPassword', password);
+            } else {
+                localStorage.removeItem('quizPortalEmail');
+                localStorage.removeItem('quizPortalPassword');
+            }
+        }
+
+        // Clear saved login info
+        function clearSavedLogin() {
+            localStorage.removeItem('quizPortalEmail');
+            localStorage.removeItem('quizPortalPassword');
         }
 
         // Check auth state
         function checkAuthState() {
-            auth.onAuthStateChanged(user => {
+            auth.onAuthStateChanged(async user => {
                 if (user) {
                     // User is signed in
                     updateUserProfile(user);
-                    showMainContent();
                     
                     // Check if user has completed profile
-                    checkUserProfile(user);
+                    await checkUserProfile(user);
+                    
+                    // Auto-fill login form for next time
+                    if (user.email) {
+                        loginEmail.value = user.email;
+                    }
                 } else {
                     // User is signed out
                     userAvatar.textContent = 'G';
-                    userName.textContent = 'Guest';
-                    // Show auth modal if not already shown
-                    if (!document.querySelector('.auth-modal.show')) {
-                        showAuthModal('login');
-                    }
+                    profileAvatar.textContent = 'G';
+                    profileName.textContent = 'Guest';
+                    profileBadge.textContent = 'Not Logged In';
+                    profileBadge.className = 'profile-badge';
+                    profileBody.innerHTML = '';
+                    
+                    // Hide profile popup
+                    profilePopup.classList.remove('show');
                 }
             });
         }
@@ -2182,6 +2758,9 @@ All The best 😚!</p>
                 const userData = userDoc.data();
                 if (!userData.profileCompleted) {
                     showTermsModal();
+                } else {
+                    // Update profile popup with user details
+                    updateProfilePopup(user, userData);
                 }
             } else {
                 showTermsModal();
@@ -2191,20 +2770,95 @@ All The best 😚!</p>
         // Update user profile display
         function updateUserProfile(user) {
             if (user.displayName) {
-                userAvatar.textContent = user.displayName.charAt(0).toUpperCase();
-                userName.textContent = user.displayName;
+                const firstLetter = user.displayName.charAt(0).toUpperCase();
+                userAvatar.textContent = firstLetter;
+                profileAvatar.textContent = firstLetter;
             } else {
                 userAvatar.textContent = 'U';
-                userName.textContent = 'User';
+                profileAvatar.textContent = 'U';
             }
         }
 
-        // Show main content
-        function showMainContent() {
-            mainContainer.style.display = 'block';
-            setTimeout(() => {
-                mainContainer.classList.add('show');
-            }, 10);
+        // Update profile popup with user details
+        function updateProfilePopup(user, userData) {
+            if (user.displayName) {
+                profileName.textContent = user.displayName;
+            } else {
+                profileName.textContent = 'User';
+            }
+            
+            // Determine badge based on completed lessons
+            const completedLessons = Object.keys(userData.completedLevels || {}).length;
+            let badgeText = '';
+            let badgeClass = '';
+            
+            if (completedLessons >= 10) {
+                badgeText = 'Diamond Member';
+                badgeClass = 'badge-diamond';
+            } else if (completedLessons >= 5) {
+                badgeText = 'Gold Member';
+                badgeClass = 'badge-gold';
+            } else if (completedLessons > 0) {
+                badgeText = 'Silver Member';
+                badgeClass = 'badge-silver';
+            } else {
+                badgeText = 'New Member';
+                badgeClass = 'profile-badge';
+            }
+            
+            profileBadge.textContent = badgeText;
+            profileBadge.className = `profile-badge ${badgeClass}`;
+            
+            // Populate user details
+            let profileHTML = `
+                <div class="profile-detail">
+                    <div class="detail-label">Email</div>
+                    <div class="detail-value">${user.email || 'Not provided'}</div>
+                </div>
+                <div class="profile-detail">
+                    <div class="detail-label">School</div>
+                    <div class="detail-value">${userData.school || 'Not provided'}</div>
+                </div>
+                <div class="profile-detail">
+                    <div class="detail-label">District</div>
+                    <div class="detail-value">${userData.district || 'Not provided'}</div>
+                </div>
+                <div class="profile-detail">
+                    <div class="detail-label">Exam Year</div>
+                    <div class="detail-value">${userData.examYear || 'Not provided'}</div>
+                </div>
+                <div class="profile-detail">
+                    <div class="detail-label">WhatsApp</div>
+                    <div class="detail-value">${userData.whatsapp || 'Not provided'}</div>
+                </div>
+                <div class="profile-detail">
+                    <div class="detail-label">Completed Lessons</div>
+                    <div class="detail-value">${Object.keys(userData.completedLevels || {}).length} / 17</div>
+                </div>
+            `;
+            
+            profileBody.innerHTML = profileHTML;
+        }
+
+        // Toggle profile popup
+        function toggleProfilePopup() {
+            if (auth.currentUser) {
+                profilePopup.classList.toggle('show');
+            } else {
+                showAuthModal('login');
+            }
+        }
+
+        // Handle logout
+        function handleLogout() {
+            auth.signOut().then(() => {
+                showNotification('Logged out successfully', 'success');
+                profilePopup.classList.remove('show');
+                clearSavedLogin();
+            }).catch(error => {
+                console.error('Logout error:', error);
+                showNotification('Failed to log out', 'danger');
+            });
         }
 
         // Show auth modal
@@ -2407,15 +3061,22 @@ All The best 😚!</p>
                 btnLogin.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
                 
                 const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                
+                // Save login info if "Remember me" is checked
+                if (rememberMe.checked) {
+                    saveLoginInfo(email, password);
+                } else {
+                    clearSavedLogin();
+                }
+                
                 showNotification('Login successful!', 'success');
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
                 
-                // If there's a pending lesson, start quiz
-                if (currentLesson && currentLevel) {
-                    startQuiz(currentLesson, currentLevel);
+                // If there's a pending lesson, show level selection
+                if (currentLesson) {
+                    showLevelModal(currentLesson);
                     currentLesson = null;
-                    currentLevel = null;
                 }
             } catch (error) {
                 console.error('Login error:', error);
@@ -2511,17 +3172,18 @@ All The best 😚!</p>
                 // Create user with email/password
                 const userCredential = await auth.createUserWithEmailAndPassword(email, password);
                 
+                // Save login info if "Remember me" is checked
+                const rememberMeSignup = document.getElementById('rememberMeSignup');
+                if (rememberMeSignup.checked) {
+                    saveLoginInfo(email, password);
+                }
+                
                 showNotification('Account created successfully!', 'success');
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
                 
                 // Show terms modal before student details
                 showTermsModal();
-                
-                // If there's a pending lesson, start quiz after profile completion
-                if (currentLesson && currentLevel) {
-                    // Will be handled after profile completion
-                }
             } catch (error) {
                 console.error('Signup error:', error);
                 let message = 'Signup failed. Please try again.';
@@ -2588,12 +3250,12 @@ All The best 😚!</p>
                 showNotification('Profile information saved successfully!', 'success');
                 hideStudentModal();
                 updateUserProfile(user);
+                updateProfilePopup(user, userData);
                 
-                // If there's a pending lesson, start quiz
-                if (currentLesson && currentLevel) {
-                    startQuiz(currentLesson, currentLevel);
+                // If there's a pending lesson, show level selection
+                if (currentLesson) {
+                    showLevelModal(currentLesson);
                     currentLesson = null;
-                    currentLevel = null;
                 }
             } catch (error) {
                 console.error('Error saving student details:', error);
@@ -2627,6 +3289,11 @@ All The best 😚!</p>
             
             // Set quiz title
             quizTitle.textContent = `${lessonTitles[lessonId]} - Level ${level}`;
+            
+            // Show preloader before loading iframe
+            quizIframe.onload = () => {
+                // Hide preloader when iframe is loaded
+            };
             
             // Load Google Form in iframe
             quizIframe.src = formUrls[lessonId][level - 1] || 'about:blank';
@@ -2715,7 +3382,7 @@ All The best 😚!</p>
             clearInterval(quizTimer);
             quizActive = false;
             
-            // Update user's completed levels in Firestore
+            // Update user's completed levels in Firestore if logged in
             if (auth.currentUser && currentLesson && currentLevel) {
                 try {
                     const userRef = db.collection('users').doc(auth.currentUser.uid);
@@ -2734,6 +3401,15 @@ All The best 😚!</p>
                             await userRef.update({
                                 completedLevels: completedLevels
                             });
+                            
+                            // Update the profile popup with new data
+                            updateProfilePopup(auth.currentUser, { ...userData, completedLevels });
+                            
+                            // If this was level 1 and user is not logged in, show auth modal
+                            if (currentLevel === 1 && !auth.currentUser) {
+                                showNotification('Please login or sign up to access more levels', 'info');
+                                showAuthModal('signup');
+                            }
                         }
                     }
                 } catch (error) {
@@ -2767,6 +3443,12 @@ All The best 😚!</p>
             
             // Hide back button
             backButton.classList.remove('show');
+            
+            // If user just completed level 1 as guest, show auth modal
+            if (currentLevel === 1 && !auth.currentUser) {
+                showNotification('Please login or sign up to access more levels', 'info');
+                showAuthModal('signup');
+            }
         }
 
         // Hide alert modal
@@ -2792,11 +3474,8 @@ All The best 😚!</p>
         // Toggle auth modal
         function toggleAuthModal() {
             if (auth.currentUser) {
-                // User is logged in, show profile options or log out
-                if (confirm('Do you want to log out?')) {
-                    auth.signOut();
-                    showNotification('Logged out successfully', 'success');
-                }
+                // User is logged in, show profile popup
+                toggleProfilePopup();
             } else {
                 showAuthModal('login');
             }
