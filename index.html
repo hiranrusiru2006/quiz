@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ET Panthiya.lk Quiz Portal 2025</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Firebase SDK -->
+    <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
@@ -29,9 +29,6 @@
             --border-radius: 12px;
             --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --silver: #C0C0C0;
-            --gold: #FFD700;
-            --diamond: #b9f2ff;
         }
 
         * {
@@ -157,118 +154,6 @@
             text-transform: uppercase;
         }
 
-        /* Terms Modal */
-        .terms-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 9998;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .terms-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 600px;
-            box-shadow: var(--box-shadow);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: var(--transition);
-            overflow: hidden;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .terms-modal.show .terms-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .terms-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        .terms-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .terms-body {
-            padding: 30px;
-            color: var(--text-primary);
-        }
-
-        .terms-body h3 {
-            margin: 15px 0 10px;
-            color: var(--primary);
-        }
-
-        .terms-body p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .terms-body ul {
-            margin-bottom: 15px;
-            padding-left: 20px;
-        }
-
-        .terms-body li {
-            margin-bottom: 8px;
-        }
-
-        .terms-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .terms-checkbox {
-            display: flex;
-            align-items: center;
-        }
-
-        .terms-checkbox input {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-        }
-
-        .btn-terms {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-terms:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-        }
-
-        .btn-terms:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-        }
-
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -310,13 +195,6 @@
             max-width: 700px;
             margin: 0 auto;
             line-height: 1.6;
-        }
-
-        .greeting {
-            color: var(--light);
-            font-size: 1.2rem;
-            margin-top: 10px;
-            font-weight: 600;
         }
 
         .logo-circle {
@@ -455,24 +333,7 @@
             font-weight: 600;
         }
 
-        .progress-indicator {
-            display: inline-block;
-            background: rgba(0, 184, 148, 0.1);
-            color: var(--success);
-            padding: 3px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-
-        .dropdown {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-        }
-
-        .dropdown-btn {
+        .lesson-card .btn-start {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             border: none;
@@ -482,47 +343,16 @@
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-            width: 100%;
         }
 
-        .dropdown-btn:hover {
+        .lesson-card .btn-start:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
         }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            border-radius: 8px;
-            width: 100%;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .dropdown-content a {
-            color: var(--text-primary);
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            transition: var(--transition);
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-            border-radius: 8px;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
         /* Auth Modals */
         .auth-modal {
-            display: flex;
+            display: none;
             position: fixed;
             top: 0;
             left: 0;
@@ -533,7 +363,6 @@
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
-            overflow-y: auto;
         }
 
         .auth-content {
@@ -546,8 +375,6 @@
             opacity: 0;
             transition: var(--transition);
             overflow: hidden;
-            margin: 20px 0;
-            position: relative;
         }
 
         .auth-modal.show .auth-content {
@@ -578,8 +405,6 @@
             top: 15px;
             right: 15px;
             background: rgba(0,0,0,0.2);
-            color: white;
-            border: none;
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -591,7 +416,7 @@
         }
 
         .close-auth:hover {
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.3);
             transform: rotate(90deg);
         }
 
@@ -669,14 +494,6 @@
 
         .phone-input input {
             border-radius: 0 8px 8px 0 !important;
-            -webkit-appearance: none;
-            -moz-appearance: textfield;
-        }
-
-        .phone-input input::-webkit-outer-spin-button,
-        .phone-input input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
         }
 
         .btn-auth {
@@ -751,13 +568,8 @@
             cursor: pointer;
         }
 
-        .resend-otp a.disabled {
-            color: var(--text-secondary);
-            pointer-events: none;
-        }
-
-        /* Student Details Modal */
-        .student-modal {
+        /* Levels Modal */
+        .levels-modal {
             display: none;
             position: fixed;
             top: 0;
@@ -769,28 +581,29 @@
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
-            overflow-y: auto;
         }
 
-        .student-content {
+        .levels-content {
             background: white;
             border-radius: var(--border-radius);
             width: 90%;
-            max-width: 500px;
+            max-width: 800px;
             box-shadow: var(--box-shadow);
             transform: scale(0.9);
             opacity: 0;
             transition: var(--transition);
             overflow: hidden;
-            margin: 20px 0;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .student-modal.show .student-content {
+        .levels-modal.show .levels-content {
             transform: scale(1);
             opacity: 1;
         }
 
-        .student-header {
+        .levels-header {
             background: linear-gradient(to right, var(--primary), var(--secondary));
             color: white;
             padding: 20px;
@@ -798,23 +611,21 @@
             position: relative;
         }
 
-        .student-header h2 {
+        .levels-header h2 {
             font-size: 1.8rem;
             margin-bottom: 5px;
         }
 
-        .student-header p {
+        .levels-header p {
             font-size: 0.9rem;
             opacity: 0.9;
         }
 
-        .close-student {
+        .close-levels {
             position: absolute;
             top: 15px;
             right: 15px;
             background: rgba(0,0,0,0.2);
-            color: white;
-            border: none;
             width: 30px;
             height: 30px;
             border-radius: 50%;
@@ -825,90 +636,102 @@
             transition: var(--transition);
         }
 
-        .close-student:hover {
-            background: rgba(0,0,0,0.4);
+        .close-levels:hover {
+            background: rgba(0,0,0,0.3);
             transform: rotate(90deg);
         }
 
-        .student-body {
-            padding: 30px;
-        }
-
-        /* Important Notice Modal */
-        .notice-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1002;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
+        .levels-body {
+            padding: 20px;
+            flex: 1;
             overflow-y: auto;
         }
 
-        .notice-content {
-            background: white;
+        .levels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .level-card {
+            background: var(--light);
             border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--box-shadow);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: var(--transition);
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        .notice-modal.show .notice-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .notice-header {
-            background: var(--warning);
-            color: var(--dark);
-            padding: 20px;
+            padding: 15px;
             text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
             position: relative;
+            overflow: hidden;
         }
 
-        .notice-header h2 {
-            font-size: 1.8rem;
+        .level-card.completed {
+            background: rgba(0, 184, 148, 0.1);
+            border-left: 4px solid var(--success);
+        }
+
+        .level-card.locked {
+            background: rgba(223, 230, 233, 0.5);
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        .level-card.completed::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: var(--success);
+            font-size: 12px;
+        }
+
+        .level-card.locked::after {
+            content: '\f023';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: var(--danger);
+            font-size: 12px;
+        }
+
+        .level-card:hover:not(.locked) {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .level-number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 10px;
+            font-weight: 600;
+        }
+
+        .level-card.completed .level-number {
+            background: var(--success);
+        }
+
+        .level-card.locked .level-number {
+            background: var(--danger);
+        }
+
+        .level-title {
+            font-weight: 600;
             margin-bottom: 5px;
-        }
-
-        .notice-body {
-            padding: 30px;
             color: var(--text-primary);
         }
 
-        .notice-body p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .btn-notice {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            width: 100%;
-            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
-            margin-top: 20px;
-        }
-
-        .btn-notice:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(108, 92, 231, 0.4);
+        .level-meta {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
         }
 
         /* Quiz Container */
@@ -920,7 +743,7 @@
             width: 100%;
             height: 100%;
             background: white;
-            z-index: 1003;
+            z-index: 1002;
             flex-direction: column;
         }
 
@@ -940,7 +763,7 @@
         }
 
         .timer {
-            background: rgba(0,0,0,0.2);
+            background: rgba(0, 0, 0, 0.2);
             padding: 5px 15px;
             border-radius: 50px;
             font-weight: 600;
@@ -986,7 +809,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            z-index: 1004;
+            z-index: 1003;
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
@@ -1062,7 +885,7 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            z-index: 1005;
+            z-index: 1004;
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(5px);
@@ -1131,7 +954,7 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            z-index: 9999;
+            z-index: 999;
             transform: translateX(150%);
             transition: var(--transition);
         }
@@ -1279,6 +1102,48 @@
             transform: translateX(-3px);
         }
 
+        /* Progress Circles */
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            position: relative;
+            margin: 0 auto 15px;
+        }
+
+        .progress-circle svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .progress-circle circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .progress-circle .bg {
+            stroke: #f1f1f1;
+        }
+
+        .progress-circle .progress {
+            stroke: var(--primary);
+            stroke-dasharray: 226;
+            stroke-dashoffset: calc(226 - (226 * var(--progress)) / 100);
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-circle .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
         /* User Profile */
         .user-profile {
             position: fixed;
@@ -1316,561 +1181,30 @@
             color: white;
             font-weight: 500;
             font-size: 0.9rem;
-            display: none;
-        }
-
-        /* Profile Modal */
-        .profile-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1006;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .profile-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--box-shadow);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: var(--transition);
-            overflow: hidden;
-        }
-
-        .profile-modal.show .profile-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .profile-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-        }
-
-        .profile-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .profile-avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: var(--primary);
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            font-weight: 600;
-            margin: 0 auto 15px;
-            border: 3px solid white;
-        }
-
-        .profile-body {
-            padding: 30px;
-        }
-
-        .profile-info {
-            margin-bottom: 20px;
-        }
-
-        .profile-info p {
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .profile-info p span:first-child {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .profile-info p span:last-child {
-            color: var(--text-secondary);
-        }
-
-        .badge-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-        }
-
-        .badge {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .badge-silver {
-            background: var(--silver);
-            color: #333;
-        }
-
-        .badge-gold {
-            background: var(--gold);
-            color: #333;
-        }
-
-        .badge-diamond {
-            background: var(--diamond);
-            color: #333;
-        }
-
-        .badge-label {
-            position: absolute;
-            bottom: -20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .profile-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn-delete-account {
-            background: var(--danger);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-delete-account:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(214, 48, 49, 0.4);
-        }
-
-        .btn-logout {
-            background: var(--warning);
-            color: var(--dark);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-logout:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(253, 203, 110, 0.4);
-        }
-
-        /* Delete Account Modal */
-        .delete-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1007;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .delete-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--box-shadow);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: var(--transition);
-            overflow: hidden;
-        }
-
-        .delete-modal.show .delete-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .delete-header {
-            background: var(--danger);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .delete-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .delete-body {
-            padding: 30px;
-            text-align: center;
-        }
-
-        .delete-body p {
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .delete-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* Verify Phone Modal */
-        .verify-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1008;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .verify-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--box-shadow);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: var(--transition);
-            overflow: hidden;
-        }
-
-        .verify-modal.show .verify-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .verify-header {
-            background: var(--warning);
-            color: var(--dark);
-            padding: 20px;
-            text-align: center;
-        }
-
-        .verify-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .verify-body {
-            padding: 30px;
-        }
-
-        .verify-body p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .verify-otp-inputs {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .verify-otp-inputs input {
-            width: 50px;
-            height: 50px;
-            text-align: center;
-            font-size: 1.2rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-        }
-
-        .verify-otp-inputs input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
-        }
-
-        .verify-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        /* Delete Confirmation Modal */
-        .confirm-delete-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1009;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .confirm-delete-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--box-shadow);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: var(--transition);
-            overflow: hidden;
-        }
-
-        .confirm-delete-modal.show .confirm-delete-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .confirm-delete-header {
-            background: var(--danger);
-            color: white;
-            padding: 20px;
-            text-align: center;
-        }
-
-        .confirm-delete-header h2 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .confirm-delete-body {
-            padding: 30px;
-        }
-
-        .confirm-delete-body p {
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .confirm-delete-note {
-            background: #fff8e1;
-            border-left: 4px solid var(--warning);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 8px 8px 0;
-        }
-
-        .confirm-delete-footer {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .btn-cancel-delete {
-            background: var(--secondary);
-            color: white;
-        }
-
-        .btn-confirm-delete {
-            background: var(--danger);
-            color: white;
-        }
-
-        /* Ad Banner Modal */
-        .ad-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1010;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(5px);
-        }
-
-        .ad-content {
-            background: white;
-            border-radius: var(--border-radius);
-            width: 90%;
-            max-width: 500px;
-            box-shadow: var(--box-shadow);
-            transform: scale(0.9);
-            opacity: 0;
-            transition: var(--transition);
-            overflow: hidden;
-            position: relative;
-        }
-
-        .ad-modal.show .ad-content {
-            transform: scale(1);
-            opacity: 1;
-        }
-
-        .ad-header {
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            color: white;
-            padding: 15px;
-            text-align: center;
-            position: relative;
-        }
-
-        .ad-header h2 {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
-
-        .close-ad {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.2);
-            color: white;
-            border: none;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .close-ad:hover {
-            background: rgba(0,0,0,0.4);
-            transform: rotate(90deg);
-        }
-
-        .ad-body {
-            padding: 20px;
-            text-align: center;
-        }
-
-        .ad-body img {
-            max-width: 100%;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        .ad-body p {
-            color: var(--text-secondary);
-            margin-bottom: 15px;
-            line-height: 1.6;
-        }
-
-        .btn-ad {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .btn-ad:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
-        }
-
-        /* Emoji Rain */
-        .emoji-rain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9999;
-            display: none;
-        }
-
-        .emoji {
-            position: absolute;
-            font-size: 24px;
-            animation: emoji-fall linear forwards;
-        }
-
-        @keyframes emoji-fall {
-            to {
-                transform: translateY(100vh);
-            }
         }
 
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .dropdown-content {
-                position: relative;
-                box-shadow: none;
-                border: 1px solid #ddd;
-                margin-top: 5px;
+            .levels-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
             }
             
-            .auth-content, .student-content, .notice-content {
-                margin: 10px 0;
+            .level-card {
+                padding: 10px;
             }
             
-            .auth-body, .student-body, .notice-body {
-                padding: 20px;
+            .level-number {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
             }
             
-            .terms-content {
-                max-height: 70vh;
+            .level-title {
+                font-size: 0.9rem;
             }
             
-            .profile-footer, .delete-footer, .verify-footer {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .btn-delete-account, .btn-logout {
-                width: 100%;
-            }
-
-            /* Mobile keyboard fixes */
-            .auth-modal, .student-modal, .notice-modal {
-                align-items: flex-start;
-                padding-top: 20px;
-                overflow-y: auto;
-            }
-
-            .auth-content, .student-content, .notice-content {
-                margin-top: 20px;
-                margin-bottom: 20px;
+            .level-meta {
+                font-size: 0.7rem;
             }
         }
 
@@ -1929,45 +1263,13 @@
                 font-size: 0.9rem;
             }
             
-            .otp-inputs input, .verify-otp-inputs input {
-                width: 40px;
-                height: 40px;
+            .progress-circle {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .progress-circle .text {
                 font-size: 1rem;
-            }
-            
-            .terms-footer {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .terms-checkbox {
-                margin-bottom: 10px;
-            }
-            
-            .btn-terms {
-                width: 100%;
-            }
-            
-            /* Student form mobile adjustments */
-            .student-body {
-                padding: 15px;
-            }
-            
-            .form-group {
-                margin-bottom: 15px;
-            }
-            
-            .form-group input, .form-group select {
-                padding: 10px 12px;
-                font-size: 0.9rem;
-            }
-            
-            .phone-input .prefix {
-                padding: 10px;
-            }
-            
-            .btn-auth {
-                padding: 10px 20px;
             }
         }
 
@@ -2005,46 +1307,6 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--secondary);
         }
-
-        /* Form Preloader */
-        .form-preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            display: none;
-        }
-
-        .form-preloader .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Remember me checkbox */
-        .remember-me {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .remember-me input {
-            margin-right: 8px;
-        }
     </style>
 </head>
 <body>
@@ -2058,63 +1320,6 @@
         <div class="loading-text">Loading Interactive Quiz Portal</div>
     </div>
 
-    <!-- Form Preloader -->
-    <div class="form-preloader">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Emoji Rain -->
-    <div class="emoji-rain" id="emojiRain"></div>
-
-    <!-- Terms and Conditions Modal -->
-    <div class="terms-modal" id="termsModal">
-        <div class="terms-content">
-            <div class="terms-header">
-                <h2>Terms and Conditions</h2>
-                <button class="close-auth" id="closeTerms">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="terms-body">
-                <h3>Welcome to ET Panthiya.lk Quiz Portal</h3>
-                <p>Please read these terms and conditions carefully before using our service.</p>
-                
-                <h3>1. Acceptance of Terms</h3>
-                <p>By accessing or using the ET Panthiya.lk Quiz Portal, you agree to be bound by these Terms. If you disagree with any part of the terms, you may not access the service.</p>
-                
-                <h3>2. User Accounts</h3>
-                <p>When you create an account with us, you must provide accurate and complete information. You are responsible for maintaining the confidentiality of your account and password.</p>
-                
-                <h3>3. Privacy Policy</h3>
-                <p>Your privacy is important to us. Please read our Privacy Policy which explains how we collect, use, and protect your personal information.</p>
-                
-                <h3>4. User Responsibilities</h3>
-                <ul>
-                    <li>You must not use the service for any illegal or unauthorized purpose</li>
-                    <li>You must not attempt to gain unauthorized access to any part of the service</li>
-                    <li>You must not interfere with or disrupt the service or servers connected to the service</li>
-                    <li>You must not use the service to harass, abuse, or harm others</li>
-                </ul>
-                
-                <h3>5. Intellectual Property</h3>
-                <p>The service and its original content, features, and functionality are owned by ET Panthiya.lk and are protected by international copyright, trademark, and other intellectual property laws.</p>
-                
-                <h3>6. Limitation of Liability</h3>
-                <p>ET Panthiya.lk shall not be liable for any indirect, incidental, special, consequential or punitive damages resulting from your use of or inability to use the service.</p>
-                
-                <h3>7. Changes to Terms</h3>
-                <p>We reserve the right to modify or replace these Terms at any time. We will provide notice of any changes by posting the new Terms on this page.</p>
-            </div>
-            <div class="terms-footer">
-                <div class="terms-checkbox">
-                    <input type="checkbox" id="acceptTerms">
-                    <label for="acceptTerms">I accept the Terms and Conditions</label>
-                </div>
-                <button class="btn-terms" id="btnAcceptTerms" disabled>Continue</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Back Button -->
     <div class="back-button" id="backButton">
         <i class="fas fa-arrow-left"></i>
@@ -2122,7 +1327,8 @@
 
     <!-- User Profile -->
     <div class="user-profile" id="userProfile">
-        <div class="user-avatar" id="userAvatar">G</div>
+        <div class="user-avatar" id="userAvatar">U</div>
+        <div class="user-name" id="userName">Guest</div>
     </div>
 
     <!-- Particles Background -->
@@ -2137,19 +1343,18 @@
     <div class="container">
         <div class="header">
             <div class="logo-circle">
-                <img src="https://via.placeholder.com/160x160" alt="Quiz Logo">
+                <img src="UDR.jpg" alt="Quiz Logo">
             </div>
             <h1>ET Panthiya.lk Quiz Portal</h1>
             <p>"The Quiz Portal"  ET Panthiya.lk අපේ වැඩක් ✨🎉. Enjoy & Learn 😎😜</p>
-            <div class="greeting" id="greeting"></div>
         </div>
 
         <!-- Links Container -->
         <div class="links-container">
-            <a href="https://etpanthiya.lk" class="etpanthiya-link" target="_blank">
+            <a href="https://forms.gle/YUby9Sm6WbMCnPE4A" class="etpanthiya-link" target="_blank">
                 <i class="fas fa-external-link-alt"></i> Visit ET Panthiya
             </a>
-            <a href="https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with..." class="whatsapp-group-link" target="_blank">
+            <a href="https://wa.me/94771234567?text=Hello" class="whatsapp-group-link" target="_blank">
                 <i class="fab fa-whatsapp"></i> Join WhatsApp Group
             </a>
         </div>
@@ -2165,7 +1370,209 @@ All The best 😚!</p>
 
         <!-- Lessons Grid -->
         <div class="lessons-grid">
-            <!-- Lesson cards will be populated dynamically -->
+            <!-- Lesson 1 -->
+            <div class="lesson-card" data-lesson="1">
+                <img src="1.png" alt=" ET හැඳින්වීම" class="lesson-image">
+                <h3> ET හැඳින්වීම</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 2 -->
+            <div class="lesson-card" data-lesson="2">
+                <img src="2.png" alt=" ඉංජිනේරු ඇඳීම Drawing" class="lesson-image">
+                <h3> ඉංජිනේරු ඇඳීම Drawing</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 3 -->
+            <div class="lesson-card" data-lesson="3">
+                <img src="3.png" alt="නිෂ්පාදන තාක්ෂණවේදය Production" class="lesson-image">
+                <h3>නිෂ්පාදන තාක්ෂණවේදය Production</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 4 -->
+            <div class="lesson-card" data-lesson="4">
+                <img src="4.png" alt=" ගොඩනැගිලි තාක්ෂණවේදය" class="lesson-image">
+                <h3> ගොඩනැගිලි තාක්ෂණවේදය</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 5 -->
+            <div class="lesson-card" data-lesson="5">
+                <img src="5.png" alt=" යන්ත්‍ර වල බල සම්ප්‍රේෂණය හා චලිත හැසිරීම්" class="lesson-image">
+                <h3> යන්ත්‍ර වල බල සම්ප්‍රේෂණය හා චලිත හැසිරීම්</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 6 -->
+            <div class="lesson-card" data-lesson="6">
+                <img src="6.png" alt=" ඉංජිනේරු ආරක්ෂාව Safety" class="lesson-image">
+                <h3> ඉංජිනේරු ආරක්ෂාව Safety</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 7 -->
+            <div class="lesson-card" data-lesson="7">
+                <img src="7.png" alt=" ස්වයංචල තාක්ෂණය Automobile" class="lesson-image">
+                <h3> ස්වයංචල තාක්ෂණය Automobile</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 8 -->
+            <div class="lesson-card" data-lesson="8">
+                <img src="8.png" alt="විදුලි තාක්ෂණවේදය Electrical" class="lesson-image">
+                <h3> විදුලි තාක්ෂණවේදය Electrical</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 9 -->
+            <div class="lesson-card" data-lesson="9">
+                <img src="9.png" alt=" ඒකක හා මිනුම්" class="lesson-image">
+                <h3> ඒකක හා මිනුම්</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 10 -->
+            <div class="lesson-card" data-lesson="10">
+                <img src="10.png" alt="විදුලි යන්ත්‍ර හා බල පද්ධති (මෝටර් පාඩම)" class="lesson-image">
+                <h3>විදුලි යන්ත්‍ර හා බල පද්ධති (මෝටර් පාඩම)</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 11 -->
+            <div class="lesson-card" data-lesson="11">
+                <img src="11.png" alt=" ප්‍රමිති හා පිරිවිතර" class="lesson-image">
+                <h3> ප්‍රමිති හා පිරිවිතර</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 12 -->
+            <div class="lesson-card" data-lesson="12">
+                <img src="12.png" alt=" බිම් මැනුම්" class="lesson-image">
+                <h3> බිම් මැනුම්</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 13 -->
+            <div class="lesson-card" data-lesson="13">
+                <img src="13.png" alt=" තරල යන්‍ත්‍ර" class="lesson-image">
+                <h3> තරල යන්‍ත්‍ර</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 14 -->
+            <div class="lesson-card" data-lesson="14">
+                <img src="14.png" alt="ඉලෙක්ට්‍රොනික් තාක්ෂණය" class="lesson-image">
+                <h3>ඉලෙක්ට්‍රොනික් තාක්ෂණය</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 15 -->
+            <div class="lesson-card" data-lesson="15">
+                <img src="15.png" alt=" ජල සම්පාදනය හා කසල අපහනය" class="lesson-image">
+                <h3> ජල සම්පාදනය හා කසල අපහනය</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 16 -->
+            <div class="lesson-card" data-lesson="16">
+                <img src="16.png" alt="ප්‍රමාණ බිල්පත් සැකසීම ඇස්තමේන්තුකරණය (TDS BOQ)" class="lesson-image">
+                <h3>ප්‍රමාණ බිල්පත් සැකසීම ඇස්තමේන්තුකරණය (TDS BOQ)</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
+
+            <!-- Lesson 17 -->
+            <div class="lesson-card" data-lesson="17">
+                <img src="17.png" alt=" ව්‍යවසායකත්වය හා කළමනාකරණය" class="lesson-image">
+                <h3> ව්‍යවසායකත්වය හා කළමනාකරණය</h3>
+                <p>2025-05-02</p>
+                <div class="lesson-meta">
+                    <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
+                    <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
+                </div>
+                <button class="btn-start">Start Quiz</button>
+            </div>
         </div>
     </div>
 
@@ -2173,11 +1580,11 @@ All The best 😚!</p>
     <div class="auth-modal" id="authModal">
         <div class="auth-content">
             <div class="auth-header">
+                <div class="close-auth" id="closeAuth">
+                    <i class="fas fa-times"></i>
+                </div>
                 <h2 id="authModalTitle">Welcome Back!</h2>
                 <p id="authModalSubtitle">Please login to continue</p>
-                <button class="close-auth" id="closeAuth">
-                    <i class="fas fa-times"></i>
-                </button>
             </div>
             <div class="auth-body">
                 <div class="auth-tabs">
@@ -2195,42 +1602,65 @@ All The best 😚!</p>
                         <label for="loginPassword">Password</label>
                         <input type="password" id="loginPassword" placeholder="Enter your password">
                     </div>
-                    <div class="remember-me">
-                        <input type="checkbox" id="rememberMe">
-                        <label for="rememberMe">Remember me</label>
-                    </div>
                     <button class="btn-auth" id="btnLogin">Login</button>
                     <div class="auth-footer">
                         Don't have an account? <a id="showSignup">Sign up</a>
                     </div>
                 </div>
                 
-                <!-- Signup Form Part 1 - Phone Verification -->
-                <div class="auth-form" id="signupPhoneForm">
+                <!-- Signup Form -->
+                <div class="auth-form" id="signupForm">
                     <div class="form-group">
-                        <label for="signupPhone">Phone Number</label>
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupExamYear">Exam Year</label>
+                        <input type="number" id="signupExamYear" min="2023" max="2030" placeholder="Enter exam year">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupSchool">School</label>
+                        <input type="text" id="signupSchool" placeholder="Enter your school">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupDistrict">District</label>
+                        <input type="text" id="signupDistrict" placeholder="Enter your district">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupWhatsapp">WhatsApp Number</label>
                         <div class="phone-input">
                             <span class="prefix">+94</span>
-                            <input type="tel" id="signupPhone" placeholder="7XXXXXXXX" maxlength="9" inputmode="numeric">
+                            <input type="tel" id="signupWhatsapp" placeholder="7XXXXXXXX" maxlength="9">
                         </div>
                     </div>
-                    <button class="btn-auth" id="btnSendOtp">Send Verification Code</button>
+                    <button class="btn-auth" id="btnSignup">Sign Up</button>
+                    <div class="auth-footer">
+                        Already have an account? <a id="showLogin">Login</a>
+                    </div>
                 </div>
                 
-                <!-- Signup Form Part 2 - OTP Verification -->
-                <div class="auth-form" id="signupOtpForm">
+                <!-- OTP Verification -->
+                <div class="auth-form" id="otpForm">
                     <div class="form-group">
                         <label>OTP Verification</label>
                         <p>We've sent a 6-digit code to +94<span id="otpPhoneNumber"></span></p>
                     </div>
                     <div class="form-group">
                         <div class="otp-inputs">
-                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
-                            <input type="text" maxlength="1" class="otp-input" inputmode="numeric">
+                            <input type="text" maxlength="1" class="otp-input">
+                            <input type="text" maxlength="1" class="otp-input">
+                            <input type="text" maxlength="1" class="otp-input">
+                            <input type="text" maxlength="1" class="otp-input">
+                            <input type="text" maxlength="1" class="otp-input">
+                            <input type="text" maxlength="1" class="otp-input">
                         </div>
                     </div>
                     <button class="btn-auth" id="btnVerifyOtp">Verify OTP</button>
@@ -2238,90 +1668,31 @@ All The best 😚!</p>
                         Didn't receive code? <a id="resendOtp">Resend OTP</a>
                     </div>
                 </div>
-                
-                <!-- Signup Form Part 3 - Email & Password -->
-                <div class="auth-form" id="signupForm">
-                    <div class="form-group">
-                        <label for="signupEmail">Email</label>
-                        <input type="email" id="signupEmail" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="signupPassword">Password</label>
-                        <input type="password" id="signupPassword" placeholder="Create a password (min 6 chars)">
-                    </div>
-                    <button class="btn-auth" id="btnSignup">Complete Sign Up</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Levels Modal -->
+    <div class="levels-modal" id="levelsModal">
+        <div class="levels-content">
+            <div class="levels-header">
+                <div class="close-levels" id="closeLevels">
+                    <i class="fas fa-times"></i>
                 </div>
+                <h2 id="levelsTitle">Lesson Levels</h2>
+                <p id="levelsSubtitle">Select a level to start the quiz</p>
             </div>
-        </div>
-    </div>
-
-    <!-- Student Details Modal -->
-    <div class="student-modal" id="studentModal">
-        <div class="student-content">
-            <div class="student-header">
-                <h2>Student Information</h2>
-                <p>Please provide your details to continue</p>
-                <button class="close-student" id="closeStudent">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="student-body">
-                <form id="studentForm">
-                    <div class="form-group">
-                        <label for="studentName">Full Name</label>
-                        <input type="text" id="studentName" placeholder="Enter your full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentGender">Gender</label>
-                        <select id="studentGender" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentEmail">Email</label>
-                        <input type="email" id="studentEmail" placeholder="Enter your email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentExamYear">Exam Year</label>
-                        <input type="number" id="studentExamYear" min="2023" max="2030" placeholder="Enter exam year" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentSchool">School</label>
-                        <input type="text" id="studentSchool" placeholder="Enter your school" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentDistrict">District</label>
-                        <input type="text" id="studentDistrict" placeholder="Enter your district" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="studentWhatsapp">WhatsApp Number</label>
-                        <div class="phone-input">
-                            <span class="prefix">+94</span>
-                            <input type="tel" id="studentWhatsapp" placeholder="7XXXXXXXX" maxlength="9" required inputmode="numeric">
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-auth" id="btnSaveStudent">Save Information</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Important Notice Modal -->
-    <div class="notice-modal" id="noticeModal">
-        <div class="notice-content">
-            <div class="notice-header">
-                <h2>IMPORTANT</h2>
-                <button class="close-student" id="closeNotice">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="notice-body">
-                <p>"Please note that the information below is collected solely to collect feedback from users of our software and to properly maintain our software updates. Please be advised that any information you enter will not be shared with any other party in any way."</p>
-                <p>"පහත තොරතුරු ලබා ගනුයේ අපගේ මෘදුකාංගය භාවිතා කරන පරීශීලකයින් පිලිබද අදහස් ලබාගෙන අපගේ මෘදුකාංගයේ යාවත්කාලීන කටයුතු නිසියාකාරව පවත්වා ගැනීමට පමණක් බව කරුණාවෙන් සලකන්න . ඔබ ඇතුළත් කරන කිසිදු තොරතුරක් කිසිදු ආකරයකින් වෙනත් පාර්ශවයක් වෙත නොලැබෙන බව කාරුණිකව දන්වා සිටිමු"</p>
-                <button class="btn-notice" id="btnAcceptNotice">I Understand</button>
+            <div class="levels-body">
+                <div class="progress-circle">
+                    <svg viewBox="0 0 100 100">
+                        <circle class="bg" cx="50" cy="50" r="45"></circle>
+                        <circle class="progress" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="text" id="progressText">0%</div>
+                </div>
+                <div class="levels-grid" id="levelsGrid">
+                    <!-- Levels will be dynamically added here -->
+                </div>
             </div>
         </div>
     </div>
@@ -2365,135 +1736,16 @@ All The best 😚!</p>
         </div>
     </div>
 
-    <!-- Profile Modal -->
-    <div class="profile-modal" id="profileModal">
-        <div class="profile-content">
-            <div class="profile-header">
-                <div class="profile-avatar" id="profileAvatar">U</div>
-                <h2>User Profile</h2>
-                <p id="profileEmail">user@example.com</p>
-                <button class="close-auth" id="closeProfile">
-                    <i class="fas fa-times"></i>
-                </button>
+    <!-- Welcome Modal -->
+    <div class="welcome-modal" id="welcomeModal">
+        <div class="welcome-content">
+            <div class="welcome-header">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Welcome">
             </div>
-            <div class="profile-body">
-                <div class="profile-info">
-                    <p><span>Name:</span> <span id="profileName">User Name</span></p>
-                    <p><span>Gender:</span> <span id="profileGender">Male</span></p>
-                    <p><span>Exam Year:</span> <span id="profileExamYear">2025</span></p>
-                    <p><span>School:</span> <span id="profileSchool">School Name</span></p>
-                    <p><span>District:</span> <span id="profileDistrict">District</span></p>
-                    <p><span>WhatsApp:</span> <span id="profileWhatsapp">+947XXXXXXXX</span></p>
-                    <p><span>Completed Levels:</span> <span id="profileCompletedLevels">0/17</span></p>
-                </div>
-                
-                <div class="badge-container">
-                    <div class="badge badge-silver" id="badgeSilver">
-                        <i class="fas fa-award"></i>
-                        <span class="badge-label">Silver</span>
-                    </div>
-                    <div class="badge badge-gold" id="badgeGold" style="display: none;">
-                        <i class="fas fa-award"></i>
-                        <span class="badge-label">Gold</span>
-                    </div>
-                    <div class="badge badge-diamond" id="badgeDiamond" style="display: none;">
-                        <i class="fas fa-gem"></i>
-                        <span class="badge-label">Diamond</span>
-                    </div>
-                </div>
-            </div>
-            <div class="profile-footer">
-                <button class="btn-delete-account" id="btnDeleteAccount">Delete Account</button>
-                <button class="btn-logout" id="btnLogout">Logout</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Account Modal -->
-    <div class="delete-modal" id="deleteModal">
-        <div class="delete-content">
-            <div class="delete-header">
-                <h2>Delete Account</h2>
-                <p>This action cannot be undone</p>
-            </div>
-            <div class="delete-body">
-                <p>Are you sure you want to delete your account? All your data including completed levels will be permanently removed.</p>
-                <p>You will need to verify your phone number to confirm this action.</p>
-            </div>
-            <div class="delete-footer">
-                <button class="btn-alert" id="btnCancelDelete">Cancel</button>
-                <button class="btn-delete-account" id="btnConfirmDelete">Delete Account</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Verify Phone Modal -->
-    <div class="verify-modal" id="verifyModal">
-        <div class="verify-content">
-            <div class="verify-header">
-                <h2>Verify Phone Number</h2>
-                <p>Enter the OTP sent to your phone</p>
-            </div>
-            <div class="verify-body">
-                <p>We've sent a 6-digit verification code to <span id="verifyPhoneNumber">+947XXXXXXXX</span></p>
-                <div class="verify-otp-inputs">
-                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
-                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
-                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
-                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
-                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
-                    <input type="text" maxlength="1" class="verify-otp-input" inputmode="numeric">
-                </div>
-                <div class="resend-otp">
-                    Didn't receive code? <a id="resendVerifyOtp">Resend OTP</a>
-                </div>
-            </div>
-            <div class="verify-footer">
-                <button class="btn-alert" id="btnCancelVerify">Cancel</button>
-                <button class="btn-auth" id="btnVerifyDelete">Verify & Delete</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div class="confirm-delete-modal" id="confirmDeleteModal">
-        <div class="confirm-delete-content">
-            <div class="confirm-delete-header">
-                <h2>Confirm Account Deletion</h2>
-                <p>Final confirmation required</p>
-            </div>
-            <div class="confirm-delete-body">
-                <p>You are about to permanently delete your account and all associated data.</p>
-                
-                <div class="confirm-delete-note">
-                    <p><strong>Important Note:</strong> This action will delete your account permanently and you won't be able to use our app again. If you need any data removed from our servers, please contact support.</p>
-                    <a href="https://wa.me/94779817525?text=DELETE%20MY%20ALL%20CREDITIONALS" class="whatsapp-group-link" target="_blank" style="margin-top: 10px; display: inline-block;">
-                        <i class="fab fa-whatsapp"></i> Contact Support via WhatsApp
-                    </a>
-                </div>
-                
-                <p>To proceed with account deletion, click the "Delete My Account" button below.</p>
-            </div>
-            <div class="confirm-delete-footer">
-                <button class="btn-alert btn-cancel-delete" id="btnFinalCancelDelete">Cancel</button>
-                <button class="btn-alert btn-confirm-delete" id="btnFinalConfirmDelete">Delete My Account</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ad Banner Modal -->
-    <div class="ad-modal" id="adModal">
-        <div class="ad-content">
-            <div class="ad-header">
-                <h2>Special Offer!</h2>
-                <button class="close-ad" id="closeAd">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="ad-body">
-                <img src="https://via.placeholder.com/400x200?text=Ad+Banner" alt="Special Offer">
-                <p>Get 50% off on all our premium courses for a limited time only!</p>
-                <a href="#" class="btn-ad">Learn More</a>
+            <div class="welcome-body">
+                <h2>Welcome to Interactive Quiz Portal 2025!</h2>
+                <p>Test your knowledge across 17 comprehensive lessons with customized time limits for each quiz. Please login or sign up to get started.</p>
+                <button class="btn-alert" id="btnWelcomeContinue">Get Started</button>
             </div>
         </div>
     </div>
@@ -2535,10 +1787,6 @@ All The best 😚!</p>
                 }
             });
 
-        // TextIt.biz SMS Gateway Credentials
-        const TEXTIT_ID = "94769343928";
-        const TEXTIT_PW = "9694";
-
         // Audio elements
         const startSound = document.getElementById('startSound');
         const warningSound = document.getElementById('warningSound');
@@ -2546,23 +1794,11 @@ All The best 😚!</p>
 
         // Google Form URLs for each lesson level (replace with your actual form URLs)
         const formUrls = {
-            1: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_1/viewform?embedded=true&level=${i+1}`),
-            2: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_2/viewform?embedded=true&level=${i+1}`),
-            3: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_3/viewform?embedded=true&level=${i+1}`),
-            4: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_4/viewform?embedded=true&level=${i+1}`),
-            5: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_5/viewform?embedded=true&level=${i+1}`),
-            6: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_6/viewform?embedded=true&level=${i+1}`),
-            7: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_7/viewform?embedded=true&level=${i+1}`),
-            8: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_8/viewform?embedded=true&level=${i+1}`),
-            9: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_9/viewform?embedded=true&level=${i+1}`),
-            10: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_10/viewform?embedded=true&level=${i+1}`),
-            11: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_11/viewform?embedded=true&level=${i+1}`),
-            12: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_12/viewform?embedded=true&level=${i+1}`),
-            13: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_13/viewform?embedded=true&level=${i+1}`),
-            14: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_14/viewform?embedded=true&level=${i+1}`),
-            15: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_15/viewform?embedded=true&level=${i+1}`),
-            16: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_16/viewform?embedded=true&level=${i+1}`),
-            17: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/YOUR_FORM_ID_17/viewform?embedded=true&level=${i+1}`)
+            1: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
+            2: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`),
+            // Add URLs for all 17 lessons with 20 levels each
+            // ...
+            17: Array(20).fill().map((_, i) => `https://docs.google.com/forms/d/e/1FAIpQLSf.../viewform?embedded=true&level=${i+1}`)
         };
 
         // Lesson titles for display
@@ -2586,27 +1822,6 @@ All The best 😚!</p>
             17: "ව්‍යවසායකත්වය හා කළමනාකරණය"
         };
 
-        // Image URLs for lessons
-        const lessonImages = {
-            1: "https://via.placeholder.com/300x150?text=Lesson+1",
-            2: "https://via.placeholder.com/300x150?text=Lesson+2",
-            3: "https://via.placeholder.com/300x150?text=Lesson+3",
-            4: "https://via.placeholder.com/300x150?text=Lesson+4",
-            5: "https://via.placeholder.com/300x150?text=Lesson+5",
-            6: "https://via.placeholder.com/300x150?text=Lesson+6",
-            7: "https://via.placeholder.com/300x150?text=Lesson+7",
-            8: "https://via.placeholder.com/300x150?text=Lesson+8",
-            9: "https://via.placeholder.com/300x150?text=Lesson+9",
-            10: "https://via.placeholder.com/300x150?text=Lesson+10",
-            11: "https://via.placeholder.com/300x150?text=Lesson+11",
-            12: "https://via.placeholder.com/300x150?text=Lesson+12",
-            13: "https://via.placeholder.com/300x150?text=Lesson+13",
-            14: "https://via.placeholder.com/300x150?text=Lesson+14",
-            15: "https://via.placeholder.com/300x150?text=Lesson+15",
-            16: "https://via.placeholder.com/300x150?text=Lesson+16",
-            17: "https://via.placeholder.com/300x150?text=Lesson+17"
-        };
-
         // Variables for timer
         let quizTimer;
         let timeLeft;
@@ -2617,55 +1832,46 @@ All The best 😚!</p>
         let currentLesson = null;
         let currentLevel = null;
         let verificationId = null;
-        let otpAttempts = 0;
-        let lastOtpSentTime = 0;
-        let otpResendTimer;
-        let generatedOtp = "";
-        let deleteVerificationOtp = "";
-        let adTimer;
-        let firstLogin = true;
-        let termsAccepted = localStorage.getItem('termsAccepted') === 'true';
 
         // DOM Elements
         const backButton = document.getElementById('backButton');
         const userProfile = document.getElementById('userProfile');
         const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
         const whatsappButton = document.getElementById('whatsappButton');
         const mainContainer = document.querySelector('.container');
         const authModal = document.getElementById('authModal');
         const authModalTitle = document.getElementById('authModalTitle');
         const authModalSubtitle = document.getElementById('authModalSubtitle');
+        const closeAuth = document.getElementById('closeAuth');
         const authTabs = document.querySelectorAll('.auth-tab');
         const loginForm = document.getElementById('loginForm');
-        const signupPhoneForm = document.getElementById('signupPhoneForm');
-        const signupOtpForm = document.getElementById('signupOtpForm');
         const signupForm = document.getElementById('signupForm');
+        const otpForm = document.getElementById('otpForm');
         const loginEmail = document.getElementById('loginEmail');
         const loginPassword = document.getElementById('loginPassword');
-        const rememberMe = document.getElementById('rememberMe');
         const btnLogin = document.getElementById('btnLogin');
+        const signupName = document.getElementById('signupName');
         const signupEmail = document.getElementById('signupEmail');
         const signupPassword = document.getElementById('signupPassword');
-        const signupPhone = document.getElementById('signupPhone');
-        const btnSendOtp = document.getElementById('btnSendOtp');
+        const signupExamYear = document.getElementById('signupExamYear');
+        const signupSchool = document.getElementById('signupSchool');
+        const signupDistrict = document.getElementById('signupDistrict');
+        const signupWhatsapp = document.getElementById('signupWhatsapp');
         const btnSignup = document.getElementById('btnSignup');
         const otpPhoneNumber = document.getElementById('otpPhoneNumber');
         const otpInputs = document.querySelectorAll('.otp-input');
         const btnVerifyOtp = document.getElementById('btnVerifyOtp');
         const resendOtp = document.getElementById('resendOtp');
         const showSignup = document.getElementById('showSignup');
-        const studentModal = document.getElementById('studentModal');
-        const studentForm = document.getElementById('studentForm');
-        const studentName = document.getElementById('studentName');
-        const studentGender = document.getElementById('studentGender');
-        const studentEmail = document.getElementById('studentEmail');
-        const studentExamYear = document.getElementById('studentExamYear');
-        const studentSchool = document.getElementById('studentSchool');
-        const studentDistrict = document.getElementById('studentDistrict');
-        const studentWhatsapp = document.getElementById('studentWhatsapp');
-        const btnSaveStudent = document.getElementById('btnSaveStudent');
-        const noticeModal = document.getElementById('noticeModal');
-        const btnAcceptNotice = document.getElementById('btnAcceptNotice');
+        const showLogin = document.getElementById('showLogin');
+        const levelsModal = document.getElementById('levelsModal');
+        const levelsTitle = document.getElementById('levelsTitle');
+        const levelsSubtitle = document.getElementById('levelsSubtitle');
+        const closeLevels = document.getElementById('closeLevels');
+        const levelsGrid = document.getElementById('levelsGrid');
+        const progressText = document.getElementById('progressText');
+        const progressCircle = document.querySelector('.progress-circle .progress');
         const quizContainer = document.getElementById('quizContainer');
         const quizIframe = document.getElementById('quizIframe');
         const quizTitle = document.getElementById('quizTitle');
@@ -2677,210 +1883,57 @@ All The best 😚!</p>
         const btnAcknowledgeTimeUp = document.getElementById('btnAcknowledgeTimeUp');
         const floatingNotification = document.getElementById('floatingNotification');
         const notificationMessage = document.getElementById('notificationMessage');
-        const termsModal = document.getElementById('termsModal');
-        const acceptTerms = document.getElementById('acceptTerms');
-        const btnAcceptTerms = document.getElementById('btnAcceptTerms');
-        const greeting = document.getElementById('greeting');
-        const profileModal = document.getElementById('profileModal');
-        const profileAvatar = document.getElementById('profileAvatar');
-        const profileName = document.getElementById('profileName');
-        const profileEmail = document.getElementById('profileEmail');
-        const profileGender = document.getElementById('profileGender');
-        const profileExamYear = document.getElementById('profileExamYear');
-        const profileSchool = document.getElementById('profileSchool');
-        const profileDistrict = document.getElementById('profileDistrict');
-        const profileWhatsapp = document.getElementById('profileWhatsapp');
-        const profileCompletedLevels = document.getElementById('profileCompletedLevels');
-        const btnDeleteAccount = document.getElementById('btnDeleteAccount');
-        const btnLogout = document.getElementById('btnLogout');
-        const deleteModal = document.getElementById('deleteModal');
-        const btnCancelDelete = document.getElementById('btnCancelDelete');
-        const btnConfirmDelete = document.getElementById('btnConfirmDelete');
-        const verifyModal = document.getElementById('verifyModal');
-        const verifyPhoneNumber = document.getElementById('verifyPhoneNumber');
-        const verifyOtpInputs = document.querySelectorAll('.verify-otp-input');
-        const btnCancelVerify = document.getElementById('btnCancelVerify');
-        const btnVerifyDelete = document.getElementById('btnVerifyDelete');
-        const resendVerifyOtp = document.getElementById('resendVerifyOtp');
-        const badgeSilver = document.getElementById('badgeSilver');
-        const badgeGold = document.getElementById('badgeGold');
-        const badgeDiamond = document.getElementById('badgeDiamond');
-        const formPreloader = document.querySelector('.form-preloader');
-        const lessonsGrid = document.querySelector('.lessons-grid');
-        const closeTerms = document.getElementById('closeTerms');
-        const closeAuth = document.getElementById('closeAuth');
-        const closeStudent = document.getElementById('closeStudent');
-        const closeNotice = document.getElementById('closeNotice');
-        const closeProfile = document.getElementById('closeProfile');
-        const confirmDeleteModal = document.getElementById('confirmDeleteModal');
-        const btnFinalCancelDelete = document.getElementById('btnFinalCancelDelete');
-        const btnFinalConfirmDelete = document.getElementById('btnFinalConfirmDelete');
-        const emojiRain = document.getElementById('emojiRain');
-        const adModal = document.getElementById('adModal');
-        const closeAd = document.getElementById('closeAd');
+        const welcomeModal = document.getElementById('welcomeModal');
+        const btnWelcomeContinue = document.getElementById('btnWelcomeContinue');
+        const lessonCards = document.querySelectorAll('.lesson-card');
 
         // Initialize the app
         function init() {
             setupEventListeners();
             checkAuthState();
             initParticles();
-            updateGreeting();
-            populateLessonsGrid();
-            startAdTimer();
-            loadRememberedCredentials();
-        }
-
-        // Load remembered credentials if available
-        function loadRememberedCredentials() {
-            const rememberedEmail = localStorage.getItem('rememberedEmail');
-            const rememberedPassword = localStorage.getItem('rememberedPassword');
             
-            if (rememberedEmail && rememberedPassword) {
-                loginEmail.value = rememberedEmail;
-                loginPassword.value = rememberedPassword;
-                rememberMe.checked = true;
-            }
-        }
-
-        // Populate lessons grid
-        async function populateLessonsGrid() {
-            lessonsGrid.innerHTML = '';
-            
-            // Get user's completed levels if logged in
-            let completedLevels = {};
-            if (auth.currentUser) {
-                try {
-                    const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
-                    if (userDoc.exists) {
-                        completedLevels = userDoc.data().completedLevels || {};
-                    }
-                } catch (error) {
-                    console.error('Error fetching completed levels:', error);
+            // Check if welcome modal should be shown
+            if (!localStorage.getItem('quizWelcomeShown')) {
+                setTimeout(() => {
+                    welcomeModal.style.display = 'flex';
+                    setTimeout(() => {
+                        welcomeModal.querySelector('.welcome-content').style.transform = 'scale(1)';
+                        welcomeModal.querySelector('.welcome-content').style.opacity = '1';
+                    }, 10);
+                    localStorage.setItem('quizWelcomeShown', 'true');
+                }, 1000);
+            } else {
+                // Show main content if user is already authenticated
+                if (auth.currentUser) {
+                    showMainContent();
                 }
             }
-            
-            for (let i = 1; i <= 17; i++) {
-                const lessonCard = document.createElement('div');
-                lessonCard.className = 'lesson-card';
-                lessonCard.setAttribute('data-lesson', i);
-                
-                // Calculate completed levels for this lesson
-                const lessonCompleted = completedLevels[i] ? completedLevels[i].length : 0;
-                
-                lessonCard.innerHTML = `
-                    <img src="${lessonImages[i]}" alt="${lessonTitles[i]}" class="lesson-image">
-                    <h3>${lessonTitles[i]}</h3>
-                    <p>2025-05-02</p>
-                    <div class="lesson-meta">
-                        <div class="time-indicator"><i class="fas fa-clock"></i> 30 minutes</div>
-                        <div class="question-count"><i class="fas fa-question-circle"></i> 15 questions</div>
-                    </div>
-                    ${lessonCompleted > 0 ? `<div class="progress-indicator"><i class="fas fa-check-circle"></i> ${lessonCompleted}/20 levels completed</div>` : ''}
-                    <div class="dropdown">
-                        <button class="dropdown-btn">Start Quiz</button>
-                        <div class="dropdown-content">
-                            ${Array(20).fill().map((_, j) => {
-                                const levelNum = j + 1;
-                                const isCompleted = completedLevels[i] && completedLevels[i].includes(levelNum);
-                                return `<a href="#" data-level="${levelNum}" class="${isCompleted ? 'completed' : ''}">
-                                    ${isCompleted ? '<i class="fas fa-check-circle"></i> ' : ''}Level ${levelNum}
-                                </a>`;
-                            }).join('')}
-                        </div>
-                    </div>
-                `;
-                
-                lessonsGrid.appendChild(lessonCard);
-            }
-            
-            // Add event listeners to lesson cards
-            document.querySelectorAll('.lesson-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    if (!auth.currentUser) {
-                        showNotification('Please login to access quiz levels', 'warning');
-                        showAuthModal('login');
-                        currentLesson = card.getAttribute('data-lesson');
-                    }
-                });
-            });
-            
-            // Add event listeners to level links
-            document.querySelectorAll('.dropdown-content a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    const lessonCard = link.closest('.lesson-card');
-                    const lessonId = lessonCard.getAttribute('data-lesson');
-                    const level = link.getAttribute('data-level');
-                    
-                    if (auth.currentUser) {
-                        startQuiz(lessonId, level);
-                    } else {
-                        currentLesson = lessonId;
-                        currentLevel = level;
-                        showNotification('Please login to access quiz levels', 'warning');
-                        showAuthModal('login');
-                    }
-                });
-            });
-        }
-
-        // Update greeting based on time of day
-        function updateGreeting() {
-            const hour = new Date().getHours();
-            let greetingText = "";
-            
-            if (hour < 12) {
-                greetingText = "Good Morning! 🌞";
-            } else if (hour < 17) {
-                greetingText = "Good Afternoon! ☀️";
-            } else {
-                greetingText = "Good Evening! 🌙";
-            }
-            
-            greeting.textContent = greetingText;
         }
 
         // Setup event listeners
         function setupEventListeners() {
-            // Close buttons
-            closeTerms.addEventListener('click', () => hideModal(termsModal));
-            closeAuth.addEventListener('click', () => {
-                if (!auth.currentUser) {
-                    showNotification('You must login to access the content', 'warning');
-                    return;
-                }
-                hideAuthModal();
-            });
-            closeStudent.addEventListener('click', () => hideModal(studentModal));
-            closeNotice.addEventListener('click', () => hideModal(noticeModal));
-            closeProfile.addEventListener('click', () => hideProfileModal());
-            closeAd.addEventListener('click', () => hideModal(adModal));
-            
-            // Terms modal
-            acceptTerms.addEventListener('change', (e) => {
-                btnAcceptTerms.disabled = !e.target.checked;
-            });
-            
-            btnAcceptTerms.addEventListener('click', () => {
-                // Store that user has accepted terms in localStorage
-                localStorage.setItem('termsAccepted', 'true');
-                termsAccepted = true;
-                
-                hideModal(termsModal);
-                showAuthModal('login');
-            });
-            
             // Back button
             backButton.addEventListener('click', handleBackButton);
             
             // User profile
-            userProfile.addEventListener('click', toggleProfileModal);
+            userProfile.addEventListener('click', toggleAuthModal);
             
             // WhatsApp button
             whatsappButton.addEventListener('click', () => {
                 window.open('https://wa.me/94779817525?text=Hello%20Quiz%20Support,%20I%20need%20help%20with...', '_blank');
+            });
+            
+            // Welcome modal
+            btnWelcomeContinue.addEventListener('click', () => {
+                welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
+                welcomeModal.querySelector('.welcome-content').style.opacity = '0';
+                setTimeout(() => {
+                    welcomeModal.style.display = 'none';
+                    if (!auth.currentUser) {
+                        showAuthModal('login');
+                    }
+                }, 300);
             });
             
             // Auth modal tabs
@@ -2891,10 +1944,12 @@ All The best 😚!</p>
                 });
             });
             
-            // Show signup link - now shows terms first
-            showSignup.addEventListener('click', () => {
-                showTermsModal();
-            });
+            // Show signup/login links
+            showSignup.addEventListener('click', () => switchAuthTab('signup'));
+            showLogin.addEventListener('click', () => switchAuthTab('login'));
+            
+            // Close auth modal
+            closeAuth.addEventListener('click', () => hideAuthModal());
             
             // Login form
             btnLogin.addEventListener('click', handleLogin);
@@ -2902,9 +1957,9 @@ All The best 😚!</p>
                 if (e.key === 'Enter') handleLogin();
             });
             
-            // Signup phone form
-            btnSendOtp.addEventListener('click', handleSendOtp);
-            signupPhone.addEventListener('input', formatPhoneNumber);
+            // Signup form
+            btnSignup.addEventListener('click', handleSignup);
+            signupWhatsapp.addEventListener('input', formatWhatsappNumber);
             
             // OTP verification
             otpInputs.forEach((input, index) => {
@@ -2926,18 +1981,21 @@ All The best 😚!</p>
             btnVerifyOtp.addEventListener('click', verifyOtp);
             resendOtp.addEventListener('click', resendOtpCode);
             
-            // Signup form
-            btnSignup.addEventListener('click', handleSignup);
-            
-            // Student form
-            studentForm.addEventListener('submit', saveStudentDetails);
-            studentWhatsapp.addEventListener('input', formatPhoneNumber);
-            
-            // Notice modal
-            btnAcceptNotice.addEventListener('click', () => {
-                hideNoticeModal();
-                showStudentModal();
+            // Lesson cards
+            lessonCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const lessonId = card.getAttribute('data-lesson');
+                    if (auth.currentUser) {
+                        showLevelsModal(lessonId);
+                    } else {
+                        currentLesson = lessonId;
+                        showAuthModal('login');
+                    }
+                });
             });
+            
+            // Close levels modal
+            closeLevels.addEventListener('click', () => hideLevelsModal());
             
             // Quiz controls
             btnCloseQuiz.addEventListener('click', closeQuiz);
@@ -2947,125 +2005,39 @@ All The best 😚!</p>
                 closeQuiz();
             });
             
-            // Profile modal controls
-            btnDeleteAccount.addEventListener('click', showDeleteModal);
-            btnLogout.addEventListener('click', handleLogout);
-            
-            // Delete account modal controls
-            btnCancelDelete.addEventListener('click', () => hideModal(deleteModal));
-            btnConfirmDelete.addEventListener('click', showVerifyModal);
-            
-            // Verify modal controls
-            btnCancelVerify.addEventListener('click', () => hideModal(verifyModal));
-            btnVerifyDelete.addEventListener('click', verifyDeleteAccount);
-            resendVerifyOtp.addEventListener('click', resendDeleteOtp);
-            
-            verifyOtpInputs.forEach((input, index) => {
-                input.addEventListener('input', () => {
-                    if (input.value.length === 1) {
-                        if (index < verifyOtpInputs.length - 1) {
-                            verifyOtpInputs[index + 1].focus();
-                        }
-                    }
-                });
-                
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && input.value.length === 0 && index > 0) {
-                        verifyOtpInputs[index - 1].focus();
-                    }
-                });
+            // Window click handlers
+            window.addEventListener('click', (e) => {
+                if (e.target === authModal) hideAuthModal();
+                if (e.target === levelsModal) hideLevelsModal();
+                if (e.target === timeWarningModal) hideAlertModal(timeWarningModal);
+                if (e.target === timeUpModal) {
+                    hideAlertModal(timeUpModal);
+                    closeQuiz();
+                }
+                if (e.target === welcomeModal) {
+                    welcomeModal.querySelector('.welcome-content').style.transform = 'scale(0.9)';
+                    welcomeModal.querySelector('.welcome-content').style.opacity = '0';
+                    setTimeout(() => {
+                        welcomeModal.style.display = 'none';
+                    }, 300);
+                }
             });
-            
-            // Final delete confirmation
-            btnFinalCancelDelete.addEventListener('click', () => hideModal(confirmDeleteModal));
-            btnFinalConfirmDelete.addEventListener('click', finalDeleteAccount);
             
             // Beforeunload event
             window.addEventListener('beforeunload', handleBeforeUnload);
-            
-            // Click outside modals to close (only for allowed modals)
-            document.addEventListener('click', (e) => {
-                // Profile modal
-                if (profileModal.style.display === 'flex' && e.target === profileModal) {
-                    hideProfileModal();
-                }
-                
-                // Student modal
-                if (studentModal.style.display === 'flex' && e.target === studentModal) {
-                    hideModal(studentModal);
-                }
-                
-                // Notice modal
-                if (noticeModal.style.display === 'flex' && e.target === noticeModal) {
-                    hideModal(noticeModal);
-                }
-                
-                // Auth modal
-                if (authModal.style.display === 'flex' && e.target === authModal) {
-                    if (!auth.currentUser) {
-                        showNotification('You must login to access the content', 'warning');
-                        return;
-                    }
-                    hideAuthModal();
-                }
-                
-                // Ad modal
-                if (adModal.style.display === 'flex' && e.target === adModal) {
-                    hideModal(adModal);
-                }
-                
-                // Terms modal
-                if (termsModal.style.display === 'flex' && e.target === termsModal) {
-                    hideModal(termsModal);
-                }
-            });
         }
 
         // Check auth state
         function checkAuthState() {
-            auth.onAuthStateChanged(async user => {
+            auth.onAuthStateChanged(user => {
                 if (user) {
                     // User is signed in
                     updateUserProfile(user);
-                    
-                    // Check if user has completed profile
-                    const userDoc = await db.collection('users').doc(user.uid).get();
-                    
-                    if (userDoc.exists && userDoc.data().profileCompleted) {
-                        // User has completed profile, show main content
-                        showMainContent();
-                        
-                        // Show welcome animation on first login
-                        if (firstLogin) {
-                            firstLogin = false;
-                            showEmojiRain();
-                        }
-                    } else {
-                        // User needs to complete profile
-                        showNoticeModal();
-                    }
-                    
-                    // Show terms modal if not accepted yet (only once)
-                    if (!termsAccepted) {
-                        showTermsModal();
-                    }
+                    showMainContent();
                 } else {
                     // User is signed out
                     userAvatar.textContent = 'G';
-                    
-                    // Show auth modal immediately
-                    showAuthModal('login');
-                    
-                    // Hide main content
-                    mainContainer.classList.remove('show');
-                    setTimeout(() => {
-                        mainContainer.style.display = 'none';
-                    }, 500);
-                    
-                    // Show terms modal if not accepted yet (only once)
-                    if (!termsAccepted) {
-                        showTermsModal();
-                    }
+                    userName.textContent = 'Guest';
                 }
             });
         }
@@ -3074,8 +2046,10 @@ All The best 😚!</p>
         function updateUserProfile(user) {
             if (user.displayName) {
                 userAvatar.textContent = user.displayName.charAt(0).toUpperCase();
+                userName.textContent = user.displayName;
             } else {
                 userAvatar.textContent = 'U';
+                userName.textContent = 'User';
             }
         }
 
@@ -3084,15 +2058,6 @@ All The best 😚!</p>
             mainContainer.style.display = 'block';
             setTimeout(() => {
                 mainContainer.classList.add('show');
-            }, 10);
-        }
-
-        // Show terms modal
-        function showTermsModal() {
-            termsModal.style.display = 'flex';
-            setTimeout(() => {
-                termsModal.querySelector('.terms-content').style.transform = 'scale(1)';
-                termsModal.querySelector('.terms-content').style.opacity = '1';
             }, 10);
         }
 
@@ -3115,333 +2080,40 @@ All The best 😚!</p>
             }, 300);
         }
 
-        // Show student modal
-        function showStudentModal() {
-            studentModal.style.display = 'flex';
-            setTimeout(() => {
-                studentModal.querySelector('.student-content').style.transform = 'scale(1)';
-                studentModal.querySelector('.student-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Hide student modal
-        function hideStudentModal() {
-            studentModal.querySelector('.student-content').style.transform = 'scale(0.9)';
-            studentModal.querySelector('.student-content').style.opacity = '0';
-            setTimeout(() => {
-                studentModal.style.display = 'none';
-            }, 300);
-        }
-
-        // Show notice modal
-        function showNoticeModal() {
-            noticeModal.style.display = 'flex';
-            setTimeout(() => {
-                noticeModal.querySelector('.notice-content').style.transform = 'scale(1)';
-                noticeModal.querySelector('.notice-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Hide notice modal
-        function hideNoticeModal() {
-            noticeModal.querySelector('.notice-content').style.transform = 'scale(0.9)';
-            noticeModal.querySelector('.notice-content').style.opacity = '0';
-            setTimeout(() => {
-                noticeModal.style.display = 'none';
-            }, 300);
-        }
-
-        // Show profile modal
-        async function showProfileModal() {
-            if (!auth.currentUser) return;
-            
-            try {
-                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    
-                    // Update profile info
-                    profileAvatar.textContent = userData.name ? userData.name.charAt(0).toUpperCase() : 'U';
-                    profileName.textContent = userData.name || 'Not provided';
-                    profileEmail.textContent = userData.email || 'Not provided';
-                    profileGender.textContent = userData.gender || 'Not provided';
-                    profileExamYear.textContent = userData.examYear || 'Not provided';
-                    profileSchool.textContent = userData.school || 'Not provided';
-                    profileDistrict.textContent = userData.district || 'Not provided';
-                    profileWhatsapp.textContent = userData.whatsapp || 'Not provided';
-                    
-                    // Calculate completed levels
-                    let completedCount = 0;
-                    if (userData.completedLevels) {
-                        completedCount = Object.keys(userData.completedLevels).reduce((acc, key) => {
-                            return acc + userData.completedLevels[key].length;
-                        }, 0);
-                    }
-                    profileCompletedLevels.textContent = `${completedCount}/340`;
-                    
-                    // Update badge display
-                    badgeSilver.style.display = 'none';
-                    badgeGold.style.display = 'none';
-                    badgeDiamond.style.display = 'none';
-                    
-                    if (completedCount >= 100) {
-                        badgeDiamond.style.display = 'flex';
-                    } else if (completedCount >= 50) {
-                        badgeGold.style.display = 'flex';
-                    } else {
-                        badgeSilver.style.display = 'flex';
-                    }
-                }
-            } catch (error) {
-                console.error('Error loading profile:', error);
-                showNotification('Failed to load profile information', 'danger');
-            }
-            
-            profileModal.style.display = 'flex';
-            setTimeout(() => {
-                profileModal.querySelector('.profile-content').style.transform = 'scale(1)';
-                profileModal.querySelector('.profile-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Hide profile modal
-        function hideProfileModal() {
-            profileModal.querySelector('.profile-content').style.transform = 'scale(0.9)';
-            profileModal.querySelector('.profile-content').style.opacity = '0';
-            setTimeout(() => {
-                profileModal.style.display = 'none';
-            }, 300);
-        }
-
-        // Show delete modal
-        function showDeleteModal() {
-            deleteModal.style.display = 'flex';
-            setTimeout(() => {
-                deleteModal.querySelector('.delete-content').style.transform = 'scale(1)';
-                deleteModal.querySelector('.delete-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Show verify modal
-        async function showVerifyModal() {
-            hideModal(deleteModal);
-            
-            try {
-                const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
-                if (userDoc.exists) {
-                    const userData = userDoc.data();
-                    verifyPhoneNumber.textContent = userData.whatsapp || '+94XXXXXXXX';
-                    
-                    // Generate a 6-digit random code
-                    deleteVerificationOtp = Math.floor(100000 + Math.random() * 900000).toString();
-                    
-                    // Prepare message (URL encoded)
-                    const phone = userData.whatsapp.replace('+94', '');
-                    const message = `Your+account+deletion+code+is:+${deleteVerificationOtp}`;
-                    
-                    // Build the API URL
-                    const apiUrl = `https://www.textit.biz/sendmsg/?id=${TEXTIT_ID}&pw=${TEXTIT_PW}&to=94${phone}&text=${message}`;
-                    
-                    // Make the API call
-                    const response = await fetch(apiUrl);
-                    
-                    if (!response.ok) {
-                        throw new Error(`SMS gateway error: ${response.status}`);
-                    }
-                    
-                    const responseText = await response.text();
-                    
-                    // Check for success response (TextIt.biz returns "OK" on success)
-                    if (responseText.includes("OK")) {
-                        showNotification(`Verification code sent to ${userData.whatsapp}`, 'success');
-                    } else {
-                        throw new Error(responseText);
-                    }
-                }
-            } catch (error) {
-                console.error('Error sending OTP:', error);
-                showNotification('Failed to send OTP. Please try again.', 'danger');
-                
-                // For testing purposes, show the code anyway
-                showNotification(`Demo mode: Your OTP is ${deleteVerificationOtp}`, 'info');
-            }
-            
-            verifyModal.style.display = 'flex';
-            setTimeout(() => {
-                verifyModal.querySelector('.verify-content').style.transform = 'scale(1)';
-                verifyModal.querySelector('.verify-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Show confirm delete modal
-        function showConfirmDeleteModal() {
-            hideModal(verifyModal);
-            confirmDeleteModal.style.display = 'flex';
-            setTimeout(() => {
-                confirmDeleteModal.querySelector('.confirm-delete-content').style.transform = 'scale(1)';
-                confirmDeleteModal.querySelector('.confirm-delete-content').style.opacity = '1';
-            }, 10);
-        }
-
-        // Hide modal (generic function)
-        function hideModal(modal) {
-            if (!modal) return;
-            
-            const content = modal.querySelector('.modal-content') || 
-                           modal.querySelector('.terms-content') || 
-                           modal.querySelector('.auth-content') || 
-                           modal.querySelector('.student-content') || 
-                           modal.querySelector('.notice-content') || 
-                           modal.querySelector('.profile-content') || 
-                           modal.querySelector('.delete-content') || 
-                           modal.querySelector('.verify-content') || 
-                           modal.querySelector('.confirm-delete-content') || 
-                           modal.querySelector('.alert-content') || 
-                           modal.querySelector('.ad-content');
-            
-            if (content) {
-                content.style.transform = 'scale(0.9)';
-                content.style.opacity = '0';
-                setTimeout(() => {
-                    modal.style.display = 'none';
-                }, 300);
-            }
-        }
-
-        // Toggle profile modal
-        function toggleProfileModal() {
-            if (auth.currentUser) {
-                showProfileModal();
-            } else {
-                showAuthModal('login');
-            }
-        }
-
         // Switch auth tab
         function switchAuthTab(tab) {
             authTabs.forEach(t => t.classList.remove('active'));
             document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
             
             loginForm.classList.remove('active');
-            signupPhoneForm.classList.remove('active');
-            signupOtpForm.classList.remove('active');
             signupForm.classList.remove('active');
+            otpForm.classList.remove('active');
             
             if (tab === 'login') {
                 authModalTitle.textContent = 'Welcome Back!';
                 authModalSubtitle.textContent = 'Please login to continue';
                 loginForm.classList.add('active');
             } else if (tab === 'signup') {
-                authModalTitle.textContent = 'Sign Up - Part 1';
-                authModalSubtitle.textContent = 'Verify your phone number';
-                signupPhoneForm.classList.add('active');
+                authModalTitle.textContent = 'Create Account';
+                authModalSubtitle.textContent = 'Join our quiz community';
+                signupForm.classList.add('active');
             }
         }
 
         // Show OTP form
         function showOtpForm(phoneNumber) {
-            authModalTitle.textContent = 'Sign Up - Part 2';
+            authModalTitle.textContent = 'Verify Phone';
             authModalSubtitle.textContent = 'Enter the 6-digit code we sent';
             otpPhoneNumber.textContent = phoneNumber;
             
+            authTabs.forEach(t => t.classList.remove('active'));
             loginForm.classList.remove('active');
-            signupPhoneForm.classList.remove('active');
-            signupOtpForm.classList.add('active');
+            signupForm.classList.remove('active');
+            otpForm.classList.add('active');
             
             // Clear OTP inputs
             otpInputs.forEach(input => input.value = '');
             otpInputs[0].focus();
-            
-            // Reset OTP attempts
-            otpAttempts = 0;
-            lastOtpSentTime = Date.now();
-            
-            // Disable resend button for 1 minute
-            resendOtp.classList.add('disabled');
-            resendOtp.textContent = 'Resend OTP (60s)';
-            
-            // Start countdown for resend button
-            let secondsLeft = 60;
-            otpResendTimer = setInterval(() => {
-                secondsLeft--;
-                resendOtp.textContent = `Resend OTP (${secondsLeft}s)`;
-                
-                if (secondsLeft <= 0) {
-                    clearInterval(otpResendTimer);
-                    resendOtp.classList.remove('disabled');
-                    resendOtp.textContent = 'Resend OTP';
-                }
-            }, 1000);
-        }
-
-        // Show email/password form
-        function showEmailPasswordForm() {
-            authModalTitle.textContent = 'Sign Up - Part 3';
-            authModalSubtitle.textContent = 'Create your account';
-            
-            loginForm.classList.remove('active');
-            signupOtpForm.classList.remove('active');
-            signupForm.classList.add('active');
-            
-            // Clear form
-            signupEmail.value = '';
-            signupPassword.value = '';
-        }
-
-        // Handle send OTP
-        async function handleSendOtp() {
-            const phone = signupPhone.value.trim();
-            
-            if (!phone) {
-                showNotification('Please enter your phone number', 'warning');
-                return;
-            }
-            
-            if (phone.length !== 9 || !/^\d+$/.test(phone)) {
-                showNotification('Please enter a valid 9-digit phone number', 'warning');
-                return;
-            }
-            
-            try {
-                btnSendOtp.disabled = true;
-                btnSendOtp.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-                
-                // Generate a 6-digit random code
-                generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-                
-                // Prepare message (URL encoded)
-                const message = `Your+verification+code+is:+${generatedOtp}`;
-                
-                // Build the API URL
-                const apiUrl = `https://www.textit.biz/sendmsg/?id=${TEXTIT_ID}&pw=${TEXTIT_PW}&to=94${phone}&text=${message}`;
-                
-                // Make the API call
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) {
-                    throw new Error(`SMS gateway error: ${response.status}`);
-                }
-                
-                const responseText = await response.text();
-                
-                // Check for success response (TextIt.biz returns "OK" on success)
-                if (responseText.includes("OK")) {
-                    showNotification(`Verification code sent to +94${phone}`, 'success');
-                    showOtpForm(phone);
-                } else {
-                    throw new Error(responseText);
-                }
-            } catch (error) {
-                console.error('Error sending OTP:', error);
-                showNotification('Failed to send OTP. Please try again.', 'danger');
-                
-                // For testing purposes, show the code anyway
-                showNotification(`Demo mode: Your OTP is ${generatedOtp}`, 'info');
-                showOtpForm(phone);
-            } finally {
-                btnSendOtp.disabled = false;
-                btnSendOtp.textContent = 'Send Verification Code';
-            }
         }
 
         // Handle login
@@ -3463,31 +2135,10 @@ All The best 😚!</p>
                 hideAuthModal();
                 updateUserProfile(userCredential.user);
                 
-                // Remember credentials if checkbox is checked
-                if (rememberMe.checked) {
-                    localStorage.setItem('rememberedEmail', email);
-                    localStorage.setItem('rememberedPassword', password);
-                } else {
-                    localStorage.removeItem('rememberedEmail');
-                    localStorage.removeItem('rememberedPassword');
-                }
-                
-                // Check if user has completed profile
-                const userDoc = await db.collection('users').doc(userCredential.user.uid).get();
-                
-                if (userDoc.exists && userDoc.data().profileCompleted) {
-                    // User has completed profile, show main content
-                    showMainContent();
-                } else {
-                    // User needs to complete profile
-                    showNoticeModal();
-                }
-                
-                // If there's a pending lesson, start quiz
-                if (currentLesson && currentLevel) {
-                    startQuiz(currentLesson, currentLevel);
+                // If there's a pending lesson, show levels modal
+                if (currentLesson) {
+                    showLevelsModal(currentLesson);
                     currentLesson = null;
-                    currentLevel = null;
                 }
             } catch (error) {
                 console.error('Login error:', error);
@@ -3496,13 +2147,83 @@ All The best 😚!</p>
                     message = 'User not found. Please sign up.';
                 } else if (error.code === 'auth/wrong-password') {
                     message = 'Incorrect password. Please try again.';
-                } else if (error.code === 'auth/too-many-requests') {
-                    message = 'Too many attempts. Please try again later.';
                 }
                 showNotification(message, 'danger');
             } finally {
                 btnLogin.disabled = false;
                 btnLogin.textContent = 'Login';
+            }
+        }
+
+        // Handle signup
+        async function handleSignup() {
+            const name = signupName.value.trim();
+            const email = signupEmail.value.trim();
+            const password = signupPassword.value.trim();
+            const examYear = signupExamYear.value.trim();
+            const school = signupSchool.value.trim();
+            const district = signupDistrict.value.trim();
+            const whatsapp = signupWhatsapp.value.trim();
+            
+            if (!name || !email || !password || !examYear || !school || !district || !whatsapp) {
+                showNotification('Please fill all fields', 'warning');
+                return;
+            }
+            
+            if (whatsapp.length !== 9 || !/^\d+$/.test(whatsapp)) {
+                showNotification('Please enter a valid 9-digit WhatsApp number', 'warning');
+                return;
+            }
+            
+            try {
+                btnSignup.disabled = true;
+                btnSignup.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing up...';
+                
+                // First create user with email/password
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                
+                // Update user profile with display name
+                await userCredential.user.updateProfile({
+                    displayName: name
+                });
+                
+                // Save additional user data to Firestore
+                const userData = {
+                    uid: userCredential.user.uid,
+                    name,
+                    email,
+                    examYear: parseInt(examYear),
+                    school,
+                    district,
+                    whatsapp: `+94${whatsapp}`,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                    completedLevels: {}
+                };
+                
+                await db.collection('users').doc(userCredential.user.uid).set(userData);
+                
+                // Show OTP verification for phone number
+                showOtpForm(whatsapp);
+                
+                // In a real app, you would send OTP via SMS gateway here
+                // For demo purposes, we'll simulate it
+                verificationId = "simulated-verification-id";
+                showNotification('OTP sent to your phone number', 'success');
+                
+                // Update UI
+                updateUserProfile(userCredential.user);
+            } catch (error) {
+                console.error('Signup error:', error);
+                let message = 'Signup failed. Please try again.';
+                if (error.code === 'auth/email-already-in-use') {
+                    message = 'Email already in use. Please login.';
+                } else if (error.code === 'auth/weak-password') {
+                    message = 'Password should be at least 6 characters';
+                }
+                showNotification(message, 'danger');
+            } finally {
+                btnSignup.disabled = false;
+                btnSignup.textContent = 'Sign Up';
             }
         }
 
@@ -3519,22 +2240,19 @@ All The best 😚!</p>
                 btnVerifyOtp.disabled = true;
                 btnVerifyOtp.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
                 
-                // Increment OTP attempts
-                otpAttempts++;
-                
-                // Verify the OTP
-                if (otp === generatedOtp) {
+                // In a real app, you would verify the OTP with Firebase Auth
+                // For demo purposes, we'll simulate successful verification
+                if (otp === '123456') { // Demo OTP code
                     showNotification('Phone number verified!', 'success');
+                    hideAuthModal();
                     
-                    // Proceed to email/password form
-                    showEmailPasswordForm();
-                } else {
-                    if (otpAttempts >= 3) {
-                        showNotification('Maximum attempts reached. Please contact admin.', 'danger');
-                        hideAuthModal();
-                    } else {
-                        showNotification(`Invalid OTP code. ${3 - otpAttempts} attempts remaining.`, 'danger');
+                    // If there's a pending lesson, show levels modal
+                    if (currentLesson) {
+                        showLevelsModal(currentLesson);
+                        currentLesson = null;
                     }
+                } else {
+                    showNotification('Invalid OTP code. Please try again.', 'danger');
                 }
             } catch (error) {
                 console.error('OTP verification error:', error);
@@ -3547,328 +2265,94 @@ All The best 😚!</p>
 
         // Resend OTP
         async function resendOtpCode() {
-            if (resendOtp.classList.contains('disabled')) return;
-            
             try {
-                resendOtp.classList.add('disabled');
                 resendOtp.textContent = 'Sending...';
                 
-                // Generate a new OTP
-                generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
-                const phone = otpPhoneNumber.textContent;
-                
-                // Prepare message (URL encoded)
-                const message = `Your+new+verification+code+is:+${generatedOtp}`;
-                
-                // Build the API URL
-                const apiUrl = `https://www.textit.biz/sendmsg/?id=${TEXTIT_ID}&pw=${TEXTIT_PW}&to=94${phone}&text=${message}`;
-                
-                // Make the API call
-                const response = await fetch(apiUrl);
-                
-                if (!response.ok) {
-                    throw new Error(`SMS gateway error: ${response.status}`);
-                }
-                
-                const responseText = await response.text();
-                
-                if (responseText.includes("OK")) {
+                // In a real app, you would resend the OTP via SMS gateway
+                // For demo purposes, we'll simulate it
+                setTimeout(() => {
                     showNotification('New OTP sent to your phone number', 'success');
-                    
-                    // Reset timer
-                    clearInterval(otpResendTimer);
-                    lastOtpSentTime = Date.now();
-                    
-                    // Disable resend button for 1 minute
-                    let secondsLeft = 60;
-                    resendOtp.textContent = `Resend OTP (${secondsLeft}s)`;
-                    
-                    otpResendTimer = setInterval(() => {
-                        secondsLeft--;
-                        resendOtp.textContent = `Resend OTP (${secondsLeft}s)`;
-                        
-                        if (secondsLeft <= 0) {
-                            clearInterval(otpResendTimer);
-                            resendOtp.classList.remove('disabled');
-                            resendOtp.textContent = 'Resend OTP';
-                        }
-                    }, 1000);
-                } else {
-                    throw new Error(responseText);
-                }
+                    resendOtp.textContent = 'Resend OTP';
+                }, 1000);
             } catch (error) {
                 console.error('Resend OTP error:', error);
                 showNotification('Failed to resend OTP. Please try again.', 'danger');
-                resendOtp.classList.remove('disabled');
                 resendOtp.textContent = 'Resend OTP';
-                
-                // For testing purposes, show the code anyway
-                showNotification(`Demo mode: Your new OTP is ${generatedOtp}`, 'info');
             }
         }
 
-        // Handle signup
-        async function handleSignup() {
-            const email = signupEmail.value.trim();
-            const password = signupPassword.value.trim();
-            
-            if (!email || !password) {
-                showNotification('Please fill all fields', 'warning');
-                return;
-            }
-            
-            if (password.length < 6) {
-                showNotification('Password must be at least 6 characters', 'warning');
-                return;
-            }
-            
-            try {
-                btnSignup.disabled = true;
-                btnSignup.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing up...';
-                
-                // Create user with email/password
-                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                
-                showNotification('Account created successfully!', 'success');
-                hideAuthModal();
-                updateUserProfile(userCredential.user);
-                
-                // Show notice modal before student details
-                showNoticeModal();
-                
-                // If there's a pending lesson, start quiz after profile completion
-                if (currentLesson && currentLevel) {
-                    // Will be handled after profile completion
-                }
-            } catch (error) {
-                console.error('Signup error:', error);
-                let message = 'Signup failed. Please try again.';
-                if (error.code === 'auth/email-already-in-use') {
-                    message = 'Email already in use. Please login.';
-                } else if (error.code === 'auth/weak-password') {
-                    message = 'Password should be at least 6 characters';
-                } else if (error.code === 'auth/invalid-email') {
-                    message = 'Please enter a valid email address';
-                }
-                showNotification(message, 'danger');
-            } finally {
-                btnSignup.disabled = false;
-                btnSignup.textContent = 'Complete Sign Up';
-            }
-        }
-
-        // Save student details
-        async function saveStudentDetails(e) {
-            e.preventDefault();
-            
-            const name = studentName.value.trim();
-            const gender = studentGender.value;
-            const email = studentEmail.value.trim();
-            const examYear = studentExamYear.value.trim();
-            const school = studentSchool.value.trim();
-            const district = studentDistrict.value.trim();
-            const whatsapp = studentWhatsapp.value.trim();
-            
-            if (!name || !gender || !email || !examYear || !school || !district || !whatsapp) {
-                showNotification('Please fill all fields', 'warning');
-                return;
-            }
-            
-            if (whatsapp.length !== 9 || !/^\d+$/.test(whatsapp)) {
-                showNotification('Please enter a valid 9-digit WhatsApp number', 'warning');
-                return;
-            }
-            
-            try {
-                showFormPreloader();
-                btnSaveStudent.disabled = true;
-                btnSaveStudent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-                
-                const user = auth.currentUser;
-                
-                // Update user profile with display name
-                await user.updateProfile({
-                    displayName: name
-                });
-                
-                // Save additional user data to Firestore
-                const userData = {
-                    uid: user.uid,
-                    name,
-                    gender,
-                    email,
-                    examYear: parseInt(examYear),
-                    school,
-                    district,
-                    whatsapp: `+94${whatsapp}`,
-                    profileCompleted: true,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                    lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-                    completedLevels: {}
-                };
-                
-                await db.collection('users').doc(user.uid).set(userData, { merge: true });
-                
-                showNotification('Profile information saved successfully!', 'success');
-                hideStudentModal();
-                updateUserProfile(user);
-                showMainContent();
-                
-                // If there's a pending lesson, start quiz
-                if (currentLesson && currentLevel) {
-                    startQuiz(currentLesson, currentLevel);
-                    currentLesson = null;
-                    currentLevel = null;
-                }
-            } catch (error) {
-                console.error('Error saving student details:', error);
-                showNotification('Failed to save information. Please try again.', 'danger');
-            } finally {
-                hideFormPreloader();
-                btnSaveStudent.disabled = false;
-                btnSaveStudent.textContent = 'Save Information';
-            }
-        }
-
-        // Format phone number
-        function formatPhoneNumber() {
-            let value = this.value.replace(/\D/g, '');
+        // Format WhatsApp number
+        function formatWhatsappNumber() {
+            let value = signupWhatsapp.value.replace(/\D/g, '');
             if (value.length > 9) value = value.substring(0, 9);
-            this.value = value;
+            signupWhatsapp.value = value;
         }
 
-        // Handle logout
-        async function handleLogout() {
-            try {
-                await auth.signOut();
-                showNotification('Logged out successfully', 'success');
-                hideProfileModal();
-                mainContainer.classList.remove('show');
-                setTimeout(() => {
-                    mainContainer.style.display = 'none';
-                }, 500);
-                showAuthModal('login');
-            } catch (error) {
-                console.error('Logout error:', error);
-                showNotification('Failed to logout. Please try again.', 'danger');
-            }
-        }
-
-        // Resend delete account OTP
-        async function resendDeleteOtp() {
-            try {
-                resendVerifyOtp.classList.add('disabled');
-                resendVerifyOtp.textContent = 'Sending...';
-                
-                // Generate a new OTP
-                deleteVerificationOtp = Math.floor(100000 + Math.random() * 900000).toString();
-                
+        // Show levels modal
+        async function showLevelsModal(lessonId) {
+            currentLesson = lessonId;
+            levelsTitle.textContent = lessonTitles[lessonId];
+            levelsSubtitle.textContent = 'Select a level to start the quiz';
+            
+            // Clear previous levels
+            levelsGrid.innerHTML = '';
+            
+            // Get user's completed levels for this lesson
+            let completedLevels = [];
+            if (auth.currentUser) {
                 const userDoc = await db.collection('users').doc(auth.currentUser.uid).get();
                 if (userDoc.exists) {
                     const userData = userDoc.data();
-                    const phone = userData.whatsapp.replace('+94', '');
-                    
-                    // Prepare message (URL encoded)
-                    const message = `Your+new+account+deletion+code+is:+${deleteVerificationOtp}`;
-                    
-                    // Build the API URL
-                    const apiUrl = `https://www.textit.biz/sendmsg/?id=${TEXTIT_ID}&pw=${TEXTIT_PW}&to=94${phone}&text=${message}`;
-                    
-                    // Make the API call
-                    const response = await fetch(apiUrl);
-                    
-                    if (!response.ok) {
-                        throw new Error(`SMS gateway error: ${response.status}`);
-                    }
-                    
-                    const responseText = await response.text();
-                    
-                    if (responseText.includes("OK")) {
-                        showNotification('New OTP sent to your phone number', 'success');
-                        
-                        // Disable resend button for 1 minute
-                        let secondsLeft = 60;
-                        resendVerifyOtp.textContent = `Resend OTP (${secondsLeft}s)`;
-                        
-                        const timer = setInterval(() => {
-                            secondsLeft--;
-                            resendVerifyOtp.textContent = `Resend OTP (${secondsLeft}s)`;
-                            
-                            if (secondsLeft <= 0) {
-                                clearInterval(timer);
-                                resendVerifyOtp.classList.remove('disabled');
-                                resendVerifyOtp.textContent = 'Resend OTP';
-                            }
-                        }, 1000);
-                    } else {
-                        throw new Error(responseText);
+                    if (userData.completedLevels && userData.completedLevels[lessonId]) {
+                        completedLevels = userData.completedLevels[lessonId];
                     }
                 }
-            } catch (error) {
-                console.error('Resend OTP error:', error);
-                showNotification('Failed to resend OTP. Please try again.', 'danger');
-                resendVerifyOtp.classList.remove('disabled');
-                resendVerifyOtp.textContent = 'Resend OTP';
-                
-                // For testing purposes, show the code anyway
-                showNotification(`Demo mode: Your new OTP is ${deleteVerificationOtp}`, 'info');
-            }
-        }
-
-        // Verify delete account
-        async function verifyDeleteAccount() {
-            const otp = Array.from(verifyOtpInputs).map(input => input.value).join('');
-            
-            if (otp.length !== 6) {
-                showNotification('Please enter a 6-digit code', 'warning');
-                return;
             }
             
-            try {
-                btnVerifyDelete.disabled = true;
-                btnVerifyDelete.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-                
-                if (otp === deleteVerificationOtp) {
-                    showConfirmDeleteModal();
-                } else {
-                    showNotification('Invalid verification code', 'danger');
+            // Calculate progress
+            const progress = Math.round((completedLevels.length / 20) * 100);
+            progressText.textContent = `${progress}%`;
+            progressCircle.style.setProperty('--progress', progress);
+            
+            // Add level cards
+            for (let i = 1; i <= 20; i++) {
+                const levelCard = document.createElement('div');
+                levelCard.className = 'level-card';
+                if (completedLevels.includes(i)) {
+                    levelCard.classList.add('completed');
+                } else if (i > 1 && !completedLevels.includes(i - 1)) {
+                    levelCard.classList.add('locked');
                 }
-            } catch (error) {
-                console.error('Error verifying OTP:', error);
-                showNotification('Failed to verify OTP. Please try again.', 'danger');
-            } finally {
-                btnVerifyDelete.disabled = false;
-                btnVerifyDelete.textContent = 'Verify & Delete';
+                
+                levelCard.innerHTML = `
+                    <div class="level-number">${i}</div>
+                    <div class="level-title">Level ${i}</div>
+                    <div class="level-meta">30 min • 15 Qs</div>
+                `;
+                
+                levelCard.addEventListener('click', () => {
+                    if (!levelCard.classList.contains('locked')) {
+                        startQuiz(lessonId, i);
+                    }
+                });
+                
+                levelsGrid.appendChild(levelCard);
             }
+            
+            levelsModal.style.display = 'flex';
+            setTimeout(() => {
+                levelsModal.querySelector('.levels-content').style.transform = 'scale(1)';
+                levelsModal.querySelector('.levels-content').style.opacity = '1';
+            }, 10);
         }
 
-        // Final delete account
-        async function finalDeleteAccount() {
-            try {
-                btnFinalConfirmDelete.disabled = true;
-                btnFinalConfirmDelete.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
-                
-                // Delete user data from Firestore
-                await db.collection('users').doc(auth.currentUser.uid).delete();
-                
-                // Delete user from Firebase Auth
-                await auth.currentUser.delete();
-                
-                showNotification('Account deleted successfully', 'success');
-                hideModal(confirmDeleteModal);
-                hideProfileModal();
-                mainContainer.classList.remove('show');
-                setTimeout(() => {
-                    mainContainer.style.display = 'none';
-                }, 500);
-                showAuthModal('login');
-            } catch (error) {
-                console.error('Error deleting account:', error);
-                showNotification('Failed to delete account. Please try again.', 'danger');
-            } finally {
-                btnFinalConfirmDelete.disabled = false;
-                btnFinalConfirmDelete.textContent = 'Delete My Account';
-            }
+        // Hide levels modal
+        function hideLevelsModal() {
+            levelsModal.querySelector('.levels-content').style.transform = 'scale(0.9)';
+            levelsModal.querySelector('.levels-content').style.opacity = '0';
+            setTimeout(() => {
+                levelsModal.style.display = 'none';
+            }, 300);
         }
 
         // Start quiz
@@ -3882,48 +2366,36 @@ All The best 😚!</p>
             warned5 = false;
             updateTimerDisplay();
             
-            // Show form preloader
-            showFormPreloader();
+            // Play start sound
+            startSound.play();
             
             // Set quiz title
             quizTitle.textContent = `${lessonTitles[lessonId]} - Level ${level}`;
             
-            // Load Google Form in iframe after a short delay to show preloader
-            setTimeout(() => {
-                quizIframe.src = formUrls[lessonId][level - 1] || 'about:blank';
-                quizIframe.onload = () => {
-                    hideFormPreloader();
-                };
-                
-                // Show quiz container
-                quizContainer.style.display = 'flex';
-                
-                // Start timer
-                quizTimer = setInterval(updateQuizTimer, 1000);
-                
-                // Show notification
-                showNotification(`Quiz started! You have 30 minutes to complete 15 questions.`, 'success');
-                
-                // Speak the time limit
-                if ('speechSynthesis' in window) {
-                    const speech = new SpeechSynthesisUtterance();
-                    speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete 15 questions. Good luck!`;
-                    window.speechSynthesis.speak(speech);
-                }
-                
-                // Show back button
-                backButton.classList.add('show');
-            }, 500);
-        }
-
-        // Show form preloader
-        function showFormPreloader() {
-            formPreloader.style.display = 'flex';
-        }
-
-        // Hide form preloader
-        function hideFormPreloader() {
-            formPreloader.style.display = 'none';
+            // Load Google Form in iframe
+            quizIframe.src = formUrls[lessonId][level - 1];
+            
+            // Show quiz container
+            quizContainer.style.display = 'flex';
+            
+            // Start timer
+            quizTimer = setInterval(updateQuizTimer, 1000);
+            
+            // Show notification
+            showNotification(`Quiz started! You have 30 minutes to complete 15 questions.`, 'success');
+            
+            // Speak the time limit
+            if ('speechSynthesis' in window) {
+                const speech = new SpeechSynthesisUtterance();
+                speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete 15 questions. Good luck!`;
+                window.speechSynthesis.speak(speech);
+            }
+            
+            // Hide levels modal
+            hideLevelsModal();
+            
+            // Show back button
+            backButton.classList.add('show');
         }
 
         // Update quiz timer
@@ -4004,15 +2476,16 @@ All The best 😚!</p>
                             completedLevels[currentLesson] = [];
                         }
                         
-                        if (!completedLevels[currentLesson].includes(parseInt(currentLevel))) {
-                            completedLevels[currentLesson].push(parseInt(currentLevel));
+                        if (!completedLevels[currentLesson].includes(currentLevel)) {
+                            completedLevels[currentLesson].push(currentLevel);
                             await userRef.update({
-                                completedLevels: completedLevels,
-                                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                                completedLevels: completedLevels
                             });
                             
-                            // Update the UI to reflect completed level
-                            populateLessonsGrid();
+                            // Update progress display
+                            const progress = Math.round((completedLevels[currentLesson].length / 20) * 100);
+                            progressText.textContent = `${progress}%`;
+                            progressCircle.style.setProperty('--progress', progress);
                         }
                     }
                 } catch (error) {
@@ -4039,8 +2512,10 @@ All The best 😚!</p>
                     quizIframe.src = '';
                     quizActive = false;
                     
-                    // Mark as completed if user stayed until the end
-                    endQuiz();
+                    // Show levels modal again
+                    if (currentLesson) {
+                        showLevelsModal(currentLesson);
+                    }
                 }
             } else {
                 quizContainer.style.display = 'none';
@@ -4071,12 +2546,21 @@ All The best 😚!</p>
             }, 5000);
         }
 
+        // Toggle auth modal
+        function toggleAuthModal() {
+            if (authModal.style.display === 'flex') {
+                hideAuthModal();
+            } else {
+                showAuthModal(auth.currentUser ? 'logout' : 'login');
+            }
+        }
+
         // Handle back button
         function handleBackButton() {
             if (quizContainer.style.display === 'flex') {
                 closeQuiz();
-            } else {
-                // Handle other back button cases if needed
+            } else if (levelsModal.style.display === 'flex') {
+                hideLevelsModal();
             }
         }
 
@@ -4111,54 +2595,6 @@ All The best 😚!</p>
                 
                 particles.appendChild(particle);
             }
-        }
-
-        // Show emoji rain animation
-        function showEmojiRain() {
-            const emojis = ['🎉', '🎊', '✨', '🌟', '🏆', '👍', '💯', '🎓', '📚', '🏅'];
-            emojiRain.style.display = 'block';
-            
-            // Create 50 emojis
-            for (let i = 0; i < 50; i++) {
-                const emoji = document.createElement('div');
-                emoji.className = 'emoji';
-                emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-                emoji.style.left = `${Math.random() * 100}vw`;
-                emoji.style.animationDuration = `${Math.random() * 3 + 2}s`;
-                emoji.style.animationDelay = `${Math.random() * 2}s`;
-                emojiRain.appendChild(emoji);
-                
-                // Remove emoji after animation completes
-                setTimeout(() => {
-                    emoji.remove();
-                }, 5000);
-            }
-            
-            // Hide container after animation
-            setTimeout(() => {
-                emojiRain.style.display = 'none';
-                emojiRain.innerHTML = '';
-            }, 5000);
-        }
-
-        // Start ad timer
-        function startAdTimer() {
-            // Show first ad after 10 minutes
-            adTimer = setTimeout(() => {
-                showAdModal();
-                
-                // Then show every 10 minutes
-                setInterval(showAdModal, 10 * 60 * 1000);
-            }, 10 * 60 * 1000);
-        }
-
-        // Show ad modal
-        function showAdModal() {
-            adModal.style.display = 'flex';
-            setTimeout(() => {
-                adModal.querySelector('.ad-content').style.transform = 'scale(1)';
-                adModal.querySelector('.ad-content').style.opacity = '1';
-            }, 10);
         }
 
         // Preloader
