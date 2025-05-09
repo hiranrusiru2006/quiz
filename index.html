@@ -154,6 +154,99 @@
             text-transform: uppercase;
         }
 
+        /* Quiz Preloader Styles */
+.quiz-preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1007; /* Higher than other elements */
+    backdrop-filter: blur(5px);
+}
+
+.quiz-loader {
+    width: 80px;
+    height: 80px;
+    position: relative;
+}
+
+.quiz-loader div {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    animation: load 1.2s linear infinite;
+}
+
+.quiz-loader div:nth-child(1) {
+    top: 8px;
+    left: 8px;
+    animation-delay: 0s;
+}
+
+.quiz-loader div:nth-child(2) {
+    top: 8px;
+    left: 32px;
+    animation-delay: -0.4s;
+}
+
+.quiz-loader div:nth-child(3) {
+    top: 8px;
+    left: 56px;
+    animation-delay: -0.8s;
+}
+
+.quiz-loader div:nth-child(4) {
+    top: 32px;
+    left: 8px;
+    animation-delay: -0.4s;
+}
+
+.quiz-loader div:nth-child(5) {
+    top: 32px;
+    left: 32px;
+    animation-delay: -0.8s;
+}
+
+.quiz-loader div:nth-child(6) {
+    top: 32px;
+    left: 56px;
+    animation-delay: -1.2s;
+}
+
+.quiz-loader div:nth-child(7) {
+    top: 56px;
+    left: 8px;
+    animation-delay: -0.8s;
+}
+
+.quiz-loader div:nth-child(8) {
+    top: 56px;
+    left: 32px;
+    animation-delay: -1.2s;
+}
+
+.quiz-loader div:nth-child(9) {
+    top: 56px;
+    left: 56px;
+    animation-delay: -1.6s;
+}
+
+.quiz-loading-text {
+    color: white;
+    margin-top: 20px;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
         /* Main Container */
         .container {
             max-width: 1200px;
@@ -1751,6 +1844,16 @@
         <div class="loading-text">Loading Interactive Quiz Portal</div>
     </div>
 
+    <!-- Quiz Preloader -->
+<div class="quiz-preloader" id="quizPreloader">
+    <div class="quiz-loader">
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+        <div></div><div></div><div></div>
+    </div>
+    <div class="quiz-loading-text">Loading Quiz Content</div>
+</div> 
+
     <!-- Back Button -->
     <div class="back-button" id="backButton">
         <i class="fas fa-arrow-left"></i>
@@ -2372,7 +2475,11 @@ All The best 😚!</p>
         let lastOtpSentTime = 0;
         let otpResendTimer;
 
+
         // DOM Elements
+        const quizPreloader = document.getElementById('quizPreloader');
+        const quizLoader = document.querySelector('.quiz-loader');
+        const quizLoadingText = document.querySelector('.quiz-loading-text');
         const backButton = document.getElementById('backButton');
         const userProfile = document.getElementById('userProfile');
         const userAvatar = document.getElementById('userAvatar');
