@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ET Panthiya.lk Quiz Portal</title>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <!-- Chart.js for progress circles -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -127,14 +122,6 @@
             max-width: 800px;
             margin: 0 auto 1.5rem;
             animation: fadeIn 1.5s ease;
-        }
-
-        .header-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
         }
 
         .btn {
@@ -312,31 +299,8 @@
             color: white;
         }
 
-        .level-btn.completed {
-            background-color: var(--success);
-            color: white;
-        }
-
-        /* Progress circle container */
-        .progress-container {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1rem;
-            position: relative;
-        }
-
-        .progress-circle {
-            width: 100%;
-            height: 100%;
-        }
-
-        .progress-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 0.9rem;
-            font-weight: bold;
+        .level-btn.active {
+            background-color: var(--primary);
             color: white;
         }
 
@@ -418,7 +382,7 @@
             background-color: var(--light);
         }
 
-        /* Modal Styles */
+        /* Modal Styles - Updated Modern Design */
         .modal {
             position: fixed;
             top: 0;
@@ -452,6 +416,7 @@
             transform: translateY(20px);
             transition: var(--transition);
             position: relative;
+            border: none;
         }
 
         .modal.show .modal-content {
@@ -464,12 +429,15 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius) var(--radius) 0 0;
         }
 
         .modal-title {
             font-size: 1.5rem;
             font-weight: 600;
-            color: var(--primary);
+            color: white;
         }
 
         .modal-close {
@@ -477,16 +445,24 @@
             border: none;
             font-size: 1.5rem;
             cursor: pointer;
-            color: #666;
+            color: white;
             transition: var(--transition);
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
 
         .modal-close:hover {
-            color: var(--warning);
+            background-color: rgba(255,255,255,0.2);
+            color: white;
         }
 
         .modal-body {
             padding: 1.5rem;
+            color: #333;
         }
 
         .form-group {
@@ -507,12 +483,14 @@
             border-radius: var(--radius);
             font-family: inherit;
             transition: var(--transition);
+            background-color: #f9f9f9;
         }
 
         .form-control:focus {
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
             outline: none;
+            background-color: white;
         }
 
         .modal-footer {
@@ -523,16 +501,18 @@
             gap: 1rem;
         }
 
-        /* Quiz Modal */
+        /* Quiz Modal - Updated with Close Button */
         .quiz-modal {
             max-width: 800px;
+            position: relative;
         }
 
         .quiz-header {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 1.5rem;
             border-radius: var(--radius) var(--radius) 0 0;
+            position: relative;
         }
 
         .quiz-title {
@@ -546,7 +526,7 @@
 
         .quiz-iframe {
             width: 100%;
-            height: 100vh;
+            height: 500px;
             border: none;
             background-color: white;
         }
@@ -555,35 +535,25 @@
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: var(--danger);
-            color: white;
+            background: rgba(255,255,255,0.2);
             border: none;
-            width: 40px;
-            height: 40px;
+            color: white;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            z-index: 10;
             transition: var(--transition);
+            z-index: 10;
         }
 
         .quiz-close-btn:hover {
-            transform: scale(1.1);
+            background: rgba(255,255,255,0.3);
         }
 
-        /* User Details Form */
-        .student-form .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .student-form label {
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        /* Verification Modal */
+        /* SMS Verification Modal - Updated Design */
         .verification-modal .modal-content {
             max-width: 400px;
         }
@@ -601,12 +571,16 @@
             text-align: center;
             font-size: 1.5rem;
             border: 2px solid #ddd;
-            border-radius: 5px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            transition: var(--transition);
         }
 
         .verification-code-input:focus {
             border-color: var(--primary);
             outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+            background-color: white;
         }
 
         .resend-btn {
@@ -617,6 +591,7 @@
             font-size: 0.9rem;
             margin-top: 0.5rem;
             display: none;
+            font-weight: 600;
         }
 
         .resend-btn.active {
@@ -629,21 +604,46 @@
             margin-top: 0.5rem;
         }
 
-        /* Terms Modal */
-        .terms-modal {
-            z-index: 2000;
+        /* Student Info Form - Updated Design */
+        .student-form .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .student-form label {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        /* Terms Modal - Updated Design */
+        .terms-modal .modal-content {
+            max-height: 70vh;
+            overflow-y: auto;
         }
 
         .terms-content {
-            max-height: 70vh;
-            overflow-y: auto;
-            padding: 1rem;
+            padding: 1.5rem;
+            color: #333;
+        }
+
+        .terms-content h4 {
+            color: var(--primary);
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .terms-content p {
+            margin-bottom: 1rem;
+            line-height: 1.6;
         }
 
         .terms-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid #eee;
+            background-color: #f9f9f9;
+            border-radius: 0 0 var(--radius) var(--radius);
         }
 
         .terms-checkbox {
@@ -651,17 +651,79 @@
             align-items: center;
             gap: 0.5rem;
             margin-top: 1rem;
+            padding: 0.8rem;
+            background-color: #f5f5f5;
+            border-radius: var(--radius);
         }
 
-        /* Quiz Notice Modal */
-        .quiz-notice-modal .modal-content {
-            max-width: 500px;
+        .terms-checkbox input {
+            accent-color: var(--primary);
+        }
+
+        /* Mandatory Notice Modal */
+        .mandatory-notice-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .mandatory-notice-content {
+            background-color: white;
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .mandatory-notice-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, var(--warning), #f55b9a);
+            color: white;
             text-align: center;
         }
 
-        .quiz-notice-content {
+        .mandatory-notice-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .mandatory-notice-body {
             padding: 1.5rem;
+            color: #333;
             line-height: 1.6;
+        }
+
+        .mandatory-notice-footer {
+            padding: 1rem;
+            display: flex;
+            justify-content: center;
+            background-color: #f9f9f9;
+        }
+
+        .mandatory-notice-btn {
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mandatory-notice-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
 
         /* Loading Spinner */
@@ -732,7 +794,7 @@
         }
 
         /* Progress Bar */
-        .scroll-progress-container {
+        .progress-container {
             width: 100%;
             height: 5px;
             background-color: rgba(0,0,0,0.1);
@@ -742,7 +804,7 @@
             z-index: 1001;
         }
 
-        .scroll-progress-bar {
+        .progress-bar {
             height: 100%;
             background: linear-gradient(to right, var(--primary), var(--accent));
             width: 0%;
@@ -805,6 +867,10 @@
                 bottom: 1rem;
                 right: 1rem;
             }
+
+            .quiz-iframe {
+                height: 400px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -839,9 +905,9 @@
     <!-- Particles Background -->
     <div id="particles-js"></div>
 
-    <!-- Scroll Progress Bar -->
-    <div class="scroll-progress-container">
-        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
     </div>
 
     <!-- Loading Spinner -->
@@ -878,8 +944,8 @@
     <section class="notice-section">
         <h3 class="notice-title"><i class="fas fa-exclamation-circle"></i> Important Notice</h3>
         <p class="notice-content">
-            Welcome to the ET Panthiya Quiz Portal! Complete quizzes to test your knowledge. 
-            Each quiz has a set of questions to evaluate your understanding of the subject.
+            Welcome to the ET Panthiya Quiz Portal! Complete our quick registration process to access all quiz levels. 
+            You'll need to verify your phone number and provide some basic information before starting your first quiz.
         </p>
     </section>
 
@@ -916,102 +982,12 @@
         </div>
     </div>
 
-    <!-- User Details Modal -->
-    <div class="modal" id="userDetailsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">User Details</h3>
-            </div>
-            <div class="modal-body student-form">
-                <form id="userDetailsForm" action="https://formsubmit.co/hiranrusiru5@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="New User Registration - ET Panthiya">
-                    <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="#">
-                    
-                    <div class="form-group">
-                        <label for="userName">Full Name</label>
-                        <input type="text" id="userName" name="name" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="userSchool">School</label>
-                        <input type="text" id="userSchool" name="school" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="userExamYear">Exam Year</label>
-                        <select id="userExamYear" name="examYear" class="form-control" required>
-                            <option value="">Select Exam Year</option>
-                            <option value="2025">2025</option>
-                            <option value="2026">2026</option>
-                            <option value="2027">2027</option>
-                            <option value="2028">2028</option>
-                            <option value="2029">2029</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>Gender</label>
-                        <div style="display: flex; gap: 1rem;">
-                            <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                <input type="radio" name="gender" value="Male" required> Male
-                            </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                <input type="radio" name="gender" value="Female"> Female
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="userDistrict">District</label>
-                        <select id="userDistrict" name="district" class="form-control" required>
-                            <option value="">Select District</option>
-                            <option value="Colombo">Colombo</option>
-                            <option value="Gampaha">Gampaha</option>
-                            <option value="Kalutara">Kalutara</option>
-                            <option value="Kandy">Kandy</option>
-                            <option value="Matale">Matale</option>
-                            <option value="Nuwara Eliya">Nuwara Eliya</option>
-                            <option value="Galle">Galle</option>
-                            <option value="Matara">Matara</option>
-                            <option value="Hambantota">Hambantota</option>
-                            <option value="Jaffna">Jaffna</option>
-                            <option value="Kilinochchi">Kilinochchi</option>
-                            <option value="Mannar">Mannar</option>
-                            <option value="Vavuniya">Vavuniya</option>
-                            <option value="Mullaitivu">Mullaitivu</option>
-                            <option value="Batticaloa">Batticaloa</option>
-                            <option value="Ampara">Ampara</option>
-                            <option value="Trincomalee">Trincomalee</option>
-                            <option value="Kurunegala">Kurunegala</option>
-                            <option value="Puttalam">Puttalam</option>
-                            <option value="Anuradhapura">Anuradhapura</option>
-                            <option value="Polonnaruwa">Polonnaruwa</option>
-                            <option value="Badulla">Badulla</option>
-                            <option value="Moneragala">Moneragala</option>
-                            <option value="Ratnapura">Ratnapura</option>
-                            <option value="Kegalle">Kegalle</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="userWhatsapp">WhatsApp Number</label>
-                        <input type="tel" id="userWhatsapp" name="whatsappNumber" class="form-control" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <!-- Terms Modal -->
     <div class="modal terms-modal" id="termsModal">
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Terms and Conditions</h3>
+                <button class="modal-close">&times;</button>
             </div>
             <div class="modal-body terms-content">
                 <h4>1. Acceptance of Terms</h4>
@@ -1038,6 +1014,7 @@
                 </div>
             </div>
             <div class="modal-footer terms-footer">
+                <button class="btn btn-secondary" id="declineTermsBtn">Decline</button>
                 <button class="btn btn-primary" id="acceptTermsBtn" disabled>Accept</button>
             </div>
         </div>
@@ -1048,41 +1025,119 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h3 class="modal-title">Phone Verification</h3>
+                <button class="modal-close">&times;</button>
             </div>
             <div class="modal-body">
-                <p>We've sent a 6-digit verification code to your phone number. Please enter it below:</p>
-                
-                <div class="verification-code-inputs" id="verificationInputs">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="0">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="1">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="2">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="3">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="4">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="5">
+                <div class="form-group">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="tel" id="phoneNumber" class="form-control" placeholder="Enter your phone number (94XXXXXXXXX)">
                 </div>
                 
-                <button class="btn btn-primary" id="verifyCodeBtn" style="width: 100%;">Verify</button>
+                <button class="btn btn-primary" id="sendCodeBtn" style="width: 100%;">Send Verification Code</button>
                 
-                <div class="countdown" id="countdown">Resend code in 2:00</div>
-                <button class="resend-btn" id="resendBtn">Resend Code</button>
+                <div id="verificationSection" style="display: none;">
+                    <p style="margin-top: 1rem; color: #333;">We've sent a 6-digit verification code to your phone number. Please enter it below:</p>
+                    
+                    <div class="verification-code-inputs" id="verificationInputs">
+                        <input type="text" class="verification-code-input" maxlength="1" data-index="0">
+                        <input type="text" class="verification-code-input" maxlength="1" data-index="1">
+                        <input type="text" class="verification-code-input" maxlength="1" data-index="2">
+                        <input type="text" class="verification-code-input" maxlength="1" data-index="3">
+                        <input type="text" class="verification-code-input" maxlength="1" data-index="4">
+                        <input type="text" class="verification-code-input" maxlength="1" data-index="5">
+                    </div>
+                    
+                    <button class="btn btn-primary" id="verifyCodeBtn" style="width: 100%; margin-top: 1rem;">Verify</button>
+                    
+                    <div class="countdown" id="countdown">Resend code in 2:00</div>
+                    <button class="resend-btn" id="resendBtn">Resend Code</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Quiz Notice Modal -->
-    <div class="modal quiz-notice-modal" id="quizNoticeModal">
+    <!-- Student Info Modal -->
+    <div class="modal" id="studentInfoModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title">Important Notice</h3>
-                <button class="modal-close" id="quizNoticeClose">&times;</button>
+                <h3 class="modal-title">Complete Your Profile</h3>
+                <button class="modal-close">&times;</button>
             </div>
-            <div class="modal-body quiz-notice-content">
-                <p>මිනිත්තු 30 න් ඔබට උත්තර ලබාදීමට හිමිවන කාලය අවසන් වන අතර ගූගල් ෆොරමය ස්වයංක්‍රීයව සබ්මිට් වේ. වේලාව අවසන් වීමට පෙර පිළීතුරු සපයා අවසන් කරන්න. ඔබට සහය අව්ශ්‍ය ඕනෑම අවස්තාවක 0779817525 වට්සැප් අංකය ඔස්සේ අප සම්බන්ද කරගන්න.</p>
-                
-                <p>You have 30 minutes to complete the quiz. The Google Form will automatically submit when time is up. Please complete your answers before time runs out. For any assistance, contact us via WhatsApp at 0779817525.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="understandBtn" style="width: 100%;">I Understand</button>
+            <div class="modal-body student-form">
+                <form id="studentForm" action="https://formsubmit.co/hiranrusiru@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="New Student Registration - ET Panthiya">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://etpanthiya.lk/thank-you">
+                    <input type="hidden" name="phone" id="formPhone">
+                    
+                    <div class="form-group">
+                        <label for="studentName">Full Name</label>
+                        <input type="text" id="studentName" name="name" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="school">School</label>
+                        <input type="text" id="school" name="school" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="examYear">Exam Year</label>
+                        <input type="number" id="examYear" name="examYear" class="form-control" min="2000" max="2030" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <div style="display: flex; gap: 1rem;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="radio" name="gender" value="Male" required> Male
+                            </label>
+                            <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                <input type="radio" name="gender" value="Female"> Female
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="district">District</label>
+                        <select id="district" name="district" class="form-control" required>
+                            <option value="">Select District</option>
+                            <option value="Colombo">Colombo</option>
+                            <option value="Gampaha">Gampaha</option>
+                            <option value="Kalutara">Kalutara</option>
+                            <option value="Kandy">Kandy</option>
+                            <option value="Matale">Matale</option>
+                            <option value="Nuwara Eliya">Nuwara Eliya</option>
+                            <option value="Galle">Galle</option>
+                            <option value="Matara">Matara</option>
+                            <option value="Hambantota">Hambantota</option>
+                            <option value="Jaffna">Jaffna</option>
+                            <option value="Kilinochchi">Kilinochchi</option>
+                            <option value="Mannar">Mannar</option>
+                            <option value="Mullaitivu">Mullaitivu</option>
+                            <option value="Vavuniya">Vavuniya</option>
+                            <option value="Puttalam">Puttalam</option>
+                            <option value="Kurunegala">Kurunegala</option>
+                            <option value="Anuradhapura">Anuradhapura</option>
+                            <option value="Polonnaruwa">Polonnaruwa</option>
+                            <option value="Badulla">Badulla</option>
+                            <option value="Monaragala">Monaragala</option>
+                            <option value="Ratnapura">Ratnapura</option>
+                            <option value="Kegalle">Kegalle</option>
+                            <option value="Trincomalee">Trincomalee</option>
+                            <option value="Batticaloa">Batticaloa</option>
+                            <option value="Ampara">Ampara</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="whatsappNumber">WhatsApp Number</label>
+                        <input type="tel" id="whatsappNumber" name="whatsappNumber" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Submit & Start Quizzes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -1090,18 +1145,34 @@
     <!-- Quiz Modal -->
     <div class="modal" id="quizModal">
         <div class="modal-content quiz-modal">
-            <button class="quiz-close-btn" id="quizCloseBtn">
-                <i class="fas fa-times"></i>
-            </button>
             <div class="quiz-header">
                 <h3 class="quiz-title" id="quizTitle">Lesson Title</h3>
                 <p class="quiz-level" id="quizLevel">Level 1</p>
-            </div>
-            <div id="formPreloader" style="display: none; text-align: center; padding: 2rem;">
-                <div class="spinner-circle" style="margin: 0 auto;"></div>
-                <p>Loading quiz...</p>
+                <button class="quiz-close-btn" id="quizCloseBtn">&times;</button>
             </div>
             <iframe class="quiz-iframe" id="quizIframe" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <!-- Mandatory Notice Modal -->
+    <div class="mandatory-notice-modal" id="mandatoryNoticeModal">
+        <div class="mandatory-notice-content">
+            <div class="mandatory-notice-header">
+                <h3 class="mandatory-notice-title"><i class="fas fa-exclamation-triangle"></i> Important Notice</h3>
+            </div>
+            <div class="mandatory-notice-body">
+                <p>Before starting the quiz, please note:</p>
+                <ul style="margin-left: 1.5rem; margin-bottom: 1rem;">
+                    <li>You have limited time to complete the quiz</li>
+                    <li>Make sure you have a stable internet connection</li>
+                    <li>Do not refresh the page during the quiz</li>
+                    <li>All answers are final once submitted</li>
+                </ul>
+                <p>By proceeding, you acknowledge that you've read and understood these instructions.</p>
+            </div>
+            <div class="mandatory-notice-footer">
+                <button class="mandatory-notice-btn" id="understandBtn">I Understand</button>
+            </div>
         </div>
     </div>
 
@@ -1142,46 +1213,50 @@
 
         // DOM Elements
         const lessonsGrid = document.getElementById('lessonsGrid');
-        const quizModal = document.getElementById('quizModal');
-        const quizTitle = document.getElementById('quizTitle');
-        const quizLevel = document.getElementById('quizLevel');
-        const quizIframe = document.getElementById('quizIframe');
-        const fabWhatsapp = document.getElementById('fabWhatsapp');
-        const fabPapers = document.getElementById('fabPapers');
-        const fabMenu = document.getElementById('fabMenu');
-        const fabDropdown = document.getElementById('fabDropdown');
-        const scrollProgressBar = document.getElementById('scrollProgressBar');
-        const spinner = document.getElementById('spinner');
-        const toast = document.getElementById('toast');
-        const dayGreeting = document.getElementById('dayGreeting');
-        const greetingText = document.getElementById('greetingText');
-        const userDetailsModal = document.getElementById('userDetailsModal');
-        const userDetailsForm = document.getElementById('userDetailsForm');
+        const termsModal = document.getElementById('termsModal');
+        const agreeTerms = document.getElementById('agreeTerms');
+        const acceptTermsBtn = document.getElementById('acceptTermsBtn');
+        const declineTermsBtn = document.getElementById('declineTermsBtn');
         const verificationModal = document.getElementById('verificationModal');
+        const phoneNumberInput = document.getElementById('phoneNumber');
+        const sendCodeBtn = document.getElementById('sendCodeBtn');
+        const verificationSection = document.getElementById('verificationSection');
         const verificationInputs = document.getElementById('verificationInputs');
         const verifyCodeBtn = document.getElementById('verifyCodeBtn');
         const resendBtn = document.getElementById('resendBtn');
         const countdown = document.getElementById('countdown');
-        const termsModal = document.getElementById('termsModal');
-        const agreeTerms = document.getElementById('agreeTerms');
-        const acceptTermsBtn = document.getElementById('acceptTermsBtn');
+        const studentInfoModal = document.getElementById('studentInfoModal');
+        const studentForm = document.getElementById('studentForm');
+        const formPhone = document.getElementById('formPhone');
+        const quizModal = document.getElementById('quizModal');
+        const quizTitle = document.getElementById('quizTitle');
+        const quizLevel = document.getElementById('quizLevel');
+        const quizIframe = document.getElementById('quizIframe');
         const quizCloseBtn = document.getElementById('quizCloseBtn');
-        const formPreloader = document.getElementById('formPreloader');
-        const quizNoticeModal = document.getElementById('quizNoticeModal');
-        const quizNoticeClose = document.getElementById('quizNoticeClose');
+        const fabWhatsapp = document.getElementById('fabWhatsapp');
+        const fabPapers = document.getElementById('fabPapers');
+        const fabMenu = document.getElementById('fabMenu');
+        const fabDropdown = document.getElementById('fabDropdown');
+        const progressBar = document.getElementById('progressBar');
+        const spinner = document.getElementById('spinner');
+        const toast = document.getElementById('toast');
+        const dayGreeting = document.getElementById('dayGreeting');
+        const greetingText = document.getElementById('greetingText');
+        const mandatoryNoticeModal = document.getElementById('mandatoryNoticeModal');
         const understandBtn = document.getElementById('understandBtn');
+
+        // Modal close buttons
+        const modalCloseButtons = document.querySelectorAll('.modal-close');
 
         // App State
         let currentLesson = null;
         let currentLevel = null;
-        let completedLevelsData = JSON.parse(localStorage.getItem('completedLevels')) || {};
         let generatedCode = "";
         let phoneNumber = "";
         let resendAttempts = 0;
         let countdownInterval = null;
         let countdownTime = 120; // 2 minutes in seconds
-        let hasShownForms = localStorage.getItem('hasShownForms') === 'true';
-        let hasCompletedForms = localStorage.getItem('hasCompletedForms') === 'true';
+        let hasCompletedRegistration = localStorage.getItem('hasCompletedRegistration') === 'true';
 
         // Initialize the app
         function init() {
@@ -1209,15 +1284,6 @@
                     }
                 }
             });
-
-            // Show forms if not completed and not shown yet
-            if (!hasCompletedForms && !hasShownForms) {
-                setTimeout(() => {
-                    showUserDetailsModal();
-                    hasShownForms = true;
-                    localStorage.setItem('hasShownForms', 'true');
-                }, 30000); // 30 seconds delay
-            }
         }
 
         // Set up day greeting
@@ -1241,18 +1307,11 @@
             dayGreeting.querySelector('i').className = `fas ${icon}`;
         }
 
-        // Render lessons grid with progress circles
+        // Render lessons grid
         function renderLessons() {
             lessonsGrid.innerHTML = '';
             
             lessons.forEach(lesson => {
-                // Calculate completed levels for this lesson
-                const lessonCompleted = Object.keys(completedLevelsData)
-                    .filter(key => key.startsWith(`${lesson.id}-`))
-                    .length;
-                
-                const progressPercentage = Math.round((lessonCompleted / levelsPerLesson) * 100);
-                
                 const lessonCard = document.createElement('div');
                 lessonCard.className = 'lesson-card';
                 lessonCard.innerHTML = `
@@ -1261,10 +1320,7 @@
                         <h3 class="lesson-title">${lesson.title}</h3>
                         <div class="lesson-meta">
                             <span><i class="fas fa-question-circle"></i> ${lesson.questions} Questions</span>
-                        </div>
-                        <div class="progress-container">
-                            <canvas class="progress-circle" id="progress-${lesson.id}"></canvas>
-                            <div class="progress-text">${progressPercentage}%</div>
+                            <span><i class="fas fa-clock"></i> 35 Minutes</span>
                         </div>
                         <div class="lesson-levels" id="levels-${lesson.id}"></div>
                     </div>
@@ -1272,33 +1328,6 @@
                 
                 lessonsGrid.appendChild(lessonCard);
                 renderLevels(lesson.id);
-                createProgressCircle(lesson.id, progressPercentage);
-            });
-        }
-
-        // Create progress circle chart
-        function createProgressCircle(lessonId, percentage) {
-            const ctx = document.getElementById(`progress-${lessonId}`).getContext('2d');
-            
-            new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data: [percentage, 100 - percentage],
-                        backgroundColor: ['#4cc9f0', 'rgba(255, 255, 255, 0.1)'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    cutout: '70%',
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    events: [],
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true
-                    }
-                }
             });
         }
 
@@ -1314,12 +1343,6 @@
                 levelBtn.dataset.lesson = lessonId;
                 levelBtn.dataset.level = i;
                 
-                // Check if level is completed
-                const isCompleted = completedLevelsData[`${lessonId}-${i}`] || false;
-                if (isCompleted) {
-                    levelBtn.classList.add('completed');
-                }
-                
                 levelBtn.addEventListener('click', () => handleLevelClick(lessonId, i));
                 levelsContainer.appendChild(levelBtn);
             }
@@ -1330,152 +1353,37 @@
             currentLesson = lessonId;
             currentLevel = level;
             
-            // Show quiz notice modal first
-            quizNoticeModal.classList.add('show');
+            // Check if user has completed registration
+            if (!hasCompletedRegistration) {
+                // Show terms modal first
+                showTermsModal();
+                return;
+            }
+            
+            // Show mandatory notice before quiz
+            showMandatoryNotice();
+        }
+
+        // Show mandatory notice
+        function showMandatoryNotice() {
+            mandatoryNoticeModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
 
-        // Start quiz after notice is acknowledged
-        function startQuiz() {
+        // Show quiz after notice is acknowledged
+        function showQuizAfterNotice() {
+            mandatoryNoticeModal.style.display = 'none';
+            
             // Set quiz details
             const lesson = lessons.find(l => l.id === currentLesson);
             quizTitle.textContent = lesson.title;
             quizLevel.textContent = `Level ${currentLevel}`;
             
-            // Show preloader
-            formPreloader.style.display = 'block';
-            quizIframe.style.display = 'none';
-            
             // Show quiz modal
             quizModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
             
-            // Load Google Form after a short delay to show preloader
-            setTimeout(() => {
-                quizIframe.src = googleFormsBaseUrl + formIds[currentLesson-1][currentLevel-1];
-                quizIframe.onload = () => {
-                    formPreloader.style.display = 'none';
-                    quizIframe.style.display = 'block';
-                };
-            }, 500);
-        }
-
-        // Mark level as completed
-        function markLevelCompleted(lessonId, level) {
-            completedLevelsData[`${lessonId}-${level}`] = true;
-            localStorage.setItem('completedLevels', JSON.stringify(completedLevelsData));
-            renderLessons();
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Quiz notice modal
-            quizNoticeClose.addEventListener('click', () => {
-                quizNoticeModal.classList.remove('show');
-            });
-            
-            understandBtn.addEventListener('click', () => {
-                quizNoticeModal.classList.remove('show');
-                startQuiz();
-            });
-            
-            // Quiz modal close (click outside)
-            quizModal.addEventListener('click', (e) => {
-                if (e.target === quizModal) {
-                    quizModal.classList.remove('show');
-                    document.body.style.overflow = '';
-                    markLevelCompleted(currentLesson, currentLevel);
-                }
-            });
-            
-            // Quiz close button
-            quizCloseBtn.addEventListener('click', () => {
-                quizModal.classList.remove('show');
-                document.body.style.overflow = '';
-                markLevelCompleted(currentLesson, currentLevel);
-            });
-            
-            // Quiz iframe submit handler
-            window.addEventListener('message', (event) => {
-                if (event.origin !== "https://docs.google.com") return;
-                
-                if (event.data === 'formSubmitted') {
-                    quizModal.classList.remove('show');
-                    document.body.style.overflow = '';
-                    markLevelCompleted(currentLesson, currentLevel);
-                    showToast('Quiz submitted successfully!', 'success');
-                }
-            });
-            
-            // Floating action buttons
-            fabWhatsapp.addEventListener('click', () => {
-                window.open('https://chat.whatsapp.com/yourgroup', '_blank');
-            });
-            
-            fabPapers.addEventListener('click', () => {
-                window.open('https://etpanthiya.lk/papers', '_blank');
-            });
-            
-            fabMenu.addEventListener('click', toggleFabDropdown);
-            
-            // Close dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!fabMenu.contains(e.target) && !fabDropdown.contains(e.target)) {
-                    fabDropdown.classList.remove('show');
-                }
-            });
-            
-            // Verification code inputs
-            const codeInputs = verificationInputs.querySelectorAll('.verification-code-input');
-            codeInputs.forEach((input, index) => {
-                input.addEventListener('input', (e) => {
-                    if (e.target.value.length === 1) {
-                        if (index < codeInputs.length - 1) {
-                            codeInputs[index + 1].focus();
-                        } else {
-                            verifyCodeBtn.focus();
-                        }
-                    }
-                });
-                
-                input.addEventListener('keydown', (e) => {
-                    if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
-                        codeInputs[index - 1].focus();
-                    }
-                });
-            });
-            
-            verifyCodeBtn.addEventListener('click', verifyCode);
-            resendBtn.addEventListener('click', resendCode);
-            
-            // Terms modal
-            agreeTerms.addEventListener('change', (e) => {
-                acceptTermsBtn.disabled = !e.target.checked;
-            });
-            
-            acceptTermsBtn.addEventListener('click', () => {
-                termsModal.classList.remove('show');
-                showVerificationModal();
-            });
-            
-            // User details form submission
-            userDetailsForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                userDetailsModal.classList.remove('show');
-                showToast('User details submitted successfully!', 'success');
-                showTermsModal();
-            });
-        }
-
-        // Toggle FAB dropdown
-        function toggleFabDropdown() {
-            fabDropdown.classList.toggle('show');
-        }
-
-        // Show user details modal
-        function showUserDetailsModal() {
-            userDetailsModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
+            // Load Google Form
+            quizIframe.src = googleFormsBaseUrl + formIds[currentLesson-1][currentLevel-1];
         }
 
         // Show terms modal
@@ -1487,25 +1395,22 @@
         // Show verification modal
         function showVerificationModal() {
             // Clear any previous inputs
+            phoneNumberInput.value = '';
             const inputs = verificationInputs.querySelectorAll('.verification-code-input');
             inputs.forEach(input => input.value = '');
+            
+            // Reset verification section
+            verificationSection.style.display = 'none';
             
             // Reset resend button
             resendAttempts = 0;
             resendBtn.classList.remove('active');
             
-            // Start countdown
-            startCountdown();
-            
-            // Generate verification code
-            generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('Generated code:', generatedCode); // For testing only
-            
             // Show modal
             verificationModal.classList.add('show');
             
-            // Focus first input
-            inputs[0].focus();
+            // Focus phone number input
+            phoneNumberInput.focus();
         }
 
         // Start countdown timer
@@ -1533,6 +1438,55 @@
             countdown.textContent = `Resend code in ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
         }
 
+        // Show student info modal
+        function showStudentInfoModal() {
+            studentInfoModal.classList.add('show');
+        }
+
+        // Send verification code
+        async function sendVerificationCode() {
+            const phone = phoneNumberInput.value.trim();
+            
+            if (!phone || !/^94\d{9}$/.test(phone)) {
+                showToast('Please enter a valid Sri Lankan phone number (94XXXXXXXXX)', 'error');
+                return;
+            }
+            
+            phoneNumber = phone;
+            
+            // Generate verification code
+            generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
+            console.log('Generated code:', generatedCode); // For testing only
+            
+            // Send SMS via textit.biz
+            try {
+                showSpinner();
+                
+                const message = `Your ET Panthiya verification code is: ${generatedCode}`;
+                const encodedMessage = encodeURIComponent(message);
+                const url = `https://www.textit.biz/sendmsg/?id=94760273554&pw=2204&to=${phone}&text=${encodedMessage}`;
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error('Failed to send SMS');
+                }
+                
+                showToast('Verification code sent to your phone', 'success');
+                verificationSection.style.display = 'block';
+                startCountdown();
+                
+                // Focus first code input
+                const inputs = verificationInputs.querySelectorAll('.verification-code-input');
+                inputs[0].focus();
+            } catch (error) {
+                console.error('Error sending verification code:', error);
+                showToast('Failed to send verification code. Please try again.', 'error');
+            } finally {
+                hideSpinner();
+            }
+        }
+
         // Verify entered code
         function verifyCode() {
             const inputs = verificationInputs.querySelectorAll('.verification-code-input');
@@ -1551,11 +1505,10 @@
                 clearInterval(countdownInterval);
                 verificationModal.classList.remove('show');
                 showToast('Phone number verified successfully!', 'success');
-                document.body.style.overflow = '';
                 
-                // Mark forms as completed
-                hasCompletedForms = true;
-                localStorage.setItem('hasCompletedForms', 'true');
+                // Show student info form
+                showStudentInfoModal();
+                formPhone.value = phoneNumber;
             } else {
                 showToast('Invalid verification code', 'error');
             }
@@ -1569,15 +1522,118 @@
             }
             
             resendAttempts++;
-            showToast(`New code sent (attempt ${resendAttempts}/3)`, 'success');
+            sendVerificationCode();
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Modal close buttons
+            modalCloseButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.closest('.modal').classList.remove('show');
+                    document.body.style.overflow = '';
+                });
+            });
             
-            // Generate new code
-            generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-            console.log('New generated code:', generatedCode); // For testing only
+            // Terms modal
+            agreeTerms.addEventListener('change', (e) => {
+                acceptTermsBtn.disabled = !e.target.checked;
+            });
             
-            // Reset countdown
-            startCountdown();
-            resendBtn.classList.remove('active');
+            acceptTermsBtn.addEventListener('click', () => {
+                termsModal.classList.remove('show');
+                showVerificationModal();
+            });
+            
+            declineTermsBtn.addEventListener('click', () => {
+                showToast('You must accept the terms to use this service', 'error');
+            });
+            
+            // Verification modal
+            sendCodeBtn.addEventListener('click', sendVerificationCode);
+            
+            // Verification code inputs
+            const codeInputs = verificationInputs.querySelectorAll('.verification-code-input');
+            codeInputs.forEach((input, index) => {
+                input.addEventListener('input', (e) => {
+                    if (e.target.value.length === 1) {
+                        if (index < codeInputs.length - 1) {
+                            codeInputs[index + 1].focus();
+                        } else {
+                            verifyCodeBtn.focus();
+                        }
+                    }
+                });
+                
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
+                        codeInputs[index - 1].focus();
+                    }
+                });
+            });
+            
+            verifyCodeBtn.addEventListener('click', verifyCode);
+            resendBtn.addEventListener('click', resendCode);
+            
+            // Student form submission
+            studentForm.addEventListener('submit', (e) => {
+                // Mark registration as complete
+                hasCompletedRegistration = true;
+                localStorage.setItem('hasCompletedRegistration', 'true');
+                
+                // Hide the modal
+                studentInfoModal.classList.remove('show');
+                document.body.style.overflow = '';
+                
+                // Show the quiz after notice
+                showMandatoryNotice();
+            });
+            
+            // Quiz modal close (click outside)
+            quizModal.addEventListener('click', (e) => {
+                if (e.target === quizModal) {
+                    if (confirm('Are you sure you want to exit the quiz? Your progress will not be saved.')) {
+                        quizModal.classList.remove('show');
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+            
+            // Quiz close button
+            quizCloseBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to exit the quiz? Your progress will not be saved.')) {
+                    quizModal.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Mandatory notice button
+            understandBtn.addEventListener('click', () => {
+                showQuizAfterNotice();
+            });
+            
+            // Floating action buttons
+            fabWhatsapp.addEventListener('click', () => {
+                window.open('https://chat.whatsapp.com/yourgroup', '_blank');
+            });
+            
+            fabPapers.addEventListener('click', () => {
+                window.open('https://etpanthiya.lk/papers', '_blank');
+            });
+            
+            fabMenu.addEventListener('click', toggleFabDropdown);
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!fabMenu.contains(e.target) && !fabDropdown.contains(e.target)) {
+                    fabDropdown.classList.remove('show');
+                }
+            });
+        }
+
+        // Toggle FAB dropdown
+        function toggleFabDropdown() {
+            fabDropdown.classList.toggle('show');
         }
 
         // Show toast notification
@@ -1607,7 +1663,7 @@
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 const scrolled = (winScroll / height) * 100;
-                scrollProgressBar.style.width = scrolled + '%';
+                progressBar.style.width = scrolled + '%';
             });
         }
 
