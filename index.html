@@ -6,12 +6,13 @@
     <title>ET Panthiya.lk Quiz Portal</title>
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <!-- Chart.js for progress circles -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #4361ee;
@@ -311,19 +312,31 @@
             color: white;
         }
 
-        .level-btn.locked {
-            background-color: rgba(0,0,0,0.2);
-            color: rgba(255,255,255,0.5);
-            cursor: not-allowed;
-        }
-
-        .level-btn.active {
-            background-color: var(--primary);
+        .level-btn.completed {
+            background-color: var(--success);
             color: white;
         }
 
-        .level-btn.completed {
-            background-color: var(--success);
+        /* Progress circle container */
+        .progress-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .progress-circle {
+            width: 100%;
+            height: 100%;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.9rem;
+            font-weight: bold;
             color: white;
         }
 
@@ -510,7 +523,7 @@
             gap: 1rem;
         }
 
-        /* Quiz Timer Modal */
+        /* Quiz Modal */
         .quiz-modal {
             max-width: 800px;
         }
@@ -531,27 +544,9 @@
             opacity: 0.9;
         }
 
-        .quiz-timer {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-top: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .timer-warning {
-            color: #ffcc00;
-        }
-
-        .timer-danger {
-            color: #ff3333;
-            animation: pulse 1s infinite;
-        }
-
         .quiz-iframe {
             width: 100%;
-            height: 500px;
+            height: 100vh;
             border: none;
             background-color: white;
         }
@@ -578,141 +573,95 @@
             transform: scale(1.1);
         }
 
-        /* Profile Section */
-        .profile-section {
-            display: none;
-            background-color: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            max-width: 500px;
-            margin: 2rem auto;
-            animation: fadeIn 0.5s ease;
-            border: 1px solid var(--glass-border);
-            color: white;
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .profile-pic {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-        }
-
-        .profile-info h3 {
-            margin-bottom: 0.2rem;
-            color: white;
-        }
-
-        .profile-info p {
-            color: rgba(255,255,255,0.8);
-        }
-
-        .profile-details {
-            margin-top: 1.5rem;
-        }
-
-        .detail-row {
-            display: flex;
+        /* User Details Form */
+        .student-form .form-group {
             margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        .detail-label {
-            font-weight: 600;
-            width: 120px;
-            color: rgba(255,255,255,0.8);
+        .student-form label {
+            font-size: 0.9rem;
+            color: #555;
         }
 
-        .detail-value {
-            flex: 1;
+        /* Verification Modal */
+        .verification-modal .modal-content {
+            max-width: 400px;
         }
 
-        .logout-btn {
-            display: block;
-            margin-top: 1.5rem;
+        .verification-code-inputs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .verification-code-input {
+            width: 40px;
+            height: 50px;
             text-align: center;
-            color: var(--warning);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
+            font-size: 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .verification-code-input:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        .resend-btn {
             background: none;
             border: none;
+            color: var(--primary);
             cursor: pointer;
-            width: 100%;
-            padding: 0.5rem;
-            border-radius: var(--radius);
-        }
-
-        .logout-btn:hover {
-            color: #d00000;
-            background: rgba(255,255,255,0.1);
-        }
-
-        .delete-account-btn {
-            display: block;
+            font-size: 0.9rem;
             margin-top: 0.5rem;
-            text-align: center;
-            color: var(--danger);
-            text-decoration: none;
-            font-weight: 600;
-            transition: var(--transition);
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            padding: 0.5rem;
-            border-radius: var(--radius);
+            display: none;
         }
 
-        .delete-account-btn:hover {
-            background: rgba(255,255,255,0.1);
+        .resend-btn.active {
+            display: inline;
         }
 
-        /* Auth Indicator */
-        .auth-indicator {
-            position: fixed;
-            top: 1rem;
-            right: 1rem;
-            background-color: var(--glass);
-            backdrop-filter: blur(10px);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            box-shadow: var(--shadow);
+        .countdown {
+            color: #666;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Terms Modal */
+        .terms-modal {
+            z-index: 2000;
+        }
+
+        .terms-content {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .terms-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .terms-checkbox {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            z-index: 100;
-            cursor: pointer;
-            transition: var(--transition);
-            border: 1px solid var(--glass-border);
-            color: white;
+            margin-top: 1rem;
         }
 
-        .auth-indicator:hover {
-            transform: translateY(-3px);
+        /* Quiz Notice Modal */
+        .quiz-notice-modal .modal-content {
+            max-width: 500px;
+            text-align: center;
         }
 
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background-color: var(--primary);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+        .quiz-notice-content {
+            padding: 1.5rem;
+            line-height: 1.6;
         }
 
         /* Loading Spinner */
@@ -783,7 +732,7 @@
         }
 
         /* Progress Bar */
-        .progress-container {
+        .scroll-progress-container {
             width: 100%;
             height: 5px;
             background-color: rgba(0,0,0,0.1);
@@ -793,101 +742,11 @@
             z-index: 1001;
         }
 
-        .progress-bar {
+        .scroll-progress-bar {
             height: 100%;
             background: linear-gradient(to right, var(--primary), var(--accent));
             width: 0%;
             transition: width 0.3s ease;
-        }
-
-        /* Terms Modal */
-        .terms-modal {
-            z-index: 2000;
-        }
-
-        .terms-content {
-            max-height: 70vh;
-            overflow-y: auto;
-            padding: 1rem;
-        }
-
-        .terms-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .terms-checkbox {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-
-        /* SMS Verification Modal */
-        .verification-modal .modal-content {
-            max-width: 400px;
-        }
-
-        .verification-code-inputs {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        .verification-code-input {
-            width: 40px;
-            height: 50px;
-            text-align: center;
-            font-size: 1.5rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-        }
-
-        .verification-code-input:focus {
-            border-color: var(--primary);
-            outline: none;
-        }
-
-        .resend-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        .resend-btn.active {
-            display: inline;
-        }
-
-        .countdown {
-            color: #666;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
-        /* Student Info Form */
-        .student-form .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .student-form label {
-            font-size: 0.9rem;
-            color: #555;
-        }
-
-        /* Confirm Exit Modal */
-        .confirm-exit-modal .modal-content {
-            max-width: 400px;
-            text-align: center;
-        }
-
-        .confirm-exit-modal .modal-footer {
-            justify-content: center;
         }
 
         /* Animations */
@@ -928,12 +787,6 @@
             to { transform: rotate(360deg); }
         }
 
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             .title {
@@ -951,10 +804,6 @@
             .fab-container {
                 bottom: 1rem;
                 right: 1rem;
-            }
-
-            .quiz-iframe {
-                height: 400px;
             }
         }
 
@@ -990,9 +839,9 @@
     <!-- Particles Background -->
     <div id="particles-js"></div>
 
-    <!-- Progress Bar -->
-    <div class="progress-container">
-        <div class="progress-bar" id="progressBar"></div>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="scrollProgressBar"></div>
     </div>
 
     <!-- Loading Spinner -->
@@ -1002,12 +851,6 @@
 
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
-
-    <!-- Auth Indicator -->
-    <div class="auth-indicator" id="authIndicator">
-        <div class="user-avatar" id="userAvatar">G</div>
-        <span id="authText">Guest</span>
-    </div>
 
     <!-- Header Section -->
     <header class="header">
@@ -1025,9 +868,6 @@
             <a href="https://etpanthiya.lk" class="btn btn-primary">
                 <i class="fas fa-globe"></i> Visit ET Panthiya.lk
             </a>
-            <a href="#" class="btn btn-secondary" id="profileBtn">
-                <i class="fas fa-user"></i> My Profile
-            </a>
             <a href="https://chat.whatsapp.com/yourgroup" class="btn btn-whatsapp">
                 <i class="fab fa-whatsapp"></i> Join WhatsApp Group
             </a>
@@ -1038,47 +878,9 @@
     <section class="notice-section">
         <h3 class="notice-title"><i class="fas fa-exclamation-circle"></i> Important Notice</h3>
         <p class="notice-content">
-            Welcome to the ET Panthiya Quiz Portal! Guest users can access Level 1 of all lessons without signing in. 
-            To unlock Levels 2-20, please sign up or log in. Each quiz has a 35-minute time limit. 
-            Make sure to complete your answers before time runs out!
+            Welcome to the ET Panthiya Quiz Portal! Complete quizzes to test your knowledge. 
+            Each quiz has a set of questions to evaluate your understanding of the subject.
         </p>
-    </section>
-
-    <!-- Profile Section -->
-    <section class="profile-section" id="profileSection">
-        <div class="profile-header">
-            <img src="https://via.placeholder.com/150" alt="Profile" class="profile-pic" id="profilePic">
-            <div class="profile-info">
-                <h3 id="profileName">Guest User</h3>
-                <p id="profileEmail">guest@example.com</p>
-            </div>
-        </div>
-        
-        <div class="profile-details">
-            <div class="detail-row">
-                <span class="detail-label">Completed Lessons:</span>
-                <span class="detail-value" id="completedLessons">0/17</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Completed Levels:</span>
-                <span class="detail-value" id="completedLevels">0/340</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Member Since:</span>
-                <span class="detail-value" id="memberSince">-</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Account Status:</span>
-                <span class="detail-value" id="accountStatus">Guest</span>
-            </div>
-        </div>
-        
-        <button class="logout-btn" id="logoutBtn">
-            <i class="fas fa-sign-out-alt"></i> Log Out
-        </button>
-        <button class="delete-account-btn" id="deleteAccountBtn">
-            <i class="fas fa-trash-alt"></i> Delete Account
-        </button>
     </section>
 
     <!-- Lessons Grid -->
@@ -1114,93 +916,38 @@
         </div>
     </div>
 
-    <!-- Auth Modal -->
-    <div class="modal" id="authModal">
+    <!-- User Details Modal -->
+    <div class="modal" id="userDetailsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title" id="authModalTitle">Sign In</h3>
-                <button class="modal-close" id="authModalClose">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div id="authForm">
-                    <div class="form-group">
-                        <label for="authEmail" class="form-label">Email</label>
-                        <input type="email" id="authEmail" class="form-control" placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="authPassword" class="form-label">Password</label>
-                        <input type="password" id="authPassword" class="form-control" placeholder="Enter your password">
-                    </div>
-                    <div class="form-group" id="authNameGroup" style="display: none;">
-                        <label for="authName" class="form-label">Full Name</label>
-                        <input type="text" id="authName" class="form-control" placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group form-check" id="rememberMeGroup">
-                        <input type="checkbox" class="form-check-input" id="rememberMe">
-                        <label class="form-check-label" for="rememberMe">Remember me</label>
-                    </div>
-                </div>
-                <p id="authToggleText">Don't have an account? <a href="#" id="authToggleLink">Sign up</a></p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="authCancelBtn">Cancel</button>
-                <button class="btn btn-primary" id="authSubmitBtn">Sign In</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- SMS Verification Modal -->
-    <div class="modal verification-modal" id="verificationModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Phone Verification</h3>
-            </div>
-            <div class="modal-body">
-                <p>We've sent a 6-digit verification code to your phone number. Please enter it below:</p>
-                
-                <div class="verification-code-inputs" id="verificationInputs">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="0">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="1">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="2">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="3">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="4">
-                    <input type="text" class="verification-code-input" maxlength="1" data-index="5">
-                </div>
-                
-                <button class="btn btn-primary" id="verifyCodeBtn" style="width: 100%;">Verify</button>
-                
-                <div class="countdown" id="countdown">Resend code in 2:00</div>
-                <button class="resend-btn" id="resendBtn">Resend Code</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Student Info Modal -->
-    <div class="modal" id="studentInfoModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Complete Your Profile</h3>
+                <h3 class="modal-title">User Details</h3>
             </div>
             <div class="modal-body student-form">
-                <form id="studentForm" action="https://formsubmit.co/hiranrusiru@gmail.com" method="POST">
-                    <input type="hidden" name="_subject" value="New Student Registration - ET Panthiya">
+                <form id="userDetailsForm" action="https://formsubmit.co/hiranrusiru5@gmail.com" method="POST">
+                    <input type="hidden" name="_subject" value="New User Registration - ET Panthiya">
                     <input type="hidden" name="_captcha" value="false">
-                    <input type="hidden" name="_next" value="https://etpanthiya.lk/thank-you">
-                    <input type="hidden" name="email" id="formEmail">
+                    <input type="hidden" name="_next" value="#">
                     
                     <div class="form-group">
-                        <label for="studentName">Full Name</label>
-                        <input type="text" id="studentName" name="name" class="form-control" required>
+                        <label for="userName">Full Name</label>
+                        <input type="text" id="userName" name="name" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="school">School</label>
-                        <input type="text" id="school" name="school" class="form-control" required>
+                        <label for="userSchool">School</label>
+                        <input type="text" id="userSchool" name="school" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
-                        <label for="examYear">Exam Year</label>
-                        <input type="number" id="examYear" name="examYear" class="form-control" min="2000" max="2030" required>
+                        <label for="userExamYear">Exam Year</label>
+                        <select id="userExamYear" name="examYear" class="form-control" required>
+                            <option value="">Select Exam Year</option>
+                            <option value="2025">2025</option>
+                            <option value="2026">2026</option>
+                            <option value="2027">2027</option>
+                            <option value="2028">2028</option>
+                            <option value="2029">2029</option>
+                        </select>
                     </div>
                     
                     <div class="form-group">
@@ -1216,19 +963,40 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="district">District</label>
-                        <select id="district" name="district" class="form-control" required>
+                        <label for="userDistrict">District</label>
+                        <select id="userDistrict" name="district" class="form-control" required>
                             <option value="">Select District</option>
                             <option value="Colombo">Colombo</option>
                             <option value="Gampaha">Gampaha</option>
                             <option value="Kalutara">Kalutara</option>
-                            <!-- Add more districts as needed -->
+                            <option value="Kandy">Kandy</option>
+                            <option value="Matale">Matale</option>
+                            <option value="Nuwara Eliya">Nuwara Eliya</option>
+                            <option value="Galle">Galle</option>
+                            <option value="Matara">Matara</option>
+                            <option value="Hambantota">Hambantota</option>
+                            <option value="Jaffna">Jaffna</option>
+                            <option value="Kilinochchi">Kilinochchi</option>
+                            <option value="Mannar">Mannar</option>
+                            <option value="Vavuniya">Vavuniya</option>
+                            <option value="Mullaitivu">Mullaitivu</option>
+                            <option value="Batticaloa">Batticaloa</option>
+                            <option value="Ampara">Ampara</option>
+                            <option value="Trincomalee">Trincomalee</option>
+                            <option value="Kurunegala">Kurunegala</option>
+                            <option value="Puttalam">Puttalam</option>
+                            <option value="Anuradhapura">Anuradhapura</option>
+                            <option value="Polonnaruwa">Polonnaruwa</option>
+                            <option value="Badulla">Badulla</option>
+                            <option value="Moneragala">Moneragala</option>
+                            <option value="Ratnapura">Ratnapura</option>
+                            <option value="Kegalle">Kegalle</option>
                         </select>
                     </div>
                     
                     <div class="form-group">
-                        <label for="whatsappNumber">WhatsApp Number</label>
-                        <input type="tel" id="whatsappNumber" name="whatsappNumber" class="form-control" required>
+                        <label for="userWhatsapp">WhatsApp Number</label>
+                        <input type="tel" id="userWhatsapp" name="whatsappNumber" class="form-control" required>
                     </div>
                     
                     <div class="form-group">
@@ -1270,8 +1038,51 @@
                 </div>
             </div>
             <div class="modal-footer terms-footer">
-                <button class="btn btn-secondary" id="declineTermsBtn">Decline</button>
                 <button class="btn btn-primary" id="acceptTermsBtn" disabled>Accept</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SMS Verification Modal -->
+    <div class="modal verification-modal" id="verificationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Phone Verification</h3>
+            </div>
+            <div class="modal-body">
+                <p>We've sent a 6-digit verification code to your phone number. Please enter it below:</p>
+                
+                <div class="verification-code-inputs" id="verificationInputs">
+                    <input type="text" class="verification-code-input" maxlength="1" data-index="0">
+                    <input type="text" class="verification-code-input" maxlength="1" data-index="1">
+                    <input type="text" class="verification-code-input" maxlength="1" data-index="2">
+                    <input type="text" class="verification-code-input" maxlength="1" data-index="3">
+                    <input type="text" class="verification-code-input" maxlength="1" data-index="4">
+                    <input type="text" class="verification-code-input" maxlength="1" data-index="5">
+                </div>
+                
+                <button class="btn btn-primary" id="verifyCodeBtn" style="width: 100%;">Verify</button>
+                
+                <div class="countdown" id="countdown">Resend code in 2:00</div>
+                <button class="resend-btn" id="resendBtn">Resend Code</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Notice Modal -->
+    <div class="modal quiz-notice-modal" id="quizNoticeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Important Notice</h3>
+                <button class="modal-close" id="quizNoticeClose">&times;</button>
+            </div>
+            <div class="modal-body quiz-notice-content">
+                <p>මිනිත්තු 30 න් ඔබට උත්තර ලබාදීමට හිමිවන කාලය අවසන් වන අතර ගූගල් ෆොරමය ස්වයංක්‍රීයව සබ්මිට් වේ. වේලාව අවසන් වීමට පෙර පිළීතුරු සපයා අවසන් කරන්න. ඔබට සහය අව්ශ්‍ය ඕනෑම අවස්තාවක 0779817525 වට්සැප් අංකය ඔස්සේ අප සම්බන්ද කරගන්න.</p>
+                
+                <p>You have 30 minutes to complete the quiz. The Google Form will automatically submit when time is up. Please complete your answers before time runs out. For any assistance, contact us via WhatsApp at 0779817525.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="understandBtn" style="width: 100%;">I Understand</button>
             </div>
         </div>
     </div>
@@ -1285,10 +1096,6 @@
             <div class="quiz-header">
                 <h3 class="quiz-title" id="quizTitle">Lesson Title</h3>
                 <p class="quiz-level" id="quizLevel">Level 1</p>
-                <div class="quiz-timer" id="quizTimer">
-                    <i class="fas fa-clock"></i>
-                    <span id="timeRemaining">35:00</span>
-                </div>
             </div>
             <div id="formPreloader" style="display: none; text-align: center; padding: 2rem;">
                 <div class="spinner-circle" style="margin: 0 auto;"></div>
@@ -1298,41 +1105,10 @@
         </div>
     </div>
 
-    <!-- Confirm Exit Modal -->
-    <div class="modal confirm-exit-modal" id="confirmExitModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Confirm Exit</h3>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure you want to leave this quiz? Your progress will be lost if you exit now.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" id="cancelExitBtn">Cancel</button>
-                <button class="btn btn-danger" id="confirmExitBtn">Exit Quiz</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Particles.js Library -->
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script>
-        // Firebase Configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyAf1282ikjQ7MUSP4fKrGQjRTAb1kDWUV8",
-            authDomain: "quiz-app-5b02d.firebaseapp.com",
-            projectId: "quiz-app-5b02d",
-            storageBucket: "quiz-app-5b02d.firebasestorage.app",
-            messagingSenderId: "345835769588",
-            appId: "1:345835769588:web:702129bc15f30f3d5f18a1"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const database = firebase.database();
-
         // App Data
         const lessons = [
             { id: 1, title: "ET හැඳින්වීම", image: "https://source.unsplash.com/random/600x400/?engineering,technology", questions: 10 },
@@ -1355,7 +1131,6 @@
         ];
 
         const levelsPerLesson = 20;
-        const quizTimeLimit = 35 * 60; // 35 minutes in seconds
         const googleFormsBaseUrl = "https://docs.google.com/forms/d/e/";
 
         // These would be replaced with actual form IDs for each level
@@ -1367,88 +1142,51 @@
 
         // DOM Elements
         const lessonsGrid = document.getElementById('lessonsGrid');
-        const authModal = document.getElementById('authModal');
-        const authModalTitle = document.getElementById('authModalTitle');
-        const authModalClose = document.getElementById('authModalClose');
-        const authForm = document.getElementById('authForm');
-        const authEmail = document.getElementById('authEmail');
-        const authPassword = document.getElementById('authPassword');
-        const authName = document.getElementById('authName');
-        const authNameGroup = document.getElementById('authNameGroup');
-        const authToggleText = document.getElementById('authToggleText');
-        const authToggleLink = document.getElementById('authToggleLink');
-        const authCancelBtn = document.getElementById('authCancelBtn');
-        const authSubmitBtn = document.getElementById('authSubmitBtn');
         const quizModal = document.getElementById('quizModal');
         const quizTitle = document.getElementById('quizTitle');
         const quizLevel = document.getElementById('quizLevel');
-        const quizTimer = document.getElementById('quizTimer');
-        const timeRemaining = document.getElementById('timeRemaining');
         const quizIframe = document.getElementById('quizIframe');
-        const profileBtn = document.getElementById('profileBtn');
-        const profileSection = document.getElementById('profileSection');
-        const profileName = document.getElementById('profileName');
-        const profileEmail = document.getElementById('profileEmail');
-        const profilePic = document.getElementById('profilePic');
-        const completedLessons = document.getElementById('completedLessons');
-        const completedLevels = document.getElementById('completedLevels');
-        const memberSince = document.getElementById('memberSince');
-        const logoutBtn = document.getElementById('logoutBtn');
-        const deleteAccountBtn = document.getElementById('deleteAccountBtn');
-        const authIndicator = document.getElementById('authIndicator');
-        const userAvatar = document.getElementById('userAvatar');
-        const authText = document.getElementById('authText');
         const fabWhatsapp = document.getElementById('fabWhatsapp');
         const fabPapers = document.getElementById('fabPapers');
         const fabMenu = document.getElementById('fabMenu');
         const fabDropdown = document.getElementById('fabDropdown');
-        const progressBar = document.getElementById('progressBar');
+        const scrollProgressBar = document.getElementById('scrollProgressBar');
         const spinner = document.getElementById('spinner');
         const toast = document.getElementById('toast');
         const dayGreeting = document.getElementById('dayGreeting');
         const greetingText = document.getElementById('greetingText');
+        const userDetailsModal = document.getElementById('userDetailsModal');
+        const userDetailsForm = document.getElementById('userDetailsForm');
         const verificationModal = document.getElementById('verificationModal');
         const verificationInputs = document.getElementById('verificationInputs');
         const verifyCodeBtn = document.getElementById('verifyCodeBtn');
         const resendBtn = document.getElementById('resendBtn');
         const countdown = document.getElementById('countdown');
-        const studentInfoModal = document.getElementById('studentInfoModal');
-        const studentForm = document.getElementById('studentForm');
-        const formEmail = document.getElementById('formEmail');
         const termsModal = document.getElementById('termsModal');
         const agreeTerms = document.getElementById('agreeTerms');
         const acceptTermsBtn = document.getElementById('acceptTermsBtn');
-        const declineTermsBtn = document.getElementById('declineTermsBtn');
         const quizCloseBtn = document.getElementById('quizCloseBtn');
-        const confirmExitModal = document.getElementById('confirmExitModal');
-        const cancelExitBtn = document.getElementById('cancelExitBtn');
-        const confirmExitBtn = document.getElementById('confirmExitBtn');
         const formPreloader = document.getElementById('formPreloader');
-        const rememberMe = document.getElementById('rememberMe');
+        const quizNoticeModal = document.getElementById('quizNoticeModal');
+        const quizNoticeClose = document.getElementById('quizNoticeClose');
+        const understandBtn = document.getElementById('understandBtn');
 
         // App State
-        let currentUser = null;
-        let isSignUp = false;
         let currentLesson = null;
         let currentLevel = null;
-        let timerInterval = null;
-        let timeLeft = quizTimeLimit;
-        let completedLevelsData = {};
-        let users = {};
-        let isProfileVisible = false;
+        let completedLevelsData = JSON.parse(localStorage.getItem('completedLevels')) || {};
         let generatedCode = "";
         let phoneNumber = "";
         let resendAttempts = 0;
         let countdownInterval = null;
         let countdownTime = 120; // 2 minutes in seconds
-        let hasAcceptedTerms = localStorage.getItem('hasAcceptedTerms') === 'true';
-        let isVerificationInProgress = false;
+        let hasShownForms = localStorage.getItem('hasShownForms') === 'true';
+        let hasCompletedForms = localStorage.getItem('hasCompletedForms') === 'true';
 
         // Initialize the app
         function init() {
             renderLessons();
             setupEventListeners();
-            checkAuthState();
             setupScrollProgress();
             setupDayGreeting();
             
@@ -1472,12 +1210,13 @@
                 }
             });
 
-            // Check if terms need to be shown
-            if (!hasAcceptedTerms && currentUser) {
+            // Show forms if not completed and not shown yet
+            if (!hasCompletedForms && !hasShownForms) {
                 setTimeout(() => {
-                    termsModal.classList.add('show');
-                    document.body.style.overflow = 'hidden';
-                }, 1000);
+                    showUserDetailsModal();
+                    hasShownForms = true;
+                    localStorage.setItem('hasShownForms', 'true');
+                }, 30000); // 30 seconds delay
             }
         }
 
@@ -1502,11 +1241,18 @@
             dayGreeting.querySelector('i').className = `fas ${icon}`;
         }
 
-        // Render lessons grid
+        // Render lessons grid with progress circles
         function renderLessons() {
             lessonsGrid.innerHTML = '';
             
             lessons.forEach(lesson => {
+                // Calculate completed levels for this lesson
+                const lessonCompleted = Object.keys(completedLevelsData)
+                    .filter(key => key.startsWith(`${lesson.id}-`))
+                    .length;
+                
+                const progressPercentage = Math.round((lessonCompleted / levelsPerLesson) * 100);
+                
                 const lessonCard = document.createElement('div');
                 lessonCard.className = 'lesson-card';
                 lessonCard.innerHTML = `
@@ -1515,7 +1261,10 @@
                         <h3 class="lesson-title">${lesson.title}</h3>
                         <div class="lesson-meta">
                             <span><i class="fas fa-question-circle"></i> ${lesson.questions} Questions</span>
-                            <span><i class="fas fa-clock"></i> 35 Minutes</span>
+                        </div>
+                        <div class="progress-container">
+                            <canvas class="progress-circle" id="progress-${lesson.id}"></canvas>
+                            <div class="progress-text">${progressPercentage}%</div>
                         </div>
                         <div class="lesson-levels" id="levels-${lesson.id}"></div>
                     </div>
@@ -1523,6 +1272,33 @@
                 
                 lessonsGrid.appendChild(lessonCard);
                 renderLevels(lesson.id);
+                createProgressCircle(lesson.id, progressPercentage);
+            });
+        }
+
+        // Create progress circle chart
+        function createProgressCircle(lessonId, percentage) {
+            const ctx = document.getElementById(`progress-${lessonId}`).getContext('2d');
+            
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [percentage, 100 - percentage],
+                        backgroundColor: ['#4cc9f0', 'rgba(255, 255, 255, 0.1)'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    cutout: '70%',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    events: [],
+                    animation: {
+                        animateScale: true,
+                        animateRotate: true
+                    }
+                }
             });
         }
 
@@ -1542,13 +1318,6 @@
                 const isCompleted = completedLevelsData[`${lessonId}-${i}`] || false;
                 if (isCompleted) {
                     levelBtn.classList.add('completed');
-                } else if (i === 1) {
-                    levelBtn.classList.add('active');
-                }
-                
-                // Lock levels beyond 1 for guests
-                if (!currentUser && i > 1) {
-                    levelBtn.classList.add('locked');
                 }
                 
                 levelBtn.addEventListener('click', () => handleLevelClick(lessonId, i));
@@ -1558,23 +1327,20 @@
 
         // Handle level click
         function handleLevelClick(lessonId, level) {
-            if (!currentUser && level > 1) {
-                showToast('Please sign up or log in to access this level', 'warning');
-                showAuthModal();
-                return;
-            }
-            
             currentLesson = lessonId;
             currentLevel = level;
             
+            // Show quiz notice modal first
+            quizNoticeModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Start quiz after notice is acknowledged
+        function startQuiz() {
             // Set quiz details
-            const lesson = lessons.find(l => l.id === lessonId);
+            const lesson = lessons.find(l => l.id === currentLesson);
             quizTitle.textContent = lesson.title;
-            quizLevel.textContent = `Level ${level}`;
-            
-            // Reset timer
-            timeLeft = quizTimeLimit;
-            updateTimerDisplay();
+            quizLevel.textContent = `Level ${currentLevel}`;
             
             // Show preloader
             formPreloader.style.display = 'block';
@@ -1586,137 +1352,58 @@
             
             // Load Google Form after a short delay to show preloader
             setTimeout(() => {
-                quizIframe.src = googleFormsBaseUrl + formIds[lessonId-1][level-1];
+                quizIframe.src = googleFormsBaseUrl + formIds[currentLesson-1][currentLevel-1];
                 quizIframe.onload = () => {
                     formPreloader.style.display = 'none';
                     quizIframe.style.display = 'block';
                 };
             }, 500);
-            
-            // Start timer
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(updateTimer, 1000);
         }
 
-        // Update timer
-        function updateTimer() {
-            timeLeft--;
-            updateTimerDisplay();
-            
-            // Show warnings at specific time intervals
-            if (timeLeft === 15 * 60) {
-                showToast('15 minutes remaining!', 'warning');
-            } else if (timeLeft === 10 * 60) {
-                showToast('10 minutes remaining!', 'warning');
-            } else if (timeLeft === 5 * 60) {
-                showToast('5 minutes remaining! Hurry up!', 'warning');
-            }
-            
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                showToast('Time is up! Quiz will be submitted automatically.', 'error');
-                setTimeout(() => {
-                    quizModal.classList.remove('show');
-                    document.body.style.overflow = '';
-                }, 3000);
-                
-                // Mark as completed if not already
-                if (!completedLevelsData[`${currentLesson}-${currentLevel}`]) {
-                    completedLevelsData[`${currentLesson}-${currentLevel}`] = true;
-                    saveCompletedLevels();
-                    renderLevels(currentLesson);
-                    updateProfileStats();
-                }
-            }
-        }
-
-        // Update timer display
-        function updateTimerDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timeRemaining.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            
-            // Change color based on time remaining
-            if (timeLeft <= 60) {
-                quizTimer.classList.add('timer-danger');
-                quizTimer.classList.remove('timer-warning');
-            } else if (timeLeft <= 300) {
-                quizTimer.classList.add('timer-warning');
-                quizTimer.classList.remove('timer-danger');
-            } else {
-                quizTimer.classList.remove('timer-warning', 'timer-danger');
-            }
+        // Mark level as completed
+        function markLevelCompleted(lessonId, level) {
+            completedLevelsData[`${lessonId}-${level}`] = true;
+            localStorage.setItem('completedLevels', JSON.stringify(completedLevelsData));
+            renderLessons();
         }
 
         // Setup event listeners
         function setupEventListeners() {
-            // Auth modal
-            authModalClose.addEventListener('click', (e) => {
-                if (isVerificationInProgress) {
-                    e.preventDefault();
-                    showToast('Please complete the verification process', 'warning');
-                    return;
-                }
-                authModal.classList.remove('show');
-                document.body.style.overflow = '';
+            // Quiz notice modal
+            quizNoticeClose.addEventListener('click', () => {
+                quizNoticeModal.classList.remove('show');
             });
             
-            authCancelBtn.addEventListener('click', (e) => {
-                if (isVerificationInProgress) {
-                    e.preventDefault();
-                    showToast('Please complete the verification process', 'warning');
-                    return;
-                }
-                authModal.classList.remove('show');
-                document.body.style.overflow = '';
+            understandBtn.addEventListener('click', () => {
+                quizNoticeModal.classList.remove('show');
+                startQuiz();
             });
-            
-            authToggleLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                toggleAuthMode();
-            });
-            
-            authSubmitBtn.addEventListener('click', handleAuthSubmit);
             
             // Quiz modal close (click outside)
             quizModal.addEventListener('click', (e) => {
                 if (e.target === quizModal) {
-                    showConfirmExitModal();
+                    quizModal.classList.remove('show');
+                    document.body.style.overflow = '';
+                    markLevelCompleted(currentLesson, currentLevel);
                 }
             });
             
             // Quiz close button
             quizCloseBtn.addEventListener('click', () => {
-                showConfirmExitModal();
-            });
-            
-            // Confirm exit modal
-            cancelExitBtn.addEventListener('click', () => {
-                confirmExitModal.classList.remove('show');
-            });
-            
-            confirmExitBtn.addEventListener('click', () => {
-                clearInterval(timerInterval);
                 quizModal.classList.remove('show');
-                confirmExitModal.classList.remove('show');
                 document.body.style.overflow = '';
+                markLevelCompleted(currentLesson, currentLevel);
             });
             
-            // Profile button
-            profileBtn.addEventListener('click', toggleProfile);
-            
-            // Logout button
-            logoutBtn.addEventListener('click', handleLogout);
-            
-            // Delete account button
-            deleteAccountBtn.addEventListener('click', handleDeleteAccount);
-            
-            // Auth indicator
-            authIndicator.addEventListener('click', () => {
-                if (currentUser) {
-                    toggleProfile();
-                } else {
-                    showAuthModal();
+            // Quiz iframe submit handler
+            window.addEventListener('message', (event) => {
+                if (event.origin !== "https://docs.google.com") return;
+                
+                if (event.data === 'formSubmitted') {
+                    quizModal.classList.remove('show');
+                    document.body.style.overflow = '';
+                    markLevelCompleted(currentLesson, currentLevel);
+                    showToast('Quiz submitted successfully!', 'success');
                 }
             });
             
@@ -1767,25 +1454,16 @@
             });
             
             acceptTermsBtn.addEventListener('click', () => {
-                hasAcceptedTerms = true;
-                localStorage.setItem('hasAcceptedTerms', 'true');
                 termsModal.classList.remove('show');
-                document.body.style.overflow = '';
-                showToast('Thank you for accepting our terms!', 'success');
+                showVerificationModal();
             });
             
-            declineTermsBtn.addEventListener('click', () => {
-                auth.signOut();
-                currentUser = null;
-                updateAuthState();
-                termsModal.classList.remove('show');
-                document.body.style.overflow = '';
-                showToast('You must accept the terms to use this service', 'error');
-            });
-            
-            // Remember me checkbox
-            rememberMe.addEventListener('change', (e) => {
-                localStorage.setItem('rememberMe', e.target.checked);
+            // User details form submission
+            userDetailsForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                userDetailsModal.classList.remove('show');
+                showToast('User details submitted successfully!', 'success');
+                showTermsModal();
             });
         }
 
@@ -1794,121 +1472,16 @@
             fabDropdown.classList.toggle('show');
         }
 
-        // Toggle auth mode between sign in and sign up
-        function toggleAuthMode() {
-            isSignUp = !isSignUp;
-            
-            if (isSignUp) {
-                authModalTitle.textContent = 'Sign Up';
-                authSubmitBtn.textContent = 'Sign Up';
-                authToggleText.innerHTML = 'Already have an account? <a href="#" id="authToggleLink">Sign in</a>';
-                authNameGroup.style.display = 'block';
-            } else {
-                authModalTitle.textContent = 'Sign In';
-                authSubmitBtn.textContent = 'Sign In';
-                authToggleText.innerHTML = 'Don\'t have an account? <a href="#" id="authToggleLink">Sign up</a>';
-                authNameGroup.style.display = 'none';
-            }
+        // Show user details modal
+        function showUserDetailsModal() {
+            userDetailsModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
-        // Handle auth form submission
-        async function handleAuthSubmit() {
-            const email = authEmail.value.trim();
-            const password = authPassword.value.trim();
-            const name = authName.value.trim();
-            
-            if (!email || !password) {
-                showToast('Please fill in all fields', 'error');
-                return;
-            }
-            
-            if (isSignUp && !name) {
-                showToast('Please enter your name', 'error');
-                return;
-            }
-            
-            showSpinner();
-            
-            try {
-                if (isSignUp) {
-                    // Sign up with Firebase
-                    const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-                    await userCredential.user.updateProfile({ displayName: name });
-                    
-                    // Save additional user data to database
-                    await database.ref('users/' + userCredential.user.uid).set({
-                        name: name,
-                        email: email,
-                        createdAt: firebase.database.ServerValue.TIMESTAMP
-                    });
-                    
-                    currentUser = {
-                        uid: userCredential.user.uid,
-                        email: email,
-                        name: name,
-                        joined: new Date().toISOString()
-                    };
-                    
-                    showToast('Account created successfully!', 'success');
-                    
-                    // Show phone verification
-                    showVerificationModal();
-                    isVerificationInProgress = true;
-                } else {
-                    // Sign in with Firebase
-                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                    
-                    // Get user data from database
-                    const snapshot = await database.ref('users/' + userCredential.user.uid).once('value');
-                    const userData = snapshot.val();
-                    
-                    currentUser = {
-                        uid: userCredential.user.uid,
-                        email: userCredential.user.email,
-                        name: userCredential.user.displayName || userData.name,
-                        joined: userData.createdAt ? new Date(userData.createdAt).toISOString() : new Date().toISOString()
-                    };
-                    
-                    showToast('Signed in successfully!', 'success');
-                    
-                    // Load completed levels
-                    loadCompletedLevels();
-                }
-                
-                updateAuthState();
-                
-                if (!isSignUp) {
-                    authModal.classList.remove('show');
-                    document.body.style.overflow = '';
-                }
-            } catch (error) {
-                console.error('Authentication error:', error);
-                let errorMessage = 'Authentication failed. ';
-                
-                switch (error.code) {
-                    case 'auth/email-already-in-use':
-                        errorMessage += 'Email already in use.';
-                        break;
-                    case 'auth/invalid-email':
-                        errorMessage += 'Invalid email address.';
-                        break;
-                    case 'auth/weak-password':
-                        errorMessage += 'Password should be at least 6 characters.';
-                        break;
-                    case 'auth/user-not-found':
-                        errorMessage += 'User not found.';
-                        break;
-                    case 'auth/wrong-password':
-                        errorMessage += 'Wrong password.';
-                        break;
-                    default:
-                        errorMessage += 'Please try again.';
-                }
-                
-                showToast(errorMessage, 'error');
-            } finally {
-                hideSpinner();
-            }
+        // Show terms modal
+        function showTermsModal() {
+            termsModal.classList.add('show');
+            document.body.style.overflow = 'hidden';
         }
 
         // Show verification modal
@@ -1978,10 +1551,11 @@
                 clearInterval(countdownInterval);
                 verificationModal.classList.remove('show');
                 showToast('Phone number verified successfully!', 'success');
-                isVerificationInProgress = false;
+                document.body.style.overflow = '';
                 
-                // Show student info form
-                showStudentInfoModal();
+                // Mark forms as completed
+                hasCompletedForms = true;
+                localStorage.setItem('hasCompletedForms', 'true');
             } else {
                 showToast('Invalid verification code', 'error');
             }
@@ -2004,186 +1578,6 @@
             // Reset countdown
             startCountdown();
             resendBtn.classList.remove('active');
-        }
-
-        // Show student info modal
-        function showStudentInfoModal() {
-            formEmail.value = currentUser.email;
-            studentInfoModal.classList.add('show');
-        }
-
-        // Show auth modal
-        function showAuthModal() {
-            isSignUp = false;
-            authModalTitle.textContent = 'Sign In';
-            authSubmitBtn.textContent = 'Sign In';
-            authToggleText.innerHTML = 'Don\'t have an account? <a href="#" id="authToggleLink">Sign up</a>';
-            authNameGroup.style.display = 'none';
-            
-            authEmail.value = '';
-            authPassword.value = '';
-            authName.value = '';
-            
-            authModal.classList.add('show');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // Check auth state
-        function checkAuthState() {
-            // Check remember me
-            const remember = localStorage.getItem('rememberMe') === 'true';
-            rememberMe.checked = remember;
-            
-            auth.onAuthStateChanged(async (user) => {
-                if (user) {
-                    // User is signed in
-                    const snapshot = await database.ref('users/' + user.uid).once('value');
-                    const userData = snapshot.val();
-                    
-                    currentUser = {
-                        uid: user.uid,
-                        email: user.email,
-                        name: user.displayName || userData.name,
-                        joined: userData.createdAt ? new Date(userData.createdAt).toISOString() : new Date().toISOString()
-                    };
-                    
-                    // Load completed levels
-                    loadCompletedLevels();
-                    
-                    updateAuthState();
-                } else {
-                    // User is signed out
-                    currentUser = null;
-                    updateAuthState();
-                }
-            });
-        }
-
-        // Load completed levels from Firebase
-        async function loadCompletedLevels() {
-            if (!currentUser) return;
-            
-            try {
-                const snapshot = await database.ref('completedLevels/' + currentUser.uid).once('value');
-                completedLevelsData = snapshot.val() || {};
-                renderLessons();
-                updateProfileStats();
-            } catch (error) {
-                console.error('Error loading completed levels:', error);
-            }
-        }
-
-        // Save completed levels to Firebase
-        async function saveCompletedLevels() {
-            if (!currentUser) return;
-            
-            try {
-                await database.ref('completedLevels/' + currentUser.uid).set(completedLevelsData);
-            } catch (error) {
-                console.error('Error saving completed levels:', error);
-            }
-        }
-
-        // Update auth state UI
-        function updateAuthState() {
-            if (currentUser) {
-                // Update auth indicator
-                authText.textContent = currentUser.name.split(' ')[0];
-                userAvatar.textContent = currentUser.name.charAt(0).toUpperCase();
-                
-                // Update profile section
-                profileName.textContent = currentUser.name;
-                profileEmail.textContent = currentUser.email;
-                profilePic.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=${encodeURIComponent('4361ee')}&color=fff`;
-                
-                // Update completed levels stats
-                updateProfileStats();
-                
-                // Store current user ID
-                localStorage.setItem('currentUser', currentUser.uid);
-            } else {
-                authText.textContent = 'Guest';
-                userAvatar.textContent = 'G';
-                profileSection.style.display = 'none';
-                localStorage.removeItem('currentUser');
-            }
-            
-            // Re-render levels to update locked state
-            renderLessons();
-        }
-
-        // Update profile stats
-        function updateProfileStats() {
-            if (!currentUser) return;
-            
-            // Calculate completed lessons and levels
-            const completedLevelsCount = Object.keys(completedLevelsData).length;
-            const completedLessonsCount = new Set(
-                Object.keys(completedLevelsData).map(key => key.split('-')[0])
-            ).size;
-            
-            completedLessons.textContent = `${completedLessonsCount}/${lessons.length}`;
-            completedLevels.textContent = `${completedLevelsCount}/${lessons.length * levelsPerLesson}`;
-            memberSince.textContent = new Date(currentUser.joined).toLocaleDateString();
-            document.getElementById('accountStatus').textContent = 'Verified';
-        }
-
-        // Toggle profile visibility
-        function toggleProfile() {
-            if (!currentUser) {
-                showAuthModal();
-                return;
-            }
-            
-            isProfileVisible = !isProfileVisible;
-            profileSection.style.display = isProfileVisible ? 'block' : 'none';
-            
-            if (isProfileVisible) {
-                updateProfileStats();
-            }
-        }
-
-        // Handle logout
-        function handleLogout() {
-            auth.signOut();
-            currentUser = null;
-            updateAuthState();
-            showToast('You have been logged out', 'success');
-            profileSection.style.display = 'none';
-            isProfileVisible = false;
-        }
-
-        // Handle delete account
-        async function handleDeleteAccount() {
-            if (!confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                return;
-            }
-            
-            showSpinner();
-            
-            try {
-                // Delete user from Firebase Auth
-                await auth.currentUser.delete();
-                
-                // Delete user data from database
-                await database.ref('users/' + currentUser.uid).remove();
-                await database.ref('completedLevels/' + currentUser.uid).remove();
-                
-                currentUser = null;
-                updateAuthState();
-                showToast('Your account has been deleted', 'success');
-                profileSection.style.display = 'none';
-            } catch (error) {
-                console.error('Error deleting account:', error);
-                showToast('Failed to delete account. Please reauthenticate.', 'error');
-            } finally {
-                hideSpinner();
-            }
-        }
-
-        // Show confirm exit modal
-        function showConfirmExitModal() {
-            confirmExitModal.classList.add('show');
         }
 
         // Show toast notification
@@ -2213,7 +1607,7 @@
                 const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
                 const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
                 const scrolled = (winScroll / height) * 100;
-                progressBar.style.width = scrolled + '%';
+                scrollProgressBar.style.width = scrolled + '%';
             });
         }
 
