@@ -1285,8 +1285,8 @@
         /* Quick Actions Dropdown */
         .quick-actions {
             position: fixed;
-            bottom: 200px;
-            left: 10px;
+            bottom: 180px;
+            left: 30px;
             z-index: 999;
         }
 
@@ -1312,7 +1312,7 @@
 
         .quick-actions-menu {
             position: absolute;
-            bottom: 120px;
+            bottom: 70px;
             left: 0;
             background: white;
             border-radius: var(--border-radius);
@@ -1831,6 +1831,15 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--secondary);
         }
+
+        /* Time-based greeting */
+        .time-greeting {
+            color: white;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
@@ -1923,6 +1932,7 @@
 
         <!-- Links Container -->
         <div class="links-container">
+            <div class="time-greeting" id="timeGreeting"></div>
             <a href="https://etpanthiya.lk" class="etpanthiya-link" target="_blank">
                 <i class="fas fa-external-link-alt"></i> Visit ET Panthiya
             </a>
@@ -2552,6 +2562,7 @@ All The best 😚!</p>
         const btnStartQuiz = document.querySelectorAll('.btn-start-quiz');
         const sendSpinner = document.getElementById('sendSpinner');
         const sendText = document.getElementById('sendText');
+        const timeGreeting = document.getElementById('timeGreeting');
 
         // Initialize the app
         function init() {
@@ -2594,6 +2605,7 @@ All The best 😚!</p>
                 emoji = "🌙";
             }
             
+            timeGreeting.textContent = `${message} ${emoji}`;
             showNotification(`${message} ${emoji} Welcome to ET Panthiya Quiz Portal`, 'success');
         }
 
@@ -2737,15 +2749,15 @@ All The best 😚!</p>
                             const userData = doc.data();
                             completedLevels = userData.completedLevels?.[lessonId] || [];
                         }
-                        populateLevels(completedLevels);
+                        populateLevels(completedLevels, user);
                     })
                     .catch(error => {
                         console.error('Error getting user data:', error);
-                        populateLevels([]);
+                        populateLevels([], user);
                     });
             } else {
                 // For guest users, only allow level 1
-                populateLevels([]);
+                populateLevels([], null);
             }
             
             levelModal.style.display = 'flex';
@@ -2756,9 +2768,7 @@ All The best 😚!</p>
         }
 
         // Populate levels in the modal
-        function populateLevels(completedLevels) {
-            const user = auth.currentUser;
-            
+        function populateLevels(completedLevels, user) {
             for (let i = 1; i <= 20; i++) {
                 const levelBtn = document.createElement('div');
                 levelBtn.className = 'level-btn';
@@ -2784,6 +2794,12 @@ All The best 😚!</p>
                             showNotification('Please login to access this level', 'warning');
                             showAuthModal('login');
                         }
+                    });
+                } else if (i > 1 && !user) {
+                    // For locked levels for guests, show auth modal when clicked
+                    levelBtn.addEventListener('click', () => {
+                        showNotification('Please login to access this level', 'warning');
+                        showAuthModal('login');
                     });
                 }
                 
@@ -3382,6 +3398,9 @@ All The best 😚!</p>
 
         // Start quiz
         function startQuiz(lessonId, level) {
+            // Show preloader before loading iframe
+            quizPreloader.style.display = 'flex';
+            
             currentLesson = lessonId;
             currentLevel = level;
             quizActive = true;
@@ -3397,32 +3416,38 @@ All The best 😚!</p>
             // Set quiz title
             quizTitle.textContent = `${lessonTitles[lessonId]} - Level ${level}`;
             
-            // Show preloader before loading iframe
-            quizIframe.onload = () => {
-                // Hide preloader when iframe is loaded
-            };
-            
             // Load Google Form in iframe
             quizIframe.src = formUrls[lessonId][level - 1] || 'about:blank';
             
-            // Show quiz container
-            quizContainer.style.display = 'flex';
+            // Show quiz container when iframe is loaded
+            quizIframe.onload = () => {
+                setTimeout(() => {
+                    quizPreloader.style.display = 'none';
+                    quizContainer.style.display = 'flex';
+                    
+                    // Start timer
+                    quizTimer = setInterval(updateQuizTimer, 1000);
+                    
+                    // Show notification
+                    showNotification(`Quiz started! You have 30 minutes to complete 15 questions.`, 'success');
+                    
+                    // Speak the time limit
+                    if ('speechSynthesis' in window) {
+                        const speech = new SpeechSynthesisUtterance();
+                        speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete 15 questions. Good luck!`;
+                        window.speechSynthesis.speak(speech);
+                    }
+                    
+                    // Show back button
+                    backButton.classList.add('show');
+                }, 500);
+            };
             
-            // Start timer
-            quizTimer = setInterval(updateQuizTimer, 1000);
-            
-            // Show notification
-            showNotification(`Quiz started! You have 30 minutes to complete 15 questions.`, 'success');
-            
-            // Speak the time limit
-            if ('speechSynthesis' in window) {
-                const speech = new SpeechSynthesisUtterance();
-                speech.text = `Your ${lessonTitles[lessonId]} Level ${level} quiz has started. You have 30 minutes to complete 15 questions. Good luck!`;
-                window.speechSynthesis.speak(speech);
-            }
-            
-            // Show back button
-            backButton.classList.add('show');
+            // Handle iframe loading error
+            quizIframe.onerror = () => {
+                quizPreloader.style.display = 'none';
+                showNotification('Failed to load quiz content. Please try again.', 'danger');
+            };
         }
 
         // Update quiz timer
@@ -3511,12 +3536,6 @@ All The best 😚!</p>
                             
                             // Update the profile popup with new data
                             updateProfilePopup(auth.currentUser, { ...userData, completedLevels });
-                            
-                            // If this was level 1 and user is not logged in, show auth modal
-                            if (currentLevel === 1 && !auth.currentUser) {
-                                showNotification('Please login or sign up to access more levels', 'info');
-                                showAuthModal('signup');
-                            }
                         }
                     }
                 } catch (error) {
@@ -3550,12 +3569,6 @@ All The best 😚!</p>
             
             // Hide back button
             backButton.classList.remove('show');
-            
-            // If user just completed level 1 as guest, show auth modal
-            if (currentLevel === 1 && !auth.currentUser) {
-                showNotification('Please login or sign up to access more levels', 'info');
-                showAuthModal('signup');
-            }
         }
 
         // Hide alert modal
