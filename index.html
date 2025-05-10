@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ET Panthiya.lk Quiz Portal</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -391,13 +391,15 @@
             height: 100%;
             background-color: rgba(0,0,0,0.8);
             display: flex;
-            align-items: center;
+            align-items: flex-start; /* Changed from center to flex-start */
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             visibility: hidden;
             transition: var(--transition);
             backdrop-filter: blur(5px);
+            overflow-y: auto; /* Added for scrollable modals */
+            padding: 20px 0; /* Added padding for mobile */
         }
 
         .modal.show {
@@ -417,6 +419,7 @@
             transition: var(--transition);
             position: relative;
             border: none;
+            margin: auto; /* Center vertically */
         }
 
         .modal.show .modal-content {
@@ -432,6 +435,9 @@
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border-radius: var(--radius) var(--radius) 0 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
         }
 
         .modal-title {
@@ -499,6 +505,10 @@
             display: flex;
             justify-content: flex-end;
             gap: 1rem;
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            z-index: 10;
         }
 
         /* Quiz Modal - Updated with Close Button */
@@ -559,8 +569,8 @@
         /* SMS Verification Modal - Updated Design */
         .verification-modal .modal-content {
             max-width: 400px;
-            margin-top: 50vh;
-            transform: translateY(-50%);
+            margin: 20px auto; /* Changed from fixed position to auto margin */
+            transform: none; /* Removed transform */
         }
 
         .verification-code-inputs {
@@ -888,9 +898,22 @@
                 height: calc(100vh - 100px);
             }
 
-            .verification-modal .modal-content {
-                margin-top: 20vh;
-                transform: translateY(-20%);
+            /* Mobile-specific modal adjustments */
+            .modal {
+                padding: 10px 0;
+                align-items: flex-start;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .verification-code-input {
+                width: 35px;
+                height: 45px;
+                font-size: 1.3rem;
             }
         }
 
@@ -898,10 +921,6 @@
             .profile-circle {
                 width: 100px;
                 height: 100px;
-            }
-
-            .modal-content {
-                width: 95%;
             }
 
             .verification-code-input {
